@@ -1,32 +1,11 @@
 # Démarrage rapide
 
-Commencez avec une machine et un projet. Vous pourrez ajouter une autre machine ou un compte de messagerie après le premier échange.
+Deux dossiers de projet sur la même machine suffisent pour essayer Prism. Le guide illustré présente le parcours complet dans DeepSeek Harness 0.2.3-alpha.2. [Guide en anglais](/guide/start) · [Guide en chinois](/zh/guide/start)
 
-## Installer et démarrer
-
-Installez Git, npm et Node.js 24.9 ou ultérieur. Le script récupère les cinq révisions de plugins associées au dépôt principal. Exécutez ces commandes dans un terminal.
-
-Le dépôt principal et cette documentation sont publics. Pour exécuter le système, il faut un accès Git en lecture aux cinq dépôts privés de plugins. Authentifiez Git avec un compte autorisé avant le checkout, puis travaillez dans le répertoire `runtime/` généré.
-
-```sh
-git clone https://github.com/dsh-plugins/dsh-prism.git
-cd dsh-prism
-node scripts/checkout.mjs
-cd runtime
-npm ci
-npm run build
-cp prism.example.json prism.config.json
-npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
-```
-
-## Relier un modèle et un projet
-
-L’exemple utilise le fournisseur DSH `deepseek-official`. Configurez ses identifiants dans DSH ou définissez `DEEPSEEK_API_KEY` dans l’environnement du processus. Renseignez le répertoire dans `registry.projects[].workspace`. Un chemin local relatif part du dossier du fichier de configuration.
-
-`orchestrator.defaultProjectId` doit désigner un projet autorisé pour le propriétaire Web. L’exemple accorde la lecture et la recherche. Redémarrez le service après une modification du JSON.
-
-## Ouvrir la première conversation
-
-Ouvrez le lien de connexion affiché par DSH. Le navigateur échange le jeton contre un cookie et ouvre `/prism`. Demandez les projets accessibles, puis un livrable concret. En cas d’échec, vérifiez les identifiants, le modèle et les droits sur le projet par défaut.
+1. Ouvrez le gestionnaire de plugins de DSH. Installez et activez les cinq plugins Prism dans l’ordre indiqué dans le guide illustré.
+2. Dans les paramètres des modèles, ajoutez un fournisseur d’API personnalisé. Choisissez OpenAI Responses, puis renseignez l’URL du fournisseur, votre clé API et l’identifiant de modèle `deepseek-v4.1-flash`.
+3. Ouvrez les deux dossiers comme espaces de travail DSH. Dans une conversation DSH, choisissez le fournisseur et le modèle que vous venez de configurer.
+4. Dans les paramètres de Prism, ajoutez un projet par dossier avec un identifiant distinct et son chemin absolu. Pour consulter les fichiers README, les droits `read`, `glob` et `grep` suffisent.
+5. Ouvrez Prism et demandez une tâche distincte pour chaque projet. Comparez la réponse aux deux README. Ouvrez la session en lecture seule depuis une carte de tâche pour consulter le travail effectué.
 
 [La conversation](/fr/guide/chat) · [Modèles et projets](/fr/develop/models)

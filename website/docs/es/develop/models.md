@@ -1,5 +1,7 @@
 # Modelos y proyectos
 
+Al instalar los complementos desde DSH, Prism usa el modelo seleccionado en el chat de DSH. Los proyectos y sus permisos se gestionan en los ajustes de Prism. Los ejemplos JSON de esta página corresponden al lanzador compilado desde el código fuente. [Inicio rápido](/es/guide/start)
+
 El registro define los proyectos accesibles. El orquestador configura por separado los modelos y las herramientas nativas de cada rol.
 
 ## Modelos por nivel

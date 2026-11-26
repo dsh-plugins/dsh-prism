@@ -32,4 +32,39 @@ Integrations must derive `owner` from an authenticated channel. Registry queries
 
 Implement `ImTransport` with a stable channel/bot namespace, destination authorization, `send` and `edit`. An adapter acknowledges an inbound event after `ImGateway.receive` succeeds. Keep the platform event ID stable across retries. Message delivery and the platform acknowledgement can occur in separate transactions.
 
+## Messaging from the source launcher
+
+For a packaged DSH installation, use the controls in **Settings → Prism → Messaging channels**. The following commands and keys apply to developers running the source launcher. [Configure messaging in the browser](/guide/im)
+
+Enable the adapter under `im` in `prism.config.json`. For QR login, run the command on the coordinating host and scan the displayed QR in the matching app. For an additional user, issue a pairing code on that host and send `/pair CODE` in a private chat with the bot.
+
+The commands below are alternatives. Run the appropriate one from `runtime/`. `setup` enables an adapter and lists the environment variables it needs. For non-QR channels it also issues the first pairing code; use `pair` for another user.
+
+```sh
+npm run im -- login wechat --config prism.config.json
+npm run im -- login feishu --config prism.config.json
+npm run im -- setup telegram --config prism.config.json
+npm run im -- pair telegram --config prism.config.json
+```
+
+The QR login stores credentials locally and authorizes the verified scanner. A pairing code works once and expires after ten minutes. Use `--config prism.config.json` with the CLI when selecting a nondefault state path. Then start the coordinator with that same configuration.
+
+### Source configuration keys
+
+Select the channels you actually use. Set secrets in the environment of the coordinator. `allowedUserIds` optionally grants access to known platform user IDs. QR credentials and pairings belong to the gateway state, so keep its SQLite file across restarts.
+
+| Platform | JSON | ENV |
+| --- | --- | --- |
+| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
+| WeChat | `im.wechat` | — |
+| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
+| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
+| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
+| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
+| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
+
+If an event does not arrive, check the platform callback URL or outbound connection for that adapter. QQ C2C messages are subject to the platform’s reply and proactive-message limits. Some transports deliver a new status message when editing an earlier card is unavailable.
+
+Configure `im.locale` for the default language. Each user can change their language in the bot. The gateway stores delivery state in SQLite so it can resume after a restart. If delivery succeeded just before the local receipt was saved, the platform can show a duplicate.
+
 [Messaging apps](/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)

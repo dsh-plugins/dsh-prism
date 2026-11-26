@@ -2,7 +2,11 @@
 
 Un chat privado autenticado se vincula a una identidad L1 persistente. Cada canal recibe mensajes explícitos y actualizaciones independientemente de la web.
 
-## Conectar y emparejar
+## Configuración desde la interfaz de DSH
+
+Abre los ajustes de Prism y elige uno de los siete servicios en **Messaging channels**. Allí puedes gestionar las credenciales, los usuarios permitidos, los códigos de emparejamiento y el estado de conexión. Feishu/Lark también ofrece un registro por QR. Con DSH en español, esta sección de la interfaz usa etiquetas en inglés. [Guía ilustrada en inglés](/guide/im) · [Guía ilustrada en chino](/zh/guide/im)
+
+## Conexión y emparejamiento con el lanzador de código fuente
 
 Activa el adaptador en `im` de `prism.config.json`. Ejecuta el acceso por QR en el coordinador y escanea el código en la aplicación correspondiente. Para otro usuario, emite un código en el servidor y pídele que envíe `/pair CODE` al bot en privado.
 
@@ -29,7 +33,7 @@ El acceso QR guarda credenciales locales y autoriza a quien escaneó el código.
 | QQ | Registra el callback oficial en `/prism/im/qq`. La pasarela comprueba la firma de QQ. |
 | Discord | Habilita los mensajes directos del bot y empareja al usuario en un DM de Discord. |
 
-## Claves de configuración
+## Claves de configuración del lanzador de código fuente
 
 Habilita solo los canales que utilices y guarda sus secretos en el entorno del coordinador. `allowedUserIds` autoriza identificadores conocidos de la plataforma. Conserva SQLite tras reiniciar para mantener credenciales QR y emparejamientos.
 

@@ -2,7 +2,11 @@
 
 Chaque conversation privée authentifiée correspond à une identité L1 persistante. Les canaux reçoivent leurs propres réponses explicites et mises à jour.
 
-## Connecter et associer
+## Configuration dans l’interface DSH
+
+Dans les paramètres de Prism, choisissez l’un des sept services sous **Messaging channels**. Vous pouvez y gérer les identifiants, les utilisateurs autorisés, les codes d’association et l’état de la connexion. Feishu/Lark propose également une inscription par QR code. Avec DSH en français, cette section affiche les libellés anglais. [Guide illustré en anglais](/guide/im) · [Guide illustré en chinois](/zh/guide/im)
+
+## Connexion et association depuis le lanceur compilé
 
 Activez l’adaptateur dans la section `im` de `prism.config.json`. Lancez la connexion QR sur le coordinateur et scannez le code dans l’application. Pour un autre utilisateur, générez un code sur l’hôte et demandez-lui d’envoyer `/pair CODE` au bot en privé.
 
@@ -29,7 +33,7 @@ La connexion QR conserve les identifiants localement et autorise l’utilisateur
 | QQ | Configurez le bot QQ et son callback officiel `/prism/im/qq`. La passerelle vérifie la signature. |
 | Discord | Activez les messages directs du bot Discord et associez l’utilisateur par message privé. |
 
-## Clés de configuration
+## Clés de configuration du lanceur compilé
 
 Activez uniquement les canaux utilisés et renseignez les secrets dans l’environnement du coordinateur. `allowedUserIds` autorise des identifiants connus sur la plateforme. Conservez le fichier SQLite qui contient les associations et les identifiants QR.
 

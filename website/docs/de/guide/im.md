@@ -2,7 +2,11 @@
 
 Ein authentifizierter privater Chat ist mit einer dauerhaften L1-Identität verbunden. Jeder Kanal empfängt gezielte Antworten und Statusmeldungen unabhängig vom Web.
 
-## Anmelden und koppeln
+## Einrichtung in der DSH-Oberfläche
+
+Öffnen Sie die Prism-Einstellungen und wählen Sie unter **Messaging channels** einen der sieben Dienste. Hier können Sie Zugangsdaten, zugelassene Benutzer, Kopplungscodes und den Verbindungsstatus verwalten. Für Feishu/Lark gibt es zusätzlich die QR-Registrierung. Dieser Teil der Oberfläche verwendet bei deutscher Sprache die englischen Bezeichnungen. [Anleitung mit englischen Bildern](/guide/im) · [Anleitung mit chinesischen Bildern](/zh/guide/im)
+
+## Anmelden und koppeln beim Start aus dem Quellcode
 
 Aktivieren Sie den Adapter unter `im` in `prism.config.json`. Starten Sie die QR-Anmeldung auf dem Koordinator und scannen Sie den Code in der jeweiligen App. Für weitere Benutzer erzeugen Sie am Host einen Kopplungscode. Der Benutzer sendet `/pair CODE` im privaten Bot-Chat.
 
@@ -29,7 +33,7 @@ Die QR-Anmeldung speichert die Zugangsdaten lokal und autorisiert den bestätigt
 | QQ | QQ-Bot einrichten und den offiziellen Callback auf `/prism/im/qq` setzen. Der Gateway prüft die Signatur. |
 | Discord | Discord-Bot für Direktnachrichten aktivieren und den Benutzer im privaten Chat koppeln. |
 
-## Konfigurationsschlüssel
+## Schlüssel für die Quellcode-Konfiguration
 
 Aktivieren Sie nur benötigte Kanäle und setzen Sie Geheimnisse im Prozessumfeld des Koordinators. `allowedUserIds` gewährt bekannten Plattformbenutzern Zugriff. Bewahren Sie die SQLite-Datei mit QR-Zugängen und Kopplungen bei Neustarts auf.
 

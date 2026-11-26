@@ -1,5 +1,7 @@
 # Modelle und Projekte
 
+Bei der Installation über die DSH-Oberfläche übernimmt Prism das im DSH-Chat ausgewählte Modell. Projekte und ihre Berechtigungen verwalten Sie in den Prism-Einstellungen. Die folgenden JSON-Beispiele gehören zum Start aus dem Quellcode. [Schnellstart](/de/guide/start)
+
 Das Register bestimmt zugängliche Projekte. Der Orchestrator konfiguriert Modelle und native Werkzeuge der Rollen separat.
 
 ## Modelle je Rolle

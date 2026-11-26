@@ -2,7 +2,11 @@
 
 Cada conversa privada autenticada é associada a uma identidade L1 persistente. Os canais de mensagens recebem suas próprias respostas explícitas e atualizações de tarefas.
 
-## Conectar e parear
+## Configurar pela interface do DSH
+
+Abra as configurações do Prism e selecione um dos sete serviços em **Messaging channels**. Nesse painel você gerencia as credenciais, os usuários autorizados, os códigos de pareamento e o estado da conexão. O Feishu/Lark também oferece registro por código QR. Com o DSH em português, esse painel exibe os rótulos em inglês. [Guia ilustrado em inglês](/guide/im) · [Guia ilustrado em chinês](/zh/guide/im)
+
+## Conexão e pareamento pelo inicializador compilado
 
 Ative o adaptador em `im` no `prism.config.json`. Execute o login por QR no coordenador e escaneie o código no aplicativo correspondente. Para outro usuário, gere um código no host e peça que envie `/pair CODE` ao bot em uma conversa privada.
 
@@ -29,7 +33,7 @@ O login por QR guarda credenciais localmente e autoriza quem fez a leitura verif
 | QQ | Configure o bot QQ com o callback oficial `/prism/im/qq`. O gateway verifica a assinatura da plataforma. |
 | Discord | Habilite as mensagens diretas do bot Discord e faça o pareamento por DM. |
 
-## Chaves de configuração
+## Chaves de configuração do inicializador compilado
 
 Ative apenas os canais utilizados. Configure os segredos no ambiente do coordenador. `allowedUserIds` concede acesso a IDs conhecidos da plataforma. Preserve o SQLite nos reinícios para manter credenciais QR e pareamentos.
 

@@ -2,9 +2,13 @@
 
 The registry describes accessible projects. The orchestrator separately specifies the models and native tools each role may use.
 
-## Configure a model per role
+## Plugin settings in DSH
 
-This fragment belongs inside `orchestrator` in `prism.config.json`. Supply model IDs supported by the active DSH provider. A model ID must be unique within its tier.
+In the installed plugins, the conversation, planning and execution roles use the model selected in the DSH chat. Add a provider under **Settings → Models**, then choose its model in the native chat composer. In **Settings → Prism**, give each project a unique ID, its folder on the host and allowed tools. [Illustrated walkthrough](/guide/start)
+
+## Configure a model per role in the source launcher
+
+For deployments built with the source launcher, this fragment belongs inside `orchestrator` in `prism.config.json`. Supply model IDs supported by the active DSH provider. A model ID must be unique within its tier.
 
 ```json
 {

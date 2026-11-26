@@ -32,4 +32,39 @@
 
 实现 `ImTransport`，提供稳定的通道及机器人命名空间、归属验证、`send` 和 `edit`。`ImGateway.receive` 成功后再向平台确认接收。重试时保留平台事件 ID。消息送达与本地记录回执可能分别提交。
 
+## 源码启动器中的 IM 配置
+
+在 DSH 插件管理器中安装的用户可以从 **设置 → 棱镜 → 消息渠道** 完成设置。下面的命令及字段供使用源码启动器的开发者参考。[在网页中配置消息渠道](/zh/guide/im)
+
+在 `prism.config.json` 的 `im` 中启用适配器。扫码登录时，在协调节点运行对应命令，用目标应用扫描二维码。授权其他用户时，在宿主机签发配对码，由该用户在与机器人的私聊中发送 `/pair CODE`。
+
+下面是不同接入方式的示例。在 `runtime/` 中选择适合的命令执行。`setup` 会启用适配器并列出需要的环境变量，非扫码通道还会签发首个配对码；后续用户使用 `pair`。
+
+```sh
+npm run im -- login wechat --config prism.config.json
+npm run im -- login feishu --config prism.config.json
+npm run im -- setup telegram --config prism.config.json
+npm run im -- pair telegram --config prism.config.json
+```
+
+扫码登录会在本机保存凭据并授权经过验证的扫码用户。配对码一次有效，十分钟后过期。若自定义状态路径，CLI 传入 `--config prism.config.json`，再使用同一配置启动协调节点。
+
+### 源码配置字段
+
+仅启用实际使用的通道，密钥放在协调进程的环境变量中。`allowedUserIds` 可预先授权已知的平台用户 ID。扫码凭据和配对状态属于网关，重启时保留其 SQLite 文件。
+
+| 平台 | JSON | ENV |
+| --- | --- | --- |
+| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
+| WeChat | `im.wechat` | — |
+| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
+| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
+| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
+| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
+| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
+
+收不到事件时，核对通道的回调地址或出站连接。QQ 单聊受平台回复窗口和主动消息额度限制。无法原地编辑卡片的通道会通过后续消息更新状态。
+
+`im.locale` 指定默认语言，用户可在机器人中切换语言。网关用 SQLite 保存投递状态，重启可继续运行。若平台已送达而本地回执尚未落库，消息可能重复出现。
+
 [接入即时通讯](/zh/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)

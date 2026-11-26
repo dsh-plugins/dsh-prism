@@ -10,57 +10,34 @@ English | [简体中文](README.zh_CN.md)
 
 </div>
 
-## Start a local conversation
+## Run a task across two projects
 
-To run the application, install Node.js 24.9 or later, npm and Git. You need a Git identity with read access to all five private plugin repositories. The website and its public source can be read without signing in. Configure DeepSeek credentials in DSH or set `DEEPSEEK_API_KEY` in the environment where you start Prism. The example uses the `deepseek-official` model provider. The checkout command creates a local `runtime/` directory containing the pinned plugins, launcher, example configuration and tests. Run the application commands from that directory.
+Open DeepSeek Harness 0.2.3-alpha.2 in your browser. The illustrated walkthrough starts with a fresh DSH profile and uses two folders on the same machine. You can follow it with your own projects or the two sample directories in this repository. [Illustrated guide in this repository](website/docs/guide/start.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/start) · [Sample projects](docs/examples)
 
-```sh
-git clone https://github.com/dsh-plugins/dsh-prism.git
-cd dsh-prism
-node scripts/checkout.mjs
-cd runtime
-npm ci
-npm run build
-npm start
-```
+1. In **Plugins → Add plugin**, enter each npm package and version from the table below. Choose **Install**, then **Enable now**, in the order listed.
+2. In **Settings → Models**, add a **Custom model API** provider using **OpenAI Responses**, your endpoint and API key, and the model ID `deepseek-v4.1-flash`. Select that provider and model in a DSH chat.
+3. Open each project folder as a DSH workspace. In **Settings → Prism**, add its project ID, absolute folder and allowed tools. The sample only needs `read`, `glob` and `grep`.
+4. Choose **Open Prism**. Ask it to delegate one task to each project and check the time, venue and coordinator in each project's README. Expand a task card and open its read-only session to inspect the work.
 
-Open the login URL printed by DSH. The example gives the agent search and read access to the checked-out project. Try “Find where this project defines the models for each layer, and summarize the options.” The model selector beside Send shows the available conversation models and their descriptions. Choose one before sending your next message.
+![Prism reports the independently verified event details for Harbor Books and Lantern Cafe](website/docs/guide/screens/en/16-results.png)
 
-![Prism’s Chinese chat interface showing a request and its task card](docs/images/web-task.png)
+## The five plugins
 
-## Follow a task
+| Installation order | Package | What it adds |
+| --- | --- | --- |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.1` | Project metadata and the permissions granted to each identity. |
+| 2 | `@dsh-prism/dsh-orchestrator@0.1.1` | Conversation, planning and execution sessions that use the selected model and permitted tools. |
+| 3 | `@dsh-prism/dsh-mesh-node@0.1.1` | Task execution on the node that owns the project. |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.1` | Integration with private chats on supported messaging services. |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.1` | Prism settings, the chat, task cards and a read-only session viewer. |
 
-The conversation agent chooses an authorized project and a planning model. The planner splits the request into steps and chooses an execution model for each. A task card updates as they work. Expand the card and choose the read-only session action to inspect the underlying conversation. Your chat receives updates that the conversation agent explicitly sends.
+In **Settings → Prism → Messaging channels**, choose Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot or Discord. The guide shows each form, a Telegram draft saved while disabled, and a Feishu QR sign-in cancelled before account authorization. [Illustrated messaging guide](website/docs/guide/im.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/im)
 
-## Use your own project or chat app
-
-Inside `runtime/`, copy the example configuration, then set `registry.projects[].workspace` to the directory you want the agents to work in. Set a project ID, its node and permissions, and set `orchestrator.defaultProjectId` to an authorized project. Restart with the edited file.
-
-```sh
-cp prism.example.json prism.config.json
-```
-
-```sh
-npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
-```
-
-To use a messaging app, configure the corresponding entry under `im`. The gateway has integrations for Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot and Discord. For WeChat or Feishu, run `npm run im -- login wechat --config prism.config.json` or use `feishu` in the same command and follow the QR login. Each private chat keeps its own identity and history. The Web interface, IM commands and documentation are available in German, English, Spanish, French, Japanese, Portuguese, Russian and Simplified Chinese. [Messaging gateway](https://github.com/dsh-plugins/dsh-im-gateway)
-
-## Explore the plugins
-
-The following links open private source repositories for authorized contributors.
-
-| Plugin | What it does for your conversation |
-| --- | --- |
-| [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) | Shows the conversation, model switcher, task cards and read-only session viewer. |
-| [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry) | Lists the projects the current user can delegate to. |
-| [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator) | Chooses and starts formal DSH sessions with the tools allowed for each role. |
-| [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node) | Runs a delegated task on the device that holds its project. |
-| [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway) | Delivers agent messages, task updates and session details to a private chat. |
+Source contributors can use the [pinned checkout and technical reference](docs/TECH.md).
 
 ## Run the documentation locally
 
-The public documentation is built with VitePress. From the public `dsh-prism` repository root, one directory above `runtime/`, start the preview below or run `npm run docs:build --prefix website` to build the static site.
+The public documentation is built with VitePress. From the public `dsh-prism` repository root, start the preview below or run `npm run docs:build --prefix website` to build the static site.
 
 ```sh
 npm ci --prefix website

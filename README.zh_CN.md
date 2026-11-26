@@ -10,57 +10,34 @@
 
 </div>
 
-## 在本地开始对话
+## 在一次对话中使用两个项目
 
-运行棱镜需要 Node.js 24.9 或更高版本、npm、Git，以及对全部五个私有插件仓库具有读取权限的 Git 身份。官网及其公开源文件可直接阅读。在 DSH 中配置 DeepSeek 凭据，或在启动棱镜的环境中设置 `DEEPSEEK_API_KEY`。示例使用 `deepseek-official` 模型提供方。检出脚本会在本机生成 `runtime/` 目录，内含锁定版本的插件、启动器、示例配置和测试。下面的应用命令都在该目录运行。
+在浏览器打开 DeepSeek Harness 0.2.3-alpha.2。图文指南从空白的 DSH 环境开始，以同一台机器上的两个项目为例。可以用自己的项目，也可使用本仓库提供的两个示例目录。[仓库中的逐步图解](website/docs/zh/guide/start.md) · [在官网阅读](https://prism.dsh-plug.in/zh/guide/start) · [示例项目](docs/examples)
 
-```sh
-git clone https://github.com/dsh-plugins/dsh-prism.git
-cd dsh-prism
-node scripts/checkout.mjs
-cd runtime
-npm ci
-npm run build
-npm start
-```
+1. 在 **插件 → 添加插件** 中依次填入下表的 npm 包名和版本。每安装一个包，点 **立即启用** 后再安装下一个。
+2. 在 **设置 → 模型** 中添加 **自定义模型 API**，选择 **OpenAI Responses**，填入服务地址、API 密钥和模型 ID `deepseek-v4.1-flash`，然后在 DSH 对话中选用该提供商和模型。
+3. 把两个项目目录分别作为 DSH 工作区打开，再到 **设置 → 棱镜** 添加两个项目的 ID、绝对目录和允许使用的工具。示例只需 `read`、`glob`、`grep`。
+4. 点 **打开棱镜**，要求为两个项目各派发一个任务，读取各自 README 中的时间、地点和负责人。展开任务卡并打开只读会话，可以检查对应任务的处理记录。
 
-打开 DSH 在终端打印的登录链接。示例允许代理检索和读取本次检出的工程。可以试着问「找出这个工程在哪里定义各层模型，帮我整理可选项」。发送按钮旁的模型选择器列出可选的对话模型与介绍，可在发送下一条消息前切换。
+![棱镜分别核对 Harbor Books 与 Lantern Cafe 的活动资料并汇总结果](website/docs/guide/screens/zh/16-results.png)
 
-![棱镜中文对话界面的用户请求和任务状态卡](docs/images/web-task.png)
+## 五个插件
 
-## 跟进任务
+| 安装顺序 | 包名 | 用途 |
+| --- | --- | --- |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.1` | 保存项目元数据及各身份获准使用的项目。 |
+| 2 | `@dsh-prism/dsh-orchestrator@0.1.1` | 按所选模型和允许的工具运行对话、规划和执行会话。 |
+| 3 | `@dsh-prism/dsh-mesh-node@0.1.1` | 在持有项目目录的节点上执行任务。 |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.1` | 接入支持的即时通讯私聊通道。 |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.1` | 提供棱镜设置、对话、任务卡和只读会话查看器。 |
 
-对话代理选定已授权的项目和规划模型。规划代理拆分步骤，再为每一步选择执行模型。任务卡会随进度更新，展开后点击「查看只读会话」即可阅读底层对话。聊天窗口接收对话代理主动发送给你的消息。
+在 **设置 → 棱镜 → 消息渠道** 中可以选择 Telegram、微信、飞书/Lark、企业微信、QQ 机器人、OneBot 或 Discord。指南逐一展示每个表单，还记录了停用时保存 Telegram 配置和飞书获得官方码后取消登录的操作。[仓库中的消息渠道图解](website/docs/zh/guide/im.md) · [在官网阅读](https://prism.dsh-plug.in/zh/guide/im)
 
-## 接入自己的项目或聊天应用
-
-在 `runtime/` 中复制示例配置，把 `registry.projects[].workspace` 改为代理实际工作的目录，填写项目 ID、节点和权限，并将 `orchestrator.defaultProjectId` 指向已授权的项目。使用修改后的文件重新启动。
-
-```sh
-cp prism.example.json prism.config.json
-```
-
-```sh
-npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
-```
-
-如需在聊天应用中使用棱镜，在 `im` 下配置对应通道。网关支持 Telegram、微信、飞书/Lark、企业微信、QQ 机器人、OneBot 和 Discord。使用微信或飞书时，运行 `npm run im -- login wechat --config prism.config.json`，或将命令中的 `wechat` 换为 `feishu`，按提示扫码登录。每个私聊保留自己的身份和对话历史。Web 界面、IM 命令和官网文档提供德语、英语、西班牙语、法语、日语、葡萄牙语、俄语和简体中文。[消息网关](https://github.com/dsh-plugins/dsh-im-gateway)
-
-## 了解五个插件
-
-下表链接指向插件的私有源码仓库，供已获授权的协作者访问。
-
-| 插件 | 在对话中发挥的作用 |
-| --- | --- |
-| [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) | 展示对话、模型选择器、任务卡和只读会话查看器。 |
-| [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry) | 列出当前用户获准派发任务的项目。 |
-| [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator) | 按角色工具权限选用并启动正式 DSH 会话。 |
-| [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node) | 在存放项目的设备上运行派发的任务。 |
-| [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway) | 向私聊投递代理消息、任务状态和按需读取的会话记录。 |
+源码开发者可查阅[锁定版本的检出步骤及技术参考](docs/TECH.md)。
 
 ## 在本地阅读文档
 
-官网使用 VitePress。回到公开仓库的 `dsh-prism` 根目录（`runtime/` 的上一级），运行以下命令启动本地预览，或使用 `npm run docs:build --prefix website` 构建静态站点。
+官网使用 VitePress。在公开的 `dsh-prism` 仓库根目录，运行以下命令启动本地预览，或使用 `npm run docs:build --prefix website` 构建静态站点。
 
 ```sh
 npm ci --prefix website

@@ -1,61 +1,94 @@
-# 接入即时通讯
+# 在网页中配置消息渠道
 
-通道适配器把已认证的私聊绑定到持久 L1 身份。网页与各 IM 通道分别接收主动消息及任务更新。
+以 DSH 所有者身份打开 **设置 → 棱镜**，找到 **消息渠道**，选择平台即可查看其设置。每个私聊都保留独立的消息身份和对话历史。[网页操作图解](./start.md) 使用同一套棱镜插件。
 
-## 连接账号与配对
+![棱镜设置中的消息渠道选择器](../../guide/screens/zh/12-im-overview.png)
 
-在 `prism.config.json` 的 `im` 中启用适配器。扫码登录时，在协调节点运行对应命令，用目标应用扫描二维码。授权其他用户时，在宿主机签发配对码，由该用户在与机器人的私聊中发送 `/pair CODE`。
+渠道授权决定哪些账号可以私聊。项目访问权限在 **设置 → 棱镜 → 已授权项目** 中单独管理，本例的 `web:owner` 授权属于 DSH 网页用户。要另外向某个私聊开放项目，在该项目的 **编辑 → 高级设置** 下，将完整的 IM 身份单独粘贴在 **授权身份** 的一行，保留这一行内的引号、逗号和方括号，再点 **保存**。
 
-下面是不同接入方式的示例。在 `runtime/` 中选择适合的命令执行。`setup` 会启用适配器并列出需要的环境变量，非扫码通道还会签发首个配对码；后续用户使用 `pair`。
+**保存配置** 会记录当前渠道的设置，**启用渠道** 才会启动连接。在 **允许私聊的用户 ID** 中每行填写一个平台用户 ID。再次打开页面后，密钥字段显示保存状态。输入框留空可以保留原有密钥，也可用 **清除已保存的凭据** 移除密钥。
 
-```sh
-npm run im -- login wechat --config prism.config.json
-npm run im -- login feishu --config prism.config.json
-npm run im -- setup telegram --config prism.config.json
-npm run im -- pair telegram --config prism.config.json
-```
+本次展示依次打开七个配置表单，渠道保持停用。飞书示例取得了官方扫码授权入口，随后取消登录。实际收发消息需要使用自己的平台账号和凭据。
 
-扫码登录会在本机保存凭据并授权经过验证的扫码用户。配对码一次有效，十分钟后过期。若自定义状态路径，CLI 传入 `--config prism.config.json`，再使用同一配置启动协调节点。
+## Telegram
 
-## 支持的连接方式
+用 BotFather 创建机器人，在 **机器人令牌** 中填写其令牌，添加允许向机器人私聊的 Telegram 用户 ID，然后点 **保存配置**。准备好收发消息后点 **启用渠道**。网关采用长轮询接收更新，原有机器人如已设置 webhook，请先在 Telegram 端清除。
 
-| 平台 | 连接方式 |
+![Telegram 的停用状态与配置表单](../../guide/screens/zh/12-im-telegram.png)
+
+为验证停用时也能保存配置，本例保持 **机器人令牌** 为空，临时保存一条演示用户 ID，切换渠道并重新加载，再次打开 Telegram 核对该值，最后清空示例 ID 并保存。整个过程中 **渠道状态** 保持 **已停用**。
+
+![Telegram 处于停用状态时保存演示用户 ID](../../guide/screens/zh/12-im-save-disabled.png)
+
+![切换渠道并重新加载后仍可看到已保存的值](../../guide/screens/zh/12-im-saved-reopened.png)
+
+![清空演示值之后渠道保持停用](../../guide/screens/zh/12-im-draft-cleared.png)
+
+## 微信
+
+选择 **微信**，在 **账号注册** 下点 **生成登录二维码**。当 DSH 宿主能够连接 iLink 时，用微信扫描返回的二维码，按平台提示完成验证并等待注册信息保存。准备使用该账号时再启用渠道。
+
+![微信 的停用状态与配置表单](../../guide/screens/zh/12-im-wechat.png)
+
+![本次环境中 微信 登录请求失败的界面](../../guide/screens/zh/12-im-wechat-unavailable.png)
+
+本次环境请求微信官方 iLink 服务失败，页面显示 **登录失败**，可点 **重新生成二维码**。本次微信演示止于此处。
+
+## 飞书 / Lark
+
+选择 **飞书 / Lark**，点 **生成登录二维码**。页面会显示平台提供的登录二维码与到期时间。正式接入时，用对应的手机应用扫码并完成平台授权。本次实测成功取得官方二维码，随后点击 **取消登录**。演示截图和录像都保留了二维码的三个定位角，中间区域标有“飞书二维码已遮挡”。
+
+![飞书 / Lark 的停用状态与配置表单](../../guide/screens/zh/12-im-feishu.png)
+
+![飞书 / Lark 配置表单的更多字段与操作](../../guide/screens/zh/12-im-feishu-details.png)
+
+![飞书 / Lark 官方扫码入口正在等待手机授权](../../guide/screens/zh/12-im-feishu-qr.png)
+
+![飞书 / Lark 已取消登录，账号仍未接入](../../guide/screens/zh/12-im-feishu-cancelled.png)
+
+使用已有自建应用时，选择对应的 **服务平台**，填写 **App ID（应用 ID）** 和 **App Secret（应用密钥）**。在飞书或 Lark 开放平台开启私聊消息事件订阅与机器人回复权限，再保存配置。准备好后点 **启用渠道**。
+
+## 企业微信
+
+准备使用长连接的企业微信智能机器人，填写 **Bot ID（机器人 ID）** 和 **机器人密钥**，再添加允许私聊的平台用户 ID。保存后即可按需启用该连接。
+
+![企业微信 的停用状态与配置表单](../../guide/screens/zh/12-im-wecom.png)
+
+## QQ 机器人
+
+填写机器人的 **App ID（应用 ID）** 和 **App Secret（应用密钥）**。页面显示以 `/prism/im/qq` 结尾的 **回调地址**。在 QQ 开放平台配置外部可达的 HTTPS 地址，让签名事件能送达该 DSH 宿主。保存后按需启用渠道。
+
+![QQ 机器人 的停用状态与配置表单](../../guide/screens/zh/12-im-qq.png)
+
+![QQ 机器人 配置表单的更多字段与操作](../../guide/screens/zh/12-im-qq-details.png)
+
+## OneBot
+
+填写 OneBot v11 服务的 **OneBot 账号 ID**、**OneBot HTTP API 地址**、**访问令牌** 和 **事件签名密钥**。在 OneBot 服务端设置指向该 DSH 宿主的 `/prism/im/onebot` 回调地址，并使用相同的事件签名密钥。确认后保存，按需启用。
+
+![OneBot 的停用状态与配置表单](../../guide/screens/zh/12-im-onebot.png)
+
+![OneBot 配置表单的更多字段与操作](../../guide/screens/zh/12-im-onebot-details.png)
+
+## Discord
+
+从 Discord Developer Portal 获取机器人的令牌，填入 **机器人令牌**，添加允许使用该机器人的 Discord 用户 ID 并保存。准备接收机器人私信时再启用渠道。
+
+![Discord 的停用状态与配置表单](../../guide/screens/zh/12-im-discord.png)
+
+## 用一次性配对码授权私聊
+
+要通过配对码授权，在相应渠道的配置页生成一次性配对码。接收者需要在十分钟内向机器人私聊发送 `/pair 配对码`。本次展示了各渠道的配对入口，未签发配对码。
+
+## 接通后可用的私聊命令
+
+| 命令 | 操作 |
 | --- | --- |
-| Telegram | Bot API 长轮询。通过 `im.telegram.tokenEnv` 设置令牌并授权或配对用户。先清除这个 Bot 已有的 webhook。 |
-| WeChat | 个人微信通过 iLink 连接。在宿主运行 `login wechat`，扫码后进入对应私聊。 |
-| Feishu / Lark | 在宿主运行 `login feishu` 授权飞书应用。完成平台端应用权限与收发消息配置后，向机器人发起私聊。 |
-| WeCom | 在 `im.wecom` 中配置企业微信机器人的身份和凭据，再在私聊中完成配对。 |
-| OneBot | 连接负责私聊的 OneBot 服务，将已签名的事件回调指向 `/prism/im/onebot`。 |
-| QQ | 配置 QQ 机器人，官方事件回调指向 `/prism/im/qq`，网关验证平台签名。 |
-| Discord | 启用可接收直接消息的 Discord 机器人，通过私信完成用户配对。 |
+| `/models` | 列出可用的对话模型及说明。 |
+| `/model …` | 按模型 ID 或列表序号切换模型。 |
+| `/tasks` | 查看当前私聊的任务。 |
+| `/inspect …` | 按任务 ID 阅读底层会话。 |
+| `/language …` | 选择语言，例如 `zh` 或 `en`。 |
+| `/pair …` | 兑换为该渠道签发的一次性配对码。 |
 
-## 配置字段
-
-仅启用实际使用的通道，密钥放在协调进程的环境变量中。`allowedUserIds` 可预先授权已知的平台用户 ID。扫码凭据和配对状态属于网关，重启时保留其 SQLite 文件。
-
-| 平台 | JSON | ENV |
-| --- | --- | --- |
-| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
-| WeChat | `im.wechat` | — |
-| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
-| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
-| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
-| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
-| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
-
-收不到事件时，核对通道的回调地址或出站连接。QQ 单聊受平台回复窗口和主动消息额度限制。无法原地编辑卡片的通道会通过后续消息更新状态。
-
-## 私聊命令
-
-| 接口 | 行为 |
-| --- | --- |
-| `/models` | 列出 L1 模型及能力介绍。 |
-| `/model …` | 按模型 ID 或显示序号切换。 |
-| `/tasks` | 列出此对话的任务。 |
-| `/inspect …` | 按任务 ID 读取会话。 |
-| `/language …` | 设置语言代码，例如 `zh` 或 `en`。 |
-| `/pair …` | 使用一次性配对码授权当前用户。 |
-
-`im.locale` 指定默认语言，用户可在机器人中切换语言。网关用 SQLite 保存投递状态，重启可继续运行。若平台已送达而本地回执尚未落库，消息可能重复出现。
-
-[开发接口](/zh/develop/api) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)
+[与棱镜对话](./chat.md) · [网关接口](../develop/api.md)
