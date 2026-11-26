@@ -1,0 +1,14 @@
+{
+  "name": "dsh-prism-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predocs:dev": "node scripts/assets.mjs",
+    "docs:dev": "vitepress dev docs",
+    "predocs:build": "node scripts/assets.mjs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": { "vitepress": "1.6.4" }
+}

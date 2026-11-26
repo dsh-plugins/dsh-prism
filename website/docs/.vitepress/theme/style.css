@@ -1,0 +1,29 @@
+:root {
+  --vp-c-brand-1: #176347;
+  --vp-c-brand-2: #237451;
+  --vp-c-brand-3: #216746;
+  --vp-c-brand-soft: rgba(47, 135, 91, .12);
+  --vp-c-bg: #fcfdfa;
+  --vp-c-bg-soft: #f1f5ee;
+  --vp-button-brand-text: #fff;
+  --vp-home-hero-name-color: #124731;
+  --vp-home-hero-image-background-image: radial-gradient(ellipse, #c6e1ba 2%, #ddecce 35%, transparent 73%);
+  --vp-home-hero-image-filter: blur(33px);
+}
+.dark {
+  --vp-c-brand-1: #96d4ac;
+  --vp-c-brand-2: #9bd3a8;
+  --vp-c-brand-3: #367e54;
+  --vp-c-brand-soft: rgba(109, 185, 131, .14);
+  --vp-c-bg: #14201a;
+  --vp-c-bg-alt: #111a16;
+  --vp-c-bg-soft: #1c2921;
+  --vp-home-hero-name-color: #dbecdc;
+  --vp-home-hero-image-background-image: radial-gradient(ellipse, #315d47, transparent 72%);
+}
+.VPHome .VPImage.image-src { width: min(56%, 230px); height: auto; }
+.VPHome .VPHero .text { letter-spacing: -.045em; }
+.VPHome .VPFeature { border-radius: 16px; }
+.VPDoc img, .vp-doc .screen { border-radius: 12px; }
+.vp-doc table { max-width: 100%; }
+@media (min-width: 960px) { .VPHome .VPHero { padding-top: 85px; padding-bottom: 48px; } }
