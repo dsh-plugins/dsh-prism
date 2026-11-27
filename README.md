@@ -32,21 +32,21 @@ You can try Prism with your own project folders or with the two sample folders (
 | Install order | Package | Role |
 | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | Keeps track of available projects and who is allowed to access them. |
-| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | Coordinates conversation, planning, and execution across sessions. |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` | Runs tasks on the device where each project lives. |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.1` | Coordinates conversation, planning, and execution across sessions. |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.2` | Runs tasks on the device where each project lives. |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | Connects Prism to private chats on supported messaging apps. |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` | Provides the Prism chat view, task cards, and settings pages. |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` | Provides the Prism chat view, task cards, and settings pages. |
 
 Want to message Prism from Telegram, WeChat, Feishu/Lark, WeCom, QQ, OneBot, or Discord? See the [Messaging apps guide](website/docs/guide/im.md) ([online](https://prism.dsh-plug.in/guide/im)).
 
-Prism shares the conversation across Web and approved private chats in each DSH profile. To connect devices, set up [WebRTC Mesh](website/docs/develop/mesh.md).
+Prism shares the conversation across Web and approved private chats in each DSH profile. To pair devices and configure signaling or relay services, open **Settings → Prism/Connection**. [WebRTC Mesh guide](website/docs/develop/mesh.md)
 
 ### Optional memory and triggers
 
 After enabling the five core plugins, add memory for saved knowledge and media attachments, or triggers for reminders and external events. Install the packages you need in the same DSH profile using **Plugins → Add plugin**, then choose **Enable now**. For the `web` profile, you can also use the command line.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
 dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
 

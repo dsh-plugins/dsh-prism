@@ -1,6 +1,6 @@
 # Mesh and session resilience
 
-`dsh-mesh-node` 0.2.1 connects trusted devices using encrypted WebRTC DataChannels. A WSS signaling service exchanges connection metadata. Tasks, progress, project indexes, and Room messages flow over the peer channels. When the network requires a relay, TURN forwards encrypted traffic.
+`dsh-mesh-node` 0.2.2 connects trusted devices using encrypted WebRTC DataChannels. A WSS signaling service exchanges connection metadata. Tasks, progress, project indexes, and Room messages flow over the peer channels. When the network requires a relay, TURN forwards encrypted traffic.
 
 The orchestrator dispatches local and remote tasks through the same DSH Subagent Provider interface. File operations run on the device that owns the selected project.
 
@@ -14,7 +14,7 @@ The orchestrator registers a `prism-<nodeId>` provider for each node:
 
 ## Connecting two nodes
 
-With a release that supports managed connections, open **Settings → Prism/Connections** on both devices. Enter the same signaling server and connection code, then select **Connect** on both. Use the server options to host signaling or STUN/TURN inside Prism. Enter TURN credentials separately on each client. See [Configuration and migration](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md#在设置中配对) for project exports and NAT port forwarding.
+Open **Settings → Prism/Connection** on both devices. Enter the same signaling server and connection code, then select **Connect** on both. The first device waits up to 10 minutes. Use **Run as a server** to host signaling or STUN/TURN inside Prism. Enter TURN credentials separately on each client. See [Configuration and migration](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md#在设置中配对) for project exports and NAT port forwarding.
 
 ### Static nodes
 

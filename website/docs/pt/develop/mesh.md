@@ -1,12 +1,16 @@
 # Mesh e sessões
 
-O `dsh-mesh-node` 0.2.1 conecta dispositivos confiáveis por canais de dados WebRTC criptografados. O serviço de sinalização WSS coordena a conexão. Quando é preciso usar um retransmissor, o TURN encaminha dados criptografados.
+O `dsh-mesh-node` 0.2.2 conecta dispositivos confiáveis por canais de dados WebRTC criptografados. O serviço de sinalização WSS coordena a conexão. Quando é preciso usar um retransmissor, o TURN encaminha dados criptografados.
 
 ## Transparência de localização
 
 O coordenador usa o Subagent Provider do DSH `prism-<nodeId>` para cada nó. L1 pode iniciar várias tarefas L2 em um lote com `agent_spawn` e identificar os projetos por `(nodeId, projectId)`. L3 herda o espaço de trabalho de L2. Com `room: true`, as tarefas L2 autorizadas no lote podem trocar mensagens com `peer_send`.
 
 ## Conectar dois nós
+
+Abra **Settings → Prism/Connection** nos dois dispositivos. Informe o mesmo endereço de sinalização e o mesmo código de conexão e selecione **Connect** em ambos.
+
+### Nós estáticos
 
 Configure uma `nodeId`, um perfil DSH independente e uma chave Ed25519 para cada dispositivo. Cadastre as chaves públicas no serviço de sinalização e em `peers[].publicKey` dos outros dispositivos. Configure `webrtc.signalingUrl`, `webrtc.privateKeyEnv` e, conforme a rede, STUN ou TURN em `webrtc.iceServers`. Compartilhe projetos no nó executor por `peers[].projects`. Veja os exemplos e a migração coordenada em [Configuração e migração](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md).
 

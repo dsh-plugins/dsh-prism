@@ -32,21 +32,21 @@
 | 安装顺序 | 包名及版本 | 负责什么 |
 | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | 管理可用的项目信息与访问授权。 |
-| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | 负责对话理解、任务拆解与跨会话协调。 |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` | 在项目所在的设备上实际运行任务。 |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.1` | 负责对话理解、任务拆解与跨会话协调。 |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.2` | 在项目所在的设备上实际运行任务。 |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | 连接 Telegram、微信、飞书等即时通讯私聊入口。 |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` | 提供棱镜对话界面、任务状态卡与配置页面。 |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` | 提供棱镜对话界面、任务状态卡与配置页面。 |
 
 想在微信、飞书/Lark、Telegram、企业微信、QQ、OneBot 或 Discord 里直接找棱镜办事？请查看[接入即时通讯指南](website/docs/zh/guide/im.md)（[官网阅读](https://prism.dsh-plug.in/zh/guide/im)）。
 
-棱镜在每个 DSH 配置档中为 Web 和已获批的私聊共享会话。跨设备执行请配置 [WebRTC Mesh](website/docs/zh/develop/mesh.md)。
+棱镜在每个 DSH 配置档中为 Web 和已获批的私聊共享会话。在 **设置 → 棱镜/连接** 可配对设备并设置信令与中继服务。[WebRTC Mesh 指南](website/docs/zh/develop/mesh.md)
 
 ### 可选安装长期记忆和事件触发器
 
 启用五个核心插件后，可在同一个 DSH 配置档中按需加装长期记忆和事件触发器。长期记忆支持资料保存和媒体附件，事件触发器支持定时提醒与外部事件。在 **插件 → 添加插件** 中输入完整包名和版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
 dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
 

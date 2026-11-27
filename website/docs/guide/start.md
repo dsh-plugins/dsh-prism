@@ -17,10 +17,10 @@ In the sidebar, go to **Plugins → Add plugin**. Enter each npm package and ver
 | Order | Package and version |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.1` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` |
 
 The table lists the current package versions. The screenshots show the same controls from an earlier release. The orchestrator starts when Mesh is enabled.
 
@@ -62,6 +62,8 @@ If DSH asks for permission to run a dependency script during installation, revie
 
 ![The Prism sidebar entry after reloading DSH](./screens/0.1.2/en/06-after-reload.png)
 
+To connect another device, enter the same signaling address and connection code on both devices under **Settings → Prism/Connection**. [WebRTC Mesh guide](../develop/mesh.md)
+
 ### Long-term memory and event triggers (optional) {#optional-plugins}
 
 After enabling the five core plugins, add either or both of these packages in the same DSH profile. Memory adds saved knowledge and media attachments. Triggers add scheduled reminders and external events.
@@ -69,11 +71,11 @@ After enabling the five core plugins, add either or both of these packages in th
 In **Plugins → Add plugin**, enter the exact package and version, then choose **Enable now**. You can also install them in the `web` profile from the command line.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
 dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
 
-In **Settings → Prism/Memory**, bind a local embedding model or a remote API. Memory tools become available as soon as initialization completes, and Prism reloads the binding automatically on later DSH starts.
+In **Settings → Prism/Memory**, select a model from the **Local deployment** menu and choose **Download**, or bind a **Remote API**. Memory tools become available as soon as initialization completes, and Prism reloads the binding automatically on later DSH starts.
 
 ## 2. Connect your model
 

@@ -9,10 +9,10 @@ Dans DSH, ouvrez **Plugins → Add plugin** et installez les cinq paquets ci-des
 | Ordre | Paquet et version |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.1` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` |
 
 L’orchestrateur démarre dès que Mesh est activé.
 
@@ -26,7 +26,7 @@ Après avoir activé les cinq modules principaux, ajoutez les paquets dont vous 
 Dans **Plugins → Add plugin**, saisissez le nom exact du paquet et sa version, puis choisissez **Enable now**. Vous pouvez aussi utiliser les commandes suivantes pour le profil `web`.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
 dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
 

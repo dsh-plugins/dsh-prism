@@ -1,12 +1,16 @@
 # Mesh とセッション
 
-`dsh-mesh-node` 0.2.1 は、信頼関係のあるデバイスを暗号化された WebRTC データチャネルで接続します。WSS シグナリングサービスが接続を仲介し、リレーが必要な場合は TURN が暗号化されたデータを中継します。
+`dsh-mesh-node` 0.2.2 は、信頼関係のあるデバイスを暗号化された WebRTC データチャネルで接続します。WSS シグナリングサービスが接続を仲介し、リレーが必要な場合は TURN が暗号化されたデータを中継します。
 
 ## 位置透過なノード抽象化
 
 コーディネーターは各ノードの DSH Subagent Provider `prism-<nodeId>` を使います。L1 は `agent_spawn` で複数の L2 タスクをまとめて起動し、各プロジェクトを `(nodeId, projectId)` で指定できます。L3 は L2 のワークスペースを引き継ぎます。`room: true` を指定すると、同じバッチ内の許可された L2 タスクが `peer_send` でメッセージを交換できます。
 
 ## 2 台のノードを接続する
+
+両方のデバイスで **Settings → Prism/Connection** を開きます。同じシグナリングアドレスと接続コードを入力し、それぞれ **Connect** を選択します。
+
+### 静的ノード
 
 各デバイスに一意の `nodeId`、個別の DSH プロファイル、Ed25519 鍵を設定します。公開鍵をシグナリングサービスと接続先の `peers[].publicKey` に登録します。`webrtc.signalingUrl` と `webrtc.privateKeyEnv` を設定し、必要に応じて `webrtc.iceServers` に STUN または TURN を追加します。実行ノードの `peers[].projects` で共有プロジェクトを指定します。[設定例と移行手順](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md)を参照してください。
 

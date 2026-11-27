@@ -9,10 +9,10 @@ DSH の **Plugins → Add plugin** から、下の表のパッケージを順番
 | 順序 | パッケージ名とバージョン |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.1` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` |
 
 Mesh を有効にするとオーケストレーターが起動します。
 
@@ -26,7 +26,7 @@ Mesh を有効にするとオーケストレーターが起動します。
 **Plugins → Add plugin** でパッケージ名とバージョンを入力し、**Enable now** を選択します。`web` プロファイルでは、以下のコマンドも使えます。
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
 dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
 
