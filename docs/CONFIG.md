@@ -9,6 +9,7 @@
 - 记忆默认使用本机 BGE。首次使用会下载并校验 ONNX 文件和词表。已有离线文件时，在 `embedding` 下设置 `backend: onnx`、`modelPath` 和 `tokenizerDirectory`。
 - 远端 BGE 使用 `backend: openai` 和 `model: bge-large-zh-v1.5`。用图片或视频进行语义检索时，设置 `model: Qwen3-VL-Embedding-8B`，服务需接受 vLLM 的多模态 `/v1/embeddings` 请求。将 `baseUrl` 设为服务地址（含 `/v1`），`apiKeyEnv` 填密钥的环境变量名。待嵌入的分片、查询和媒体会发送到该服务。
 - Web 可直接添加图片和视频。IM 从平台取回原件，资源无法获取时提示改用 Web。一次消息最多八个附件，单个附件最多 16 MiB。可以请棱镜整理一份记忆，或者按内容找回已保存的资料。BGE 可检索文本和媒体描述，Qwen 可从媒体原件生成向量。
+- Qwen 视频索引需要本机的 FFmpeg 和 FFprobe。可以从 PATH 启动，也可在记忆插件中用 `video.ffmpegPath` 和 `video.ffprobePath` 指定绝对路径。支持最长 180 秒的 MP4、MOV 和 WebM。每秒抽取一帧，按时间段索引，检索结果显示命中时间范围。原件继续保存在当前 Profile。
 - 可以请棱镜订阅定时提醒或编写 TypeScript 事件 Provider。内置 `cron` 的 `expression` 接受标准五段表达式，`timezone` 接受 IANA 时区名，缺省为 UTC，`payload` 可附带事件资料。通知回到创建订阅的 Web 或 IM 私聊。停机期间错过的时刻跳过，已写入待投递队列的事件恢复发送。
 
 ## WebRTC 节点
