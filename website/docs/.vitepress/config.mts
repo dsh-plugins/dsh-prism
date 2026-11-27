@@ -3,7 +3,7 @@ import words from './navigation.json' with { type: 'json' }
 import { searchLocales } from './search-locales.ts'
 
 const languages = { en: 'English', zh: '简体中文', de: 'Deutsch', es: 'Español', fr: 'Français', ja: '日本語', pt: 'Português', ru: 'Русский' }
-const sections = { intro: 'guide/chat', setup: 'guide/start', im: 'guide/im', arch: 'develop/layers', models: 'develop/models', mesh: 'develop/mesh', api: 'develop/api' }
+const sections = { intro: 'guide/chat', setup: 'guide/start', modelMetadata: 'guide/model-metadata', im: 'guide/im', arch: 'develop/layers', models: 'develop/models', mesh: 'develop/mesh', api: 'develop/api' }
 type Locale = keyof typeof languages
 
 function locale(code: Locale) {
@@ -11,7 +11,7 @@ function locale(code: Locale) {
   const base = code === 'en' ? '/' : `/${code}/`
   const page = (key: keyof typeof sections) => ({ text: title[key], link: base + sections[key] })
   const groups = [
-    { text: title.guide, items: [page('setup'), page('intro'), page('im')] },
+    { text: title.guide, items: [page('setup'), page('modelMetadata'), page('intro'), page('im')] },
     { text: title.develop, items: [page('arch'), page('models'), page('mesh'), page('api')] },
   ]
   return {

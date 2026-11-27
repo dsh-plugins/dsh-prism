@@ -26,4 +26,9 @@
 .VPHome .VPFeature { border-radius: 16px; }
 .VPDoc img, .vp-doc .screen { border-radius: 12px; }
 .vp-doc table { max-width: 100%; }
+.model-metadata .vp-doc .language-text code {
+  width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 @media (min-width: 960px) { .VPHome .VPHero { padding-top: 85px; padding-bottom: 48px; } }

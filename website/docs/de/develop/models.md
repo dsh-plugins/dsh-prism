@@ -12,7 +12,7 @@ Unter **Settings → Prism/Configuration** (oder `orchestrator.models` in `prism
 
 Während Nutzer das **L1**-Modell frei wechseln, wählen übergeordnete Agenten **L2** und **L3** dynamisch aus.
 
-Verwenden Sie auf jeder Ebene, auf der dasselbe Modell verfügbar ist, dieselbe Beschreibung und denselben Prompt. Die [Modellprofile](../../guide/model-metadata.md) enthalten die Werte für `deepseek-v4.1-flash` und `gpt-6.2-sol`.
+Verwenden Sie auf jeder Ebene, auf der dasselbe Modell verfügbar ist, dieselbe Beschreibung und denselben Prompt. Die [Modellprofile](../guide/model-metadata.md) enthalten die Werte für `deepseek-v4.1-flash` und `gpt-6.2-sol`.
 
 ```json
 {

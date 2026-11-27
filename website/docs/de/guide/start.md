@@ -32,7 +32,7 @@ Der Langzeitspeicher speichert Wissen und Medienanhänge. Die Auslöser unterst�
 1. Öffnen Sie **Settings → Models → Add model provider → Custom model API** und wählen Sie **OpenAI Responses**. Tragen Sie die Werte aus `BASE_URL` und `API_KEY` in **Base URL** und **API key** sowie `deepseek-v4.1-flash` als Modell-ID ein. Speichern Sie den Anbieter.
 2. Bearbeiten Sie den Anbieter. Öffnen Sie **Customized settings → Model options** für `deepseek-v4.1-flash` und aktivieren Sie **Reasoning levels**. Stellen Sie sicher, dass der API-Wert für `high` auf `high` gesetzt ist, und speichern Sie. Wählen Sie im DSH-Chat `deepseek-v4.1-flash` und **Effort → High**. An Prism-Sitzungen übergibt der Orchestrator `0.2.1` nur den Anbieter und das Modell.
 3. Fügen Sie über **Add workspace** Ihre Projektordner hinzu (z. B. `harbor-books` und `lantern-cafe`). Prism erkennt lokale DSH-Arbeitsbereiche automatisch anhand ihres Namens.
-4. Wählen Sie unter **Settings → Prism/Configuration** die Modelle für **L1 Gespräch**, **L2 Planung** und **L3 Ausführung**. Verwenden Sie für dasselbe Modell auf allen Stufen dieselbe Beschreibung und denselben Prompt aus den [Modellprofilen](../../guide/model-metadata.md). Wählen Sie `gpt-6.2-sol` nur, wenn es separat in DSH verfügbar ist.
+4. Wählen Sie unter **Settings → Prism/Configuration** die Modelle für **L1 Gespräch**, **L2 Planung** und **L3 Ausführung**. Verwenden Sie für dasselbe Modell auf allen Stufen dieselbe Beschreibung und denselben Prompt aus den [Modellprofilen](./model-metadata.md). Wählen Sie `gpt-6.2-sol` nur, wenn es separat in DSH verfügbar ist.
 
 ## 3. Aufgabe starten und prüfen
 

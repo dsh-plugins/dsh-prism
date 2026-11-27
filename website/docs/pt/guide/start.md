@@ -32,7 +32,7 @@ Em **Settings → Prism/Memory**, escolha **Remote API**. Nos campos `BASE_URL` 
 1. Abra **Settings → Models → Add model provider → Custom model API** e escolha **OpenAI Responses**. Use os valores das variáveis de ambiente `BASE_URL` e `API_KEY` e adicione `deepseek-v4.1-flash` como ID do modelo.
 2. Edite o provedor, abra **Customized settings → Model options** e habilite **Reasoning levels**. Salve o nível `high` com o valor de API `high`. No chat do DSH, selecione o modelo e escolha **Effort → High**. O orquestrador do Prism `0.2.1` passa apenas o provedor e o modelo às sessões do Prism, que não herdam o nível de raciocínio escolhido no chat do DSH.
 3. Na barra lateral, clique em **Add workspace** e abra suas pastas de projeto, como `harbor-books` e `lantern-cafe`. O Prism identifica os espaços locais automaticamente pelo nome.
-4. Em **Settings → Prism/Configuration**, use a mesma descrição e o mesmo prompt para cada modelo em **L1 Conversa**, **L2 Planejamento** e **L3 Execução**. Veja [descrições e prompts dos modelos](../../guide/model-metadata.md). Configure `gpt-6.2-sol` se ele também estiver disponível no DSH por outro provedor.
+4. Em **Settings → Prism/Configuration**, use a mesma descrição e o mesmo prompt para cada modelo em **L1 Conversa**, **L2 Planejamento** e **L3 Execução**. Veja [descrições e prompts dos modelos](./model-metadata.md). Configure `gpt-6.2-sol` se ele também estiver disponível no DSH por outro provedor.
 
 ## 3. Envie o pedido e confira o resultado
 

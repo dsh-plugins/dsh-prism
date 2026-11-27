@@ -2,6 +2,7 @@
   "en": {
     "intro": "The conversation",
     "setup": "Quick start",
+    "modelMetadata": "Model descriptions and prompts",
     "im": "Messaging apps",
     "arch": "Roles and permissions",
     "models": "Models and projects",
@@ -28,6 +29,7 @@
   "zh": {
     "intro": "与棱镜对话",
     "setup": "快速开始",
+    "modelMetadata": "模型介绍与提示词",
     "im": "接入即时通讯",
     "arch": "分层与权限",
     "models": "模型与项目",
@@ -54,6 +56,7 @@
   "de": {
     "intro": "Unterhaltung",
     "setup": "Schnellstart",
+    "modelMetadata": "Modellbeschreibungen und Prompts",
     "im": "Messenger einrichten",
     "arch": "Rollen und Rechte",
     "models": "Modelle und Projekte",
@@ -80,6 +83,7 @@
   "es": {
     "intro": "La conversación",
     "setup": "Inicio rápido",
+    "modelMetadata": "Descripciones y prompts de modelos",
     "im": "Mensajería",
     "arch": "Roles y permisos",
     "models": "Modelos y proyectos",
@@ -106,6 +110,7 @@
   "fr": {
     "intro": "La conversation",
     "setup": "Démarrage rapide",
+    "modelMetadata": "Descriptions et prompts des modèles",
     "im": "Messageries",
     "arch": "Rôles et permissions",
     "models": "Modèles et projets",
@@ -132,6 +137,7 @@
   "ja": {
     "intro": "会話の使い方",
     "setup": "クイックスタート",
+    "modelMetadata": "モデルの説明とプロンプト",
     "im": "メッセージアプリ",
     "arch": "ロールと権限",
     "models": "モデルとプロジェクト",
@@ -158,6 +164,7 @@
   "pt": {
     "intro": "A conversa",
     "setup": "Início rápido",
+    "modelMetadata": "Descrições e prompts dos modelos",
     "im": "Aplicativos de mensagens",
     "arch": "Funções e permissões",
     "models": "Modelos e projetos",
@@ -184,6 +191,7 @@
   "ru": {
     "intro": "Работа с чатом",
     "setup": "Быстрый старт",
+    "modelMetadata": "Описания и подсказки моделей",
     "im": "Мессенджеры",
     "arch": "Роли и права",
     "models": "Модели и проекты",

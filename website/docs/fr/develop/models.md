@@ -12,7 +12,7 @@ Sous **Settings → Prism/Configuration** (ou `orchestrator.models` dans `prism.
 
 L’utilisateur choisit librement le modèle **L1** ; les agents parents sélectionnent **L2** et **L3** dynamiquement.
 
-Utilisez la même description et le même prompt à chaque niveau où vous activez un modèle. Les [profils de modèle](../../guide/model-metadata.md) donnent les valeurs de `deepseek-v4.1-flash` et `gpt-6.2-sol`.
+Utilisez la même description et le même prompt à chaque niveau où vous activez un modèle. Les [profils de modèle](../guide/model-metadata.md) donnent les valeurs de `deepseek-v4.1-flash` et `gpt-6.2-sol`.
 
 ```json
 {

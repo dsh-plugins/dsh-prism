@@ -12,7 +12,7 @@ Em **Settings → Prism/Configuration** (ou `orchestrator.models` em `prism.conf
 
 O usuário escolhe o modelo **L1** livremente; os agentes superiores escolhem **L2** e **L3** dinamicamente.
 
-Ao usar um modelo em várias camadas, repita a mesma descrição e o mesmo prompt em todas elas. A descrição registra capacidades e usos adequados, e o prompt reúne preferências gerais do modelo. Veja [descrições e prompts dos modelos](../../guide/model-metadata.md).
+Ao usar um modelo em várias camadas, repita a mesma descrição e o mesmo prompt em todas elas. A descrição registra capacidades e usos adequados, e o prompt reúne preferências gerais do modelo. Veja [descrições e prompts dos modelos](../guide/model-metadata.md).
 
 ```json
 {

@@ -32,7 +32,7 @@ Mesh を有効にするとオーケストレーターが起動します。
 1. **Settings → Models → Add model provider → Custom model API** を開き、**OpenAI Responses** を選択します。環境変数 `BASE_URL` と `API_KEY` の値を入力し、モデル ID に `deepseek-v4.1-flash` を登録します。
 2. プロバイダーを編集し、**Customized settings → Model options** で **Reasoning levels** を有効にします。`high` の API 値を `high` にして保存し、DSH チャットでモデルを選んで **Effort → High** を指定します。Prism オーケストレーター `0.2.1` が Prism セッションに渡すのはプロバイダーとモデルの指定で、DSH チャットで選んだ推論レベルは引き継がれません。
 3. サイドバーの **Add workspace** から `harbor-books` と `lantern-cafe` などのプロジェクトフォルダーを追加します。Prism は表示名からプロジェクトを認識します。
-4. **Settings → Prism/Configuration** で、同じモデルには **L1 会話**、**L2 計画**、**L3 実行** のすべてで同じ説明とプロンプトを設定します。[モデルの説明とプロンプト](../../guide/model-metadata.md)を参照してください。`gpt-6.2-sol` は、別途 DSH で利用できる場合に設定します。
+4. **Settings → Prism/Configuration** で、同じモデルには **L1 会話**、**L2 計画**、**L3 実行** のすべてで同じ説明とプロンプトを設定します。[モデルの説明とプロンプト](./model-metadata.md)を参照してください。`gpt-6.2-sol` は、別途 DSH で利用できる場合に設定します。
 
 ## 3. 依頼して結果を確認
 
