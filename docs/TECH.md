@@ -51,7 +51,7 @@ flowchart TD
 
 ## 源码检出、构建与部署
 
-`dsh-prism` 公开保存官网、使用文档、版本锁（`plugins.lock.json`）与检出脚本。`node scripts/checkout.mjs` 按锁定的提交复现使用 HTTP Mesh 的历史源码环境和集成测试。检出需要五个插件仓库的 Git 读取权限、DeepSeek Harness `0.2.3-alpha.2` 和 Node.js 24.9 或以上。要运行 0.2.0 的 WebRTC 组合，请使用下方 npm 安装表及 [WebRTC 配置](CONFIG.md#webrtc-节点)。
+`dsh-prism` 公开保存官网、使用文档、版本锁（`plugins.lock.json`）与检出脚本。`node scripts/checkout.mjs` 按锁定的提交复现使用 HTTP Mesh 的历史源码环境和集成测试。检出需要五个插件仓库的 Git 读取权限、DeepSeek Harness `0.2.3-alpha.2` 和 Node.js 24.9 或以上。要运行 WebRTC 组合，请使用下方 npm 安装表及 [WebRTC 配置](CONFIG.md#webrtc-节点)。
 
 ```sh
 # 1. 在公开仓库根目录检出锁定版本的五个插件到 runtime/
@@ -82,7 +82,7 @@ npm pack --workspaces --pack-destination ../tarballs
 | --- | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | `registry` | [项目记录与主体授权](https://github.com/dsh-plugins/dsh-workspace-registry/blob/main/docs/TECH.md) |
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | `orchestrator` | [工具、模型和持久化](https://github.com/dsh-plugins/dsh-orchestrator/blob/main/docs/TECH.md) |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
 

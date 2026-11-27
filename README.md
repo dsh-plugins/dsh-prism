@@ -33,7 +33,7 @@ You can try Prism with your own project folders or with the two sample folders (
 | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | Keeps track of available projects and who is allowed to access them. |
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | Coordinates conversation, planning, and execution across sessions. |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` | Runs tasks on the device where each project lives. |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` | Runs tasks on the device where each project lives. |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | Connects Prism to private chats on supported messaging apps. |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | Provides the Prism chat view, task cards, and settings pages. |
 

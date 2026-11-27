@@ -10,7 +10,7 @@ DSH の **Plugins → Add plugin** から、下の表のパッケージを順番
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
 

@@ -1,6 +1,6 @@
 # Mesh and session resilience
 
-Prism 0.2.0 connects trusted devices using encrypted WebRTC DataChannels. A WSS signaling service exchanges connection metadata. Tasks, progress, project indexes, and Room messages flow over the peer channels. When the network requires a relay, TURN forwards encrypted traffic.
+`dsh-mesh-node` 0.2.1 connects trusted devices using encrypted WebRTC DataChannels. A WSS signaling service exchanges connection metadata. Tasks, progress, project indexes, and Room messages flow over the peer channels. When the network requires a relay, TURN forwards encrypted traffic.
 
 The orchestrator dispatches local and remote tasks through the same DSH Subagent Provider interface. File operations run on the device that owns the selected project.
 

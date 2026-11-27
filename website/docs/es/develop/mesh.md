@@ -1,6 +1,6 @@
 # Mesh y sesiones
 
-Prism 0.2.0 conecta dispositivos de confianza con canales de datos WebRTC cifrados. El servicio de señalización WSS coordina la conexión. Cuando hace falta un relé, TURN retransmite datos cifrados.
+`dsh-mesh-node` 0.2.1 conecta dispositivos de confianza con canales de datos WebRTC cifrados. El servicio de señalización WSS coordina la conexión. Cuando hace falta un relé, TURN retransmite datos cifrados.
 
 ## Transparencia de ubicación
 

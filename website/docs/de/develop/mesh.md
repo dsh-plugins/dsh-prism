@@ -1,6 +1,6 @@
 # Mesh und Sitzungen
 
-Prism 0.2.0 verbindet vertrauenswürdige Geräte über verschlüsselte WebRTC-DataChannels. Der WSS-Signalisierungsdienst vermittelt den Verbindungsaufbau. Bei Bedarf leitet TURN verschlüsselte Daten weiter.
+`dsh-mesh-node` 0.2.1 verbindet vertrauenswürdige Geräte über verschlüsselte WebRTC-DataChannels. Der WSS-Signalisierungsdienst vermittelt den Verbindungsaufbau. Bei Bedarf leitet TURN verschlüsselte Daten weiter.
 
 ## Ortstransparenz über Subagent Provider
 

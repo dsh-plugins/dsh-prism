@@ -33,7 +33,7 @@
 | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | 管理可用的项目信息与访问授权。 |
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | 负责对话理解、任务拆解与跨会话协调。 |
-| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` | 在项目所在的设备上实际运行任务。 |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.1` | 在项目所在的设备上实际运行任务。 |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | 连接 Telegram、微信、飞书等即时通讯私聊入口。 |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | 提供棱镜对话界面、任务状态卡与配置页面。 |
 

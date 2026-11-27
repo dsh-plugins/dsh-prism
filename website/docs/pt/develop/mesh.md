@@ -1,6 +1,6 @@
 # Mesh e sessões
 
-O Prism 0.2.0 conecta dispositivos confiáveis por canais de dados WebRTC criptografados. O serviço de sinalização WSS coordena a conexão. Quando é preciso usar um retransmissor, o TURN encaminha dados criptografados.
+O `dsh-mesh-node` 0.2.1 conecta dispositivos confiáveis por canais de dados WebRTC criptografados. O serviço de sinalização WSS coordena a conexão. Quando é preciso usar um retransmissor, o TURN encaminha dados criptografados.
 
 ## Transparência de localização
 
