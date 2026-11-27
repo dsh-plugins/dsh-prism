@@ -12,14 +12,16 @@ Em **Settings → Prism/Configuration** (ou `orchestrator.models` em `prism.conf
 
 O usuário escolhe o modelo **L1** livremente; os agentes superiores escolhem **L2** e **L3** dinamicamente.
 
+Ao usar um modelo em várias camadas, repita a mesma descrição e o mesmo prompt em todas elas. A descrição registra capacidades e usos adequados, e o prompt reúne preferências gerais do modelo. Veja [descrições e prompts dos modelos](../../guide/model-metadata.md).
+
 ```json
 {
   "defaultProjectId": "prism",
-  "defaultL1Model": "deepseek-flash",
+  "defaultL1Model": "example-model",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "Triagem e coordenação" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "Planejamento e verificação" }],
-    "L3": [{ "id": "deepseek-flash", "description": "Revisão focada de código", "promptMode": "append", "prompt": "Cite os arquivos revisados." }]
+    "L1": [{ "id": "example-model", "description": "Adequado para tarefas com escopo claro.", "promptMode": "append", "prompt": "Use linguagem concisa e natural." }],
+    "L2": [{ "id": "example-model", "description": "Adequado para tarefas com escopo claro.", "promptMode": "append", "prompt": "Use linguagem concisa e natural." }],
+    "L3": [{ "id": "example-model", "description": "Adequado para tarefas com escopo claro.", "promptMode": "append", "prompt": "Use linguagem concisa e natural." }]
   }
 }
 ```

@@ -22,12 +22,12 @@
 
 你可以直接使用自己的项目目录，也可以用仓库自带的两个示例目录（`harbor-books` 和 `lantern-cafe`，见 [docs/examples](docs/examples)）体验完整流程。详细图文步骤见[快速开始指南](website/docs/zh/guide/start.md)或[官网文档](https://prism.dsh-plug.in/zh/guide/start)。
 
-1. **按顺序安装五个插件**：在 DeepSeek Harness（`0.2.3-alpha.2`）中打开 **插件 → 添加插件**，按下面表格的顺序逐个安装并点击 **立即启用**。
-2. **接入模型**：在 **设置 → 模型** 中添加 **自定义模型 API**（选择 **OpenAI Responses**），填入服务地址、API 密钥和模型 ID（例如 `deepseek-v4.1-flash`），然后在对话中选中它。
-3. **添加项目目录**：把需要协作的项目目录逐个添加到 DSH 侧栏的 **工作区**，棱镜会自动识别它们。你也可以在 **设置 → 棱镜/配置** 中为不同环节挑选模型。
+1. **按顺序安装七个必需插件。** 在 DeepSeek Harness（`0.2.3-alpha.2`）中打开 **插件 → 添加插件**，按下面表格的顺序逐个安装并点击 **立即启用**。
+2. **接入对话模型和嵌入模型。** 在 **设置 → 模型** 中添加 **自定义模型 API**，选择 **OpenAI Responses**，填写 `BASE_URL` 和 `API_KEY` 的值，并在 DSH 对话的模型菜单为 `deepseek-v4.1-flash` 选择 **高（`high`）**。棱镜编排器 `0.2.1` 只向会话传递提供商和模型 ID，棱镜会话的推理强度由提供商的默认值决定。在 **设置 → 棱镜/记忆 → 远程 API** 中使用 `EMBEDDINGS_BASE_URL` 和 `EMBEDDINGS_API_KEY` 的值绑定 `BAAI/bge-large-zh-v1.5`。
+3. **添加项目目录。** 把需要协作的项目目录逐个添加到 DSH 侧栏的 **工作区**。如果在 **设置 → 棱镜/配置** 的多个环节启用同一个模型，请使用相同的介绍和提示词。[模型介绍与提示词](website/docs/guide/model-metadata.md)
 4. **开始对话**：点击侧栏的 **棱镜**，用一句话同时向多个项目派发任务。如果想核对底层执行细节，点顶部的 **DeepSeek Harness** 即可回到工作区侧栏查看只读记录。
 
-## 五个插件
+## 必需插件
 
 | 安装顺序 | 包名及版本 | 负责什么 |
 | --- | --- | --- |
@@ -36,21 +36,12 @@
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.2` | 在项目所在的设备上实际运行任务。 |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | 连接 Telegram、微信、飞书等即时通讯私聊入口。 |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` | 提供棱镜对话界面、任务状态卡与配置页面。 |
+| 6 | `@dsh-prism/dsh-memory@0.3.1` | 保存和检索长期记忆及媒体附件。 |
+| 7 | `@dsh-prism/dsh-triggers@0.2.1` | 处理定时提醒与外部事件。 |
 
 想在微信、飞书/Lark、Telegram、企业微信、QQ、OneBot 或 Discord 里直接找棱镜办事？请查看[接入即时通讯指南](website/docs/zh/guide/im.md)（[官网阅读](https://prism.dsh-plug.in/zh/guide/im)）。
 
 棱镜在每个 DSH 配置档中为 Web 和已获批的私聊共享会话。在 **设置 → 棱镜/连接** 可配对设备并设置信令与中继服务。[WebRTC Mesh 指南](website/docs/zh/develop/mesh.md)
-
-### 可选安装长期记忆和事件触发器
-
-启用五个核心插件后，可在同一个 DSH 配置档中按需加装长期记忆和事件触发器。长期记忆支持资料保存和媒体附件，事件触发器支持定时提醒与外部事件。在 **插件 → 添加插件** 中输入完整包名和版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
-
-```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
-```
-
-在 **设置 → 棱镜/记忆** 中绑定本地嵌入模型或远程 API。初始化完成后立即启用记忆工具，之后每次启动 DSH 都会自动加载绑定。
 
 [长期记忆与事件触发器配置](docs/CONFIG.md#长期记忆与事件)
 

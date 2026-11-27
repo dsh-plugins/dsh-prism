@@ -9,7 +9,9 @@ Under **Settings → Prism/Configuration** (or `orchestrator.models` in `prism.c
 Each model entry supports:
 - `id` & optional `provider`: Identifies the model and DSH provider (omitting `provider` uses the host default). Model IDs must be unique within a tier.
 - `description`: A capability summary read by the parent tier via `list_models` when choosing which model to dispatch—for example, whether a model excels at fast triage, deep planning, or careful code review.
-- `prompt` & `promptMode`: Customizes how the model enters its role. `"append"` (default) adds your instructions after the role prompt; `"replace"` substitutes the configured `prompt` as the full system prompt. Prompt overrides never expand host-enforced tool permissions.
+- `prompt` & `promptMode`: Sets the model's general working preferences. `"append"` (default) adds the configured prompt after the role prompt. `"replace"` uses the configured `prompt` as the full system prompt. The host still enforces tool permissions.
+
+Use the same description and prompt in every tier that includes a model. [Model descriptions and prompts](../guide/model-metadata.md)
 
 **Runtime selection**:
 - **L1** is chosen freely by the user in the web composer or via `/model` in IM.
@@ -17,23 +19,16 @@ Each model entry supports:
 
 ### Source launcher configuration example
 
-In `prism.config.json`, place the model pools inside `orchestrator`:
+In `prism.config.json`, each key `L1`, `L2`, or `L3` under `orchestrator.models` holds an array of model entries. Replace `example-model` with an available model ID.
 
 ```json
 {
   "defaultProjectId": "prism",
-  "defaultL1Model": "deepseek-flash",
+  "defaultL1Model": "example-model",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "Conversational intake" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "Planning and verification" }],
-    "L3": [
-      {
-        "id": "deepseek-flash",
-        "description": "Focused code review",
-        "promptMode": "append",
-        "prompt": "Cite the files you reviewed."
-      }
-    ]
+    "L1": [{ "id": "example-model", "description": "Suited to clearly scoped tasks.", "prompt": "Use concise, natural language." }],
+    "L2": [{ "id": "example-model", "description": "Suited to clearly scoped tasks.", "prompt": "Use concise, natural language." }],
+    "L3": [{ "id": "example-model", "description": "Suited to clearly scoped tasks.", "prompt": "Use concise, natural language." }]
   }
 }
 ```

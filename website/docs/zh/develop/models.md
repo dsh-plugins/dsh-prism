@@ -9,7 +9,9 @@
 每个模型条目支持以下配置：
 - `id` 与可选的 `provider`：指定模型 ID 及对应的 DSH 提供方（省略 `provider` 时使用宿主默认提供方）。同一层内的模型 ID 须保持唯一。
 - `description`（能力介绍）：供上级代理在派发前通过 `list_models` 读取的「能力简历」。建议写明该模型擅长快速分诊、复杂规划还是严谨核查，以便上级按任务复杂度动态点将。
-- `prompt` 与 `promptMode`（提示词覆写）：注入或替代该模型的系统提示词。`"append"`（默认）在角色提示词后追加指令；`"replace"` 则将配置的 `prompt` 作为完整系统提示词。无论如何配置提示词，都无法突破宿主层面的工具权限上限。
+- `prompt` 与 `promptMode`（提示词覆写）：用于设置模型的通用工作偏好。`"append"`（默认）在角色提示词后追加设置的提示词。`"replace"` 将配置的 `prompt` 用作完整系统提示词。工具权限仍由宿主限制。
+
+同一个模型在各层使用相同的介绍与提示词。[模型介绍与提示词](../../guide/model-metadata.md)
 
 **运行时选择权归属**：
 - **L1 模型**由用户在 Web 输入框或 IM 的 `/model` 命令中自由切换。
@@ -17,23 +19,16 @@
 
 ### 源码启动器配置示例
 
-在 `prism.config.json` 的 `orchestrator` 段中配置各层模型池：
+在 `prism.config.json` 的 `orchestrator.models` 下，`L1`、`L2`、`L3` 各自对应一个模型条目数组。请将 `example-model` 替换为可用的模型 ID。
 
 ```json
 {
   "defaultProjectId": "prism",
-  "defaultL1Model": "deepseek-flash",
+  "defaultL1Model": "example-model",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "日常需求澄清与分派" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "复杂任务拆解与交叉验证" }],
-    "L3": [
-      {
-        "id": "deepseek-flash",
-        "description": "定向代码审查与事实核对",
-        "promptMode": "append",
-        "prompt": "汇报时请附上实际核查过的文件路径。"
-      }
-    ]
+    "L1": [{ "id": "example-model", "description": "适合范围明确的任务。", "prompt": "使用简洁、自然的语言。" }],
+    "L2": [{ "id": "example-model", "description": "适合范围明确的任务。", "prompt": "使用简洁、自然的语言。" }],
+    "L3": [{ "id": "example-model", "description": "适合范围明确的任务。", "prompt": "使用简洁、自然的语言。" }]
   }
 }
 ```

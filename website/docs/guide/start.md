@@ -4,7 +4,7 @@ With Prism, you don't have to switch workspaces back and forth or gather informa
 
 This guide uses DeepSeek Harness `0.2.3-alpha.2`. You can follow along with your own project folders, or grab the two sample folders from GitHub: [Sample folders on GitHub](https://github.com/dsh-plugins/dsh-prism/tree/main/docs/examples).
 
-## 1. Install the Prism plugins
+## 1. Install the seven required Prism plugins
 
 Open your DeepSeek Harness link. On first launch, choose **Continue** on the preview notice and close the **Get started** dialog if it appears.
 
@@ -21,13 +21,15 @@ In the sidebar, go to **Plugins → Add plugin**. Enter each npm package and ver
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` |
+| 6 | `@dsh-prism/dsh-memory@0.3.1` |
+| 7 | `@dsh-prism/dsh-triggers@0.2.1` |
 
 The table lists the current package versions. The screenshots show the same controls from an earlier release. The orchestrator starts when Mesh is enabled.
 
 ![Add plugin in the native DSH plugin manager](./screens/0.1.2/en/03-plugins.png)
 
 <details>
-<summary>Screenshots: installing each plugin in order</summary>
+<summary>Screenshots of the first five plugin installations</summary>
 
 ![Package name and version entered for dsh-workspace-registry](./screens/0.1.2/en/04-1-source-dsh-workspace-registry.png)
 
@@ -55,33 +57,32 @@ If DSH asks for permission to run a dependency script during installation, revie
 
 </details>
 
-![Five Prism plugins installed in DSH](./screens/0.1.2/en/06-before-reload.png)
+![The DSH plugin list before reloading](./screens/0.1.2/en/06-before-reload.png)
 
 > [!TIP]
-> If the **Prism** entry doesn't appear in the sidebar right after enabling all five plugins, simply reload the browser tab.
+> If **Prism** is missing from the sidebar after you enable all seven plugins, reload the browser tab. This also clears the `missing or incompatible host boot descriptor` warning if it appears before the Prism client loads.
+
+![All seven required Prism plugins enabled in DSH](./screens/frontend-verification/en/seven-plugins.png)
 
 ![The Prism sidebar entry after reloading DSH](./screens/0.1.2/en/06-after-reload.png)
 
 To connect another device, enter the same signaling address and connection code on both devices under **Settings → Prism/Connection**. [WebRTC Mesh guide](../develop/mesh.md)
 
-### Long-term memory and event triggers (optional) {#optional-plugins}
+### Set up long-term memory and event triggers {#optional-plugins}
 
-After enabling the five core plugins, add either or both of these packages in the same DSH profile. Memory adds saved knowledge and media attachments. Triggers add scheduled reminders and external events.
+The memory plugin stores information and media attachments. The triggers plugin handles scheduled reminders and external events. Enable both in the same DSH profile as the other Prism plugins.
 
-In **Plugins → Add plugin**, enter the exact package and version, then choose **Enable now**. You can also install them in the `web` profile from the command line.
+Open **Settings → Prism/Memory → Remote API**. Enter the value of `EMBEDDINGS_BASE_URL` in **BASE_URL**, the value of `EMBEDDINGS_API_KEY` in **API_KEY**, and `BAAI/bge-large-zh-v1.5` in **MODEL_ID**. Confirm the binding and wait for initialization. The memory tools are available once the page displays the active model and its vector dimensions. Prism reloads the binding when DSH restarts.
 
-```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
-```
+![The remote model is bound and Memory tools are active](./screens/frontend-verification/en/memory-bound.png)
 
-In **Settings → Prism/Memory**, select a model from the **Local deployment** menu and choose **Download**, or bind a **Remote API**. Memory tools become available as soon as initialization completes, and Prism reloads the binding automatically on later DSH starts.
+In the tested Responses setup, the `event_add` tool call sent Cron's `params` as a JSON string. The trigger rejected it with “Parameters must be a JSON object” and returned no subscription ID. [Observed tool call](./screens/frontend-verification/zh/cron-parameters.png)
 
 ## 2. Connect your model
 
 Open the account menu and go to **Settings → Models → Add model provider → Custom model API**. Select **OpenAI Responses** as the API protocol. Give it an internal **Provider ID** (e.g., `prism-responses`) and a friendly **Display name** (e.g., **Prism Responses**) that will show up in your model menu.
 
-Choose **Add model**, enter `deepseek-v4.1-flash` in **Model ID 1**, fill in your **Base URL** and **API key**, then click **Create provider**.
+Choose **Add model** and enter `deepseek-v4.1-flash` in **Model ID 1**. Enter the value of `BASE_URL` in **Base URL** and the value of `API_KEY` in **API key**, then click **Create provider**.
 
 ![Add model provider in DSH settings](./screens/0.1.2/en/models.png)
 
@@ -91,7 +92,18 @@ Choose **Add model**, enter `deepseek-v4.1-flash` in **Model ID 1**, fill in you
 
 ![The saved Prism Responses provider](./screens/0.1.2/en/provider_saved.png)
 
-Next, open the model picker in a DSH chat and select **Prism Responses → deepseek-v4.1-flash** as your default model.
+Edit the provider, open **Customized settings**, and expand **Model options** for `deepseek-v4.1-flash`. Turn on **Reasoning levels**, make sure the **High** row sends the API value `high`, and save. In the DSH chat model picker, select **Prism Responses → deepseek-v4.1-flash**, then select **Effort → High**. [DSH provider guide](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md#reasoning-effort)
+
+Prism orchestrator `0.2.1` passes the provider and model ID when it creates a session. The native DSH session displayed **High** in the frontend test, while Prism L1 and both projects' L2 and L3 sessions displayed **Default**.
+
+<details>
+<summary>Compare reasoning effort in DSH and Prism</summary>
+
+![Native DSH model picker showing High](./screens/frontend-verification/en/native-high.png)
+
+![Prism execution session showing Default in the DSH model picker](./screens/frontend-verification/en/prism-effort-default.png)
+
+</details>
 
 ![The Responses provider and model in the DSH picker](./screens/0.1.2/en/model-picker.png)
 
@@ -118,32 +130,20 @@ Open **Settings → Prism/Configuration**. Here you can choose which models Pris
 - **L2 (Planning)**: Breaks down a task inside a project.
 - **L3 (Execution)**: Reads files, runs checks, and gathers evidence.
 
-Check the models you want to allow for each stage (if you leave a stage empty, it uses your DSH default model). You can also click the edit icon beside any model to customize its **Model description** (which helps Prism pick the right model for the job) and **Model prompt** (extra instructions for that stage), then click **Save**.
+Select `deepseek-v4.1-flash` for all three stages. If you leave a stage empty, Prism uses the DSH default model. Use the edit icon beside each model to enter its **Model description** and **Model prompt**, then save. Enter the same values in every stage where you enable that model. The description helps the parent agent select a subagent, and the prompt captures preferences specific to the model. If `gpt-6.2-sol` is available separately in your DSH installation, you can enable it using its own values. [Model descriptions and prompts](./model-metadata.md)
 
-For this example, you can select `deepseek-v4.1-flash` across all three stages with these descriptions and prompts:
-
-| Stage | Model description | Model prompt |
-| --- | --- | --- |
-| L1 (Conversation) | Coordinates work across projects | Return the requested result in the user's language and format. |
-| L2 (Planning) | Plans work for a project | Reuse verified results and report completed work to the coordinator. |
-| L3 (Execution) | Checks evidence in the workspace | Report what you verified, including the source file when relevant. |
+![The saved DeepSeek model description and prompt in the layer editor](./screens/frontend-verification/en/model-l1.png)
 
 <details>
-<summary>Screenshots: configuring models and rules per stage</summary>
+<summary>Model selection screenshots</summary>
 
 ![The Configuration page and local-workspace discovery](./screens/0.1.2/en/10-prism-configuration.png)
 
 ![The model selected for L1](./screens/0.1.2/en/11-l1-model.png)
 
-![The editable description and prompt for L1](./screens/0.1.2/en/11-l1-rule.png)
-
 ![The model selected for L2](./screens/0.1.2/en/11-l2-model.png)
 
-![The editable description and prompt for L2](./screens/0.1.2/en/11-l2-rule.png)
-
 ![The model selected for L3](./screens/0.1.2/en/11-l3-model.png)
-
-![The editable description and prompt for L3](./screens/0.1.2/en/11-l3-rule.png)
 
 ![Saved layer settings after reopening Configuration](./screens/0.1.2/en/12-model-settings-verified.png)
 
@@ -167,6 +167,13 @@ Close Settings and click **Prism** in the DSH sidebar. Confirm that `deepseek-v4
 Prism splits your request into two background tasks—shown as collapsible cards right in the timeline—and replies with a two-line summary once both are done:
 
 ![Two delegated tasks in the chat timeline](./screens/0.1.2/en/15-dispatched.png)
+
+<details>
+<summary>Frontend verification with OpenAI Responses</summary>
+
+![Both project tasks completed and Prism summarized the results](./screens/frontend-verification/en/two-project-results.png)
+
+</details>
 
 ![The verified event details for both workspaces](./screens/0.1.2/en/16-results.png)
 
@@ -207,5 +214,5 @@ Next: [Using the conversation](./chat.md) · [Set up a messaging account](./im.m
 ## Troubleshooting
 
 - **"This package declares no bundle" during plugin installation**: Double-check that you entered the exact package name and version from the table in Step 1 (for example, `@dsh-prism/dsh-workspace-registry@0.1.2`), and click **Enable now** after installing each plugin.
-- **Prism doesn't appear in the sidebar after installing all five plugins**: Reload the DSH browser tab once.
+- If **Prism** is missing from the sidebar after you enable all seven plugins, reload the DSH browser tab.
 - **Folder picker stays on the previous directory after typing a path**: Click **Edit path** again, confirm the breadcrumb shows your target folder at the end, and then click **Open**.
