@@ -16,6 +16,22 @@ Dans DSH, ouvrez **Plugins → Add plugin** et installez les sept paquets ci-des
 | 6 | `@dsh-prism/dsh-memory@0.3.1` |
 | 7 | `@dsh-prism/dsh-triggers@0.2.1` |
 
+<details>
+<summary>Compiler la version testée de l’orchestrateur</summary>
+
+Le tableau indique les versions du registre npm. Les correctifs de High et de Cron ont été testés avec l’orchestrateur `0.2.2` compilé à partir des sources. Si vous avez accès en lecture au dépôt de l’orchestrateur, compilez l’archive et saisissez son chemin absolu dans **Plugins → Add plugin** pour l’élément 2.
+
+```sh
+git clone https://github.com/dsh-plugins/dsh-orchestrator.git
+cd dsh-orchestrator
+git checkout 6790d2aa019147f977d9fea8d530c8d03cc75ee6
+npm ci
+npm run build
+npm pack
+```
+
+</details>
+
 L’orchestrateur démarre dès que Mesh est activé.
 
 > [!TIP]
@@ -30,7 +46,7 @@ Ouvrez **Settings → Prism/Memory → Remote API**. Copiez la valeur de `EMBEDD
 ## 2. Connecter un modèle et ajouter vos projets
 
 1. Allez dans **Settings → Models → Add model provider → Custom model API** et choisissez **OpenAI Responses**. Copiez les valeurs de `BASE_URL` et de `API_KEY` dans **Base URL** et **API key**, saisissez `deepseek-v4.1-flash` comme identifiant de modèle, puis enregistrez le fournisseur.
-2. Modifiez le fournisseur. Dans **Customized settings → Model options** de `deepseek-v4.1-flash`, activez **Reasoning levels**. Vérifiez que la valeur d’API du niveau `high` est `high`, puis enregistrez. Dans un chat DSH, sélectionnez `deepseek-v4.1-flash` et **Effort → High**. L’orchestrateur `0.2.1` transmet uniquement le fournisseur et le modèle aux sessions Prism.
+2. Modifiez le fournisseur. Dans **Customized settings → Model options** de `deepseek-v4.1-flash`, activez **Reasoning levels**. Vérifiez que la valeur d’API du niveau `high` est `high`, puis enregistrez. Dans un chat DSH, sélectionnez `deepseek-v4.1-flash` et **Effort → High**. L’orchestrateur `0.2.2` reprend l’effort de DSH lorsque le fournisseur et l’identifiant du modèle correspondent.
 3. Dans la barre latérale, cliquez sur **Add workspace** et ouvrez vos dossiers de projet (par exemple `harbor-books` et `lantern-cafe`). Prism détecte automatiquement les espaces locaux par leur nom.
 4. Dans **Settings → Prism/Configuration**, choisissez les modèles pour **L1 Conversation**, **L2 Planification** et **L3 Exécution**. Pour un modèle donné, reprenez la même description et le même prompt des [profils de modèle](./model-metadata.md) à chaque étape où vous l’activez. Vous pouvez choisir `gpt-6.2-sol` s’il est disponible séparément dans DSH.
 

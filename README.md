@@ -16,7 +16,7 @@ Normally, working across multiple projects or machines means switching workspace
 
 You talk to Prism in the web chat or a connected messaging app, and it delegates the work to the right projects, keeps track of progress with collapsible task cards, and replies once the results are ready. Whenever you want to double-check how an answer was found, you can still open the underlying DeepSeek Harness records in read-only mode.
 
-![Prism summarizing results from two project workspaces in one conversation](website/docs/guide/screens/0.1.2/en/16-results.png)
+![Prism summarizing results from two project workspaces in one conversation](website/docs/guide/screens/0.2.2/en/26-results.png)
 
 ## Get started in four steps
 

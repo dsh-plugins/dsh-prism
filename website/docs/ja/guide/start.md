@@ -16,6 +16,22 @@ DSH の **Plugins → Add plugin** から、下の表のパッケージを順番
 | 6 | `@dsh-prism/dsh-memory@0.3.1` |
 | 7 | `@dsh-prism/dsh-triggers@0.2.1` |
 
+<details>
+<summary>検証済みのオーケストレーターをソースからビルドする</summary>
+
+表は npm レジストリのバージョンです。High と Cron の修正はソースからビルドしたオーケストレーター `0.2.2` で検証しました。リポジトリの読み取り権限がある場合はアーカイブをビルドし、2 番目のプラグインを追加するときに **Plugins → Add plugin** で絶対パスを入力します。
+
+```sh
+git clone https://github.com/dsh-plugins/dsh-orchestrator.git
+cd dsh-orchestrator
+git checkout 6790d2aa019147f977d9fea8d530c8d03cc75ee6
+npm ci
+npm run build
+npm pack
+```
+
+</details>
+
 Mesh を有効にするとオーケストレーターが起動します。
 
 > [!TIP]
@@ -30,7 +46,7 @@ Mesh を有効にするとオーケストレーターが起動します。
 ## 2. モデルとプロジェクトを準備
 
 1. **Settings → Models → Add model provider → Custom model API** を開き、**OpenAI Responses** を選択します。環境変数 `BASE_URL` と `API_KEY` の値を入力し、モデル ID に `deepseek-v4.1-flash` を登録します。
-2. プロバイダーを編集し、**Customized settings → Model options** で **Reasoning levels** を有効にします。`high` の API 値を `high` にして保存し、DSH チャットでモデルを選んで **Effort → High** を指定します。Prism オーケストレーター `0.2.1` が Prism セッションに渡すのはプロバイダーとモデルの指定で、DSH チャットで選んだ推論レベルは引き継がれません。
+2. プロバイダーを編集し、**Customized settings → Model options** で **Reasoning levels** を有効にします。`high` の API 値を `high` にして保存し、DSH チャットでモデルを選んで **Effort → High** を指定します。オーケストレーター `0.2.2` では、プロバイダーとモデル ID が一致すると DSH で選んだ推論レベルが引き継がれます。
 3. サイドバーの **Add workspace** から `harbor-books` と `lantern-cafe` などのプロジェクトフォルダーを追加します。Prism は表示名からプロジェクトを認識します。
 4. **Settings → Prism/Configuration** で、同じモデルには **L1 会話**、**L2 計画**、**L3 実行** のすべてで同じ説明とプロンプトを設定します。[モデルの説明とプロンプト](./model-metadata.md)を参照してください。`gpt-6.2-sol` は、別途 DSH で利用できる場合に設定します。
 
