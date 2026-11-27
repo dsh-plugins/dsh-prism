@@ -24,7 +24,7 @@ In the sidebar, go to **Plugins → Add plugin**. Enter each npm package and ver
 | 6 | `@dsh-prism/dsh-memory@0.3.1` |
 | 7 | `@dsh-prism/dsh-triggers@0.2.1` |
 
-The table lists the current package versions. The screenshots show the same controls from an earlier release. The orchestrator starts when Mesh is enabled.
+The table lists the current package versions. The screenshots show the same controls from an earlier release. The orchestrator starts when Mesh is enabled. If DSH reports that the orchestrator did not activate before Mesh is installed, continue with Mesh and confirm both switches are on after refreshing the page.
 
 ![Add plugin in the native DSH plugin manager](./screens/0.1.2/en/03-plugins.png)
 
@@ -112,6 +112,8 @@ Prism orchestrator `0.2.1` passes the provider and model ID when it creates a se
 ## 3. Add your project folders
 
 In the DSH sidebar, click **Add workspace** next to **Workspaces**, select your first project folder (`harbor-books`), and click **Open** (or use **Edit path** to paste an absolute path and press Enter). Repeat for the second folder (`lantern-cafe`).
+
+If DSH could not create a default workspace on first launch, add your folders manually using these same steps.
 
 Prism automatically discovers any local workspace you've added in DSH and recognizes it by its display name, so you can refer to projects naturally in conversation.
 
