@@ -16,6 +16,6 @@ Puedes probar Prism con dos carpetas de proyecto en el mismo equipo. La guía il
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
 
 [La conversación](/es/guide/chat) · [Modelos y proyectos](/es/develop/models)

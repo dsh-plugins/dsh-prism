@@ -18,7 +18,9 @@ npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
 
 ## 当前集成快照与 npm 版本
 
-`plugins.lock.json` 固定维护者检出的五个源码修订。独立源码测试通过 63 项；按同一套锁检出的完整 DSH 工作区宿主测试通过 68 项，两套测试存在重叠。工作区构建的五个压缩包逐个与对应单仓构建比对，内容相同。实际发布的五个 npm 包另行核对了其包名、版本、SHA-512 与 DSH 组合包声明。用户在 DSH 前端安装时，以已发布 npm 包的版本为准。注册表、编排器、IM 网关、网页界面为 0.1.2，Mesh 节点为 0.1.1。[当前 npm 安装顺序](../README.zh_CN.md#五个插件)
+`plugins.lock.json` 固定维护者检出的五个源码修订。通过 DSH 前端安装时，网页界面使用 0.1.3，工作区注册表、编排器和 IM 网关使用 0.1.2，Mesh 节点使用 0.1.1。[当前 npm 安装顺序](../README.zh_CN.md#五个插件)
+
+网页界面 0.1.2 版验收的独立源码测试通过 63 项，按当时的集成快照检出的完整 DSH 工作区宿主测试通过 68 项，两套测试存在重叠。工作区构建的五个压缩包逐个与对应单仓构建比对，内容相同。实际发布的五个 npm 包另行核对了其包名、版本、SHA-512 与 DSH 组合包声明。
 
 维护者需要构建这些源码的压缩包时，在检出生成的 `runtime/` 中执行以下命令。
 
@@ -31,7 +33,7 @@ npm pack --workspaces --pack-destination ../tarballs
 
 ## 网页实测记录
 
-网页操作涵盖从公共 npm 安装精确版本、通过 OpenAI Responses 接入 `deepseek-v4.1-flash`、分层设置模型、查看七种 IM 账号配置及双工作区任务。完整录像完成后，分别从全新的中、英文 DSH 环境重复相同步骤，为图解取证。两个环境均使用自己的安装和模型设置。[双工作区操作](https://prism.dsh-plug.in/zh/guide/start) · [七种 IM 配置](https://prism.dsh-plug.in/zh/guide/im)
+网页界面 0.1.2 版的操作记录涵盖从公共 npm 安装精确版本、通过 OpenAI Responses 接入 `deepseek-v4.1-flash`、分层设置模型、查看七种 IM 账号配置及双工作区任务。完整录像完成后，分别从全新的中、英文 DSH 环境重复相同步骤，为图解取证。两个环境均使用自己的安装和模型设置。[双工作区操作](https://prism.dsh-plug.in/zh/guide/start) · [七种 IM 配置](https://prism.dsh-plug.in/zh/guide/im)
 
 | 所见现象 | 操作与结果 |
 | --- | --- |

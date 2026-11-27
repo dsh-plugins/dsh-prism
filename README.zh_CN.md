@@ -29,7 +29,7 @@
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | 在持有项目目录的节点上执行任务。 |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | 按所选模型和允许的工具运行对话、规划和执行会话。 |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | 接入支持的即时通讯私聊通道。 |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` | 提供棱镜设置、对话和任务卡。 |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | 提供棱镜设置、对话和任务卡。 |
 
 在 **设置 → 棱镜/IM** 点 **添加 IM**，可选择 Telegram、微信、飞书/Lark、企业微信、QQ 机器人、OneBot 或 Discord。指南实拍展示了七种表单、停用账号的保存与重开、飞书扫码授权入口和待审批列表。[消息账号配置图解](website/docs/zh/guide/im.md) · [在官网阅读](https://prism.dsh-plug.in/zh/guide/im)
 

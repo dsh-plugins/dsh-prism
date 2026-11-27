@@ -18,7 +18,9 @@
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
+
+下方截图来自 0.1.2 版验收。安装时请填写表中的版本。
 
 ![DSH 插件页的添加入口](../../guide/screens/0.1.2/zh/03-plugins.png)
 
@@ -63,7 +65,7 @@
 </details>
 
 <details>
-<summary>5. 安装 dsh-concierge-ui@0.1.2</summary>
+<summary>5. 0.1.2 版网页界面的安装截图</summary>
 
 ![输入 dsh-concierge-ui 的包名和版本](../../guide/screens/0.1.2/zh/04-5-source-dsh-concierge-ui.png)
 
@@ -182,7 +184,7 @@
 
 ![从 DSH 回到棱镜，已核对的结果仍在对话中](../../guide/screens/0.1.2/zh/18-finish.png)
 
-首次进入后，在同一浏览器访问 DSH 首页地址会返回棱镜。可从顶部的 **DeepSeek Harness** 回到 DSH 原生工作区，再通过侧栏的 **棱镜** 打开对话。[使用棱镜对话](./chat.md) · [模型设置与工作区发现](../develop/models.md)
+浏览器标签页会显示棱镜图标。首次进入后，在同一浏览器访问 DSH 首页地址会返回棱镜。可从顶部的 **DeepSeek Harness** 回到 DSH 原生工作区，再通过侧栏的 **棱镜** 打开对话。[使用棱镜对话](./chat.md) · [模型设置与工作区发现](../develop/models.md)
 
 ## 遇到安装或工作区选择问题
 

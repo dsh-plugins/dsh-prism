@@ -16,6 +16,6 @@ Você pode testar o Prism com duas pastas de projeto na mesma máquina. O guia i
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
 
 [A conversa](/pt/guide/chat) · [Modelos e projetos](/pt/develop/models)

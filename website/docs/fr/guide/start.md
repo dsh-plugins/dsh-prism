@@ -16,6 +16,6 @@ Deux dossiers de projet sur la même machine suffisent pour essayer Prism. Le gu
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
 
 [La conversation](/fr/guide/chat) · [Modèles et projets](/fr/develop/models)

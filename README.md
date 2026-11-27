@@ -29,7 +29,7 @@ Open DeepSeek Harness 0.2.3-alpha.2 in your browser. The walkthrough starts with
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | Task execution on the node that owns the project. |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | Conversation, planning and execution sessions that use the selected model and permitted tools. |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | Integration with private chats on supported messaging services. |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` | Prism settings, chat and task cards. |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | Prism settings, chat and task cards. |
 
 In **Settings → Prism/IM**, choose **Add IM** and select Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot or Discord. The walkthrough shows all seven forms, a saved disabled account, Feishu QR authorization and the approvals panel. [Illustrated messaging setup](website/docs/guide/im.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/im)
 

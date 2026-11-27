@@ -18,7 +18,9 @@ In the sidebar, choose **Plugins → Add plugin**. In **Package name or address*
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
 | 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
+
+The screenshots below are from the 0.1.2 walkthrough. Use the versions in the table when installing.
 
 ![Add plugin in the native DSH plugin manager](./screens/0.1.2/en/03-plugins.png)
 
@@ -63,7 +65,7 @@ DSH requested permission to run a listed dependency script. Review the dependenc
 </details>
 
 <details>
-<summary>5. Install dsh-concierge-ui@0.1.2</summary>
+<summary>5. Web interface installation in the 0.1.2 walkthrough</summary>
 
 ![Package name and version entered for dsh-concierge-ui](./screens/0.1.2/en/04-5-source-dsh-concierge-ui.png)
 
