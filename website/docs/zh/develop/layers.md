@@ -12,6 +12,7 @@ flowchart TD
     IM --> L1
     L1 -->|query_projects| R[dsh-workspace-registry]
     L1 -->|dispatch_planner · 指定目标工作区与 L2 模型| L2[L2 规划会话 · 目标工作区]
+    L1 -->|agent_spawn| L2
     L2 -->|dispatch_executor · 强制继承工作区并收窄权限| L3[L3 执行会话 · 同节点同工作区]
     L3 -->|send_parent / report_progress / task_settled| L2
     L2 -->|send_parent / report_progress / task_settled| L1
@@ -22,12 +23,12 @@ flowchart TD
 
 ## 六个核心设计原则
 
-1. **交互极简与渐进式披露（Zero-Workspace UX）**：用户关心的是「做成一件事」，而不是「代码在哪台机器的哪个目录」。系统屏蔽工作区路径与多机拓扑，同时保留只读旁路检视入口，做到「平时零打扰，排查全透明」。
+1. **交互极简与渐进式披露（Zero-Workspace UX）**：Web 和 IM 提供统一对话入口。Web 时间线显示任务卡，DSH 工作区显示符合条件的只读会话历史。
 2. **严格权限天花板与上下文洁癖（Strict Isolation）**：越靠近用户的层级，权限越克制、上下文越干净。L1 被彻底剥离文件读写与终端执行能力，只保留元数据检索与调度权——既守住 IM/Web 入口的安全底线，也避免底层海量代码与日志污染路由层的注意力。
 3. **默认静默，显式发信（Silent-by-Default Actor）**：打破传统大模型「吐字即输出」的同步对话范式。L1 的自然语言生成仅作内部思考，对用户或下级的任何影响都必须通过显式工具触发，从而天然支持异步事件处理、主动保持沉默与多任务并行协调。
 4. **能力自描述与动态点将（Self-Describing Routing）**：拒绝把模型和任务写死。通过「分层模型池 + 独立能力介绍 + 专属提示词覆写」，用户自由切换前端交互模型，而 L1/L2 在派发时根据下级模型的「能力简历」动态择优，兼顾效果、延迟与成本。
 5. **位置透明的分布式抽象（Location Transparency）**：上层编排逻辑不感知网络拓扑。`dsh-mesh-node` 将远程设备上的 DSH 实例封装为标准的 `prism-<nodeId>` Subagent Provider，使跨机派发与本地拉起共用同一套接口；配合「L1 指定 L2 工作区、L3 强制继承 L2 工作区」的规则，将高频文件操作收敛在目标机本地，跨网只传轻量级控制信令与摘要。
-6. **外轻内重，遇锁自愈（Virtual Facade & Copy-on-Conflict）**：对外保持 Subagent 的轻量接口，底层全部落为正式的 DSH 会话，天然获得持久化、断点续跑与原生只读检视能力。同时将「逻辑智能体身份」与「物理会话实例」解耦——启用会话遇锁时不阻塞、不强抢，立即 Fork 新分支重绑定并归档原现场，以写时复制换取永不卡死与可审计性。
+6. **外轻内重，遇锁自愈（Virtual Facade & Copy-on-Conflict）**：各层在 DSH 原生会话中运行。遇到写锁冲突时，运行器从可读取的历史创建新会话，并原子更新逻辑绑定。只读历史使用独立会话。
 
 ## 三层权限隔离
 
@@ -36,7 +37,7 @@ flowchart TD
 | 层级 | 工作区与上下文 | 职责与权限边界 |
 | --- | --- | --- |
 | **L1（交互层）** | 绑定配置中的默认工作区 | 接待 Web/IM 用户，从 `dsh-workspace-registry` 查询该主体获准访问的项目元数据，决定目标项目和 L2 模型并派发任务。**无任何文件读写与终端执行工具。** |
-| **L2（规划层）** | 在 L1 指定的工作区中运行 | 拆解项目内任务，动态挑选 L3 模型并派发具体步骤，可在派发时进一步收窄工具预算。仅与直接上级（L1）和直接下级（L3）通信。 |
+| **L2（规划层）** | 在 L1 指定的工作区中运行 | 拆解项目内任务，动态挑选 L3 模型并派发具体步骤，可在派发时进一步收窄工具预算。|
 | **L3（执行层）** | **强制继承**父级 L2 的节点与工作区 | 在目标机本地执行具体操作。可用原生工具取「L3 角色白名单 ∩ 项目策略 ∩ 上级派发预算」的交集。 |
 
 ## 默认静默与主动发信机制
@@ -50,8 +51,8 @@ flowchart TD
 
 | 层级 | 可用的编排工具 |
 | --- | --- |
-| L1 | `query_projects`, `list_models`, `dispatch_planner`, `send_child`, `get_progress`, `send_user` |
-| L2 | `list_models`, `dispatch_executor`, `send_parent`, `send_child`, `get_progress`, `report_progress` |
+| L1 | `query_projects`, `list_models`, `dispatch_planner`, `agent_spawn`, `send_child`, `get_progress`, `send_user` |
+| L2 | `list_models`, `dispatch_executor`, `send_parent`, `send_child`, `get_progress`, `report_progress`, `peer_send` (需 Room 授权) |
 | L3 | `send_parent`, `report_progress` |
 
 下一步：[动态点将与工作区治理](/zh/develop/models) · [Mesh 与遇锁自愈](/zh/develop/mesh) · [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator)

@@ -6,6 +6,12 @@
 
 Über das Modellmenü neben **Send** sehen Sie die freigegebenen Gesprächsmodelle samt Kurzbeschreibung. Ein Wechsel gilt ab der nächsten Nachricht, Ihr aktueller Entwurf bleibt erhalten. Mit **Enter** senden Sie, mit **Shift+Enter** fügen Sie einen Zeilenumbruch ein.
 
+Mit aktiviertem Speicher-Plugin fügen Sie über das Pluszeichen im Eingabefeld Bilder oder Videos an. Fehlgeschlagene Uploads lassen sich wiederholen oder entfernen.
+
+Prism übernimmt das Erscheinungsbild aus DSH. Im Systemmodus folgt die Seite dem Hell-Dunkel-Wechsel des Geräts.
+
+Web und genehmigte private Chats teilen sich die Unterhaltung im gleichen DSH-Profil. Antworten und Fortschritt gehen an den ursprünglichen Kanal. Für den Projektzugriff gelten die Rechte der anfragenden Person.
+
 ## Fortschritt ohne Ablenkung verfolgen
 
 Jede delegierte Teilaufgabe erscheint im Chat-Verlauf als kompakte Karte mit Titel, Status und Zeitstempel. Während die Aufgaben im Hintergrund laufen, können Sie einfach weiterarbeiten – Prism meldet sich, sobald die Ergebnisse fertig sind.

@@ -21,10 +21,10 @@
    拒绝把模型和任务写死。通过「分层模型池 + 独立能力介绍（`description`）+ 专属提示词覆写（`promptMode: "append" | "replace"`）」，把模型选择权下放给运行时：用户按偏好自由切换前端 L1 模型，而 L1/L2 则通过 `list_models` 读取下一层模型的「能力简历」在派发时动态择优，兼顾效果、延迟与成本。
 
 5. **位置透明的分布式抽象（Location Transparency）**
-   不让上层编排逻辑感知网络拓扑。`dsh-mesh-node` 将远程设备上的 DSH 实例封装为标准的 `prism-<nodeId>` Subagent Provider，使跨机派发与本地拉起子任务共用同一套接口；配合「L1 指定 L2 工作区、L3 强制继承 L2 工作区」的规则，将高频文件操作收敛在目标机本地，跨网只传轻量级控制信令与摘要。
+   `dsh-mesh-node` 用 WebRTC DataChannel 连接已互相登记公钥的节点，并为各节点注册标准的 `prism-<nodeId>` 子代理提供方。L1 可用 `agent_spawn` 向多个节点批量派发 L2 任务，L3 继承 L2 的工作区。文件操作在项目所在设备执行。显式开启 Room 后，同批获准的 L2 可用 `peer_send` 互发消息。
 
 6. **外轻内重，遇锁自愈（Virtual Facade & Copy-on-Conflict）**
-   在接口层保持 Subagent 的轻量与简洁，在存储与运行层则全部落为正式的 DSH 会话，天然获得持久化、断点续跑与原生检视能力。同时将「逻辑智能体身份」与「物理会话实例」解耦——启用会话时若检测到 DSH 写锁冲突，不阻塞也不强抢，而是立即从可观测历史 Fork 新会话、原子更新逻辑绑定并记录原会话归档义务，以写时复制（Copy-on-Conflict）换取系统的永不卡死与可审计性。
+   各层通过子代理接口运行 DSH 原生会话。启用会话遇到写锁冲突时，运行器从可读取的历史创建新会话，并原子更新逻辑代理的会话绑定。用于查看的历史使用独立的只读会话。
 
 ## 整体协作链路
 
@@ -36,6 +36,7 @@ flowchart TD
     IM --> L1
     L1 -->|query_projects| R[dsh-workspace-registry]
     L1 -->|dispatch_planner · 指定项目与 L2 模型| L2[L2 规划会话 · 目标工作区]
+    L1 -->|agent_spawn · 可选 Room| L2
     L2 -->|dispatch_executor · 继承工作区并收窄权限| L3[L3 执行会话 · 同节点同工作区]
     L3 -->|send_parent / report_progress / task_settled| L2
     L2 -->|send_parent / report_progress / task_settled| L1
@@ -46,11 +47,11 @@ flowchart TD
 
 - **工作区治理**：网页安装场景下自动发现 DSH 侧栏已登记的本地工作区（以原生 UUID 为内部项目 ID，默认只读检索）；显式配置场景由 `registry` 管理 `id`、`nodeId`、`workspace`、`principals` 与 `permissions`。`query_projects` 仅返回授权元数据，物理路径只在受信宿主代码中解析。
 - **权限交集**：L3 执行工具集合严格取「L3 角色白名单 ∩ 项目策略 ∩ L2 派发预算」的交集，提示词覆写不会扩大宿主强制执行的安全边界。
-- **双层持久化**：用户消息、模型选择、任务状态与待投递 Actor 消息保存在 `conversations.sqlite`；完整执行轨迹由各自节点上的正式 DSH 会话日志保存。只读 Trace 查询通过同一条 Mesh 链路无锁读取，不占用写锁。
+- 用户消息、模型选择、任务状态与待投递的代理消息保存在 `conversations.sqlite`。各节点的 DSH 原生会话保存完整记录。远程任务的完整记录可在执行设备的 DSH 工作区查看。
 
 ## 源码检出、构建与部署
 
-`dsh-prism` 公开保存官网、使用文档、版本锁（`plugins.lock.json`）与检出脚本；阅读或构建文档无需私有仓库权限。若需从源码启动完整运行时（需要能读取五个私有插件仓库的 Git 权限，宿主版本为 DeepSeek Harness `0.2.3-alpha.2`，Node.js >= 24.9）：
+`dsh-prism` 公开保存官网、使用文档、版本锁（`plugins.lock.json`）与检出脚本。`node scripts/checkout.mjs` 按锁定的提交复现使用 HTTP Mesh 的历史源码环境和集成测试。检出需要五个插件仓库的 Git 读取权限、DeepSeek Harness `0.2.3-alpha.2` 和 Node.js 24.9 或以上。要运行 0.2.0 的 WebRTC 组合，请使用下方 npm 安装表及 [WebRTC 配置](CONFIG.md#webrtc-节点)。
 
 ```sh
 # 1. 在公开仓库根目录检出锁定版本的五个插件到 runtime/
@@ -75,15 +76,15 @@ npm pack --workspaces --pack-destination ../tarballs
 
 ## 当前 npm 发布版本与五插件索引
 
-通过 DSH 插件管理器安装时，请按依赖顺序安装以下版本（[安装图解](https://prism.dsh-plug.in/zh/guide/start)）：
+通过 DSH 插件管理器安装时，请按以下顺序安装并启用。启用 Mesh 后，编排器会获得运行所需的 `dshMesh` 服务。[安装图解](https://prism.dsh-plug.in/zh/guide/start)
 
 | 安装顺序 | 插件包名与版本 | 配置段 | 技术文档（需仓库权限） |
 | --- | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | `registry` | [项目记录与主体授权](https://github.com/dsh-plugins/dsh-workspace-registry/blob/main/docs/TECH.md) |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | `orchestrator` | [工具、模型和持久化](https://github.com/dsh-plugins/dsh-orchestrator/blob/main/docs/TECH.md) |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | `orchestrator` | [工具、模型和持久化](https://github.com/dsh-plugins/dsh-orchestrator/blob/main/docs/TECH.md) |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
+| 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
 
 ## 本地预览官网文档
 

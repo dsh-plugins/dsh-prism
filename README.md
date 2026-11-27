@@ -32,17 +32,19 @@ You can try Prism with your own project folders or with the two sample folders (
 | Install order | Package | Role |
 | --- | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | Keeps track of available projects and who is allowed to access them. |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | Runs tasks on the device where each project lives. |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | Coordinates conversation, planning, and execution across sessions. |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | Connects Prism to private chats on supported messaging apps. |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | Provides the Prism chat view, task cards, and settings pages. |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | Coordinates conversation, planning, and execution across sessions. |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` | Runs tasks on the device where each project lives. |
+| 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | Connects Prism to private chats on supported messaging apps. |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | Provides the Prism chat view, task cards, and settings pages. |
 
 Want to message Prism from Telegram, WeChat, Feishu/Lark, WeCom, QQ, OneBot, or Discord? See the [Messaging apps guide](website/docs/guide/im.md) ([online](https://prism.dsh-plug.in/guide/im)).
+
+Prism 0.2.0 shares the conversation across Web and approved private chats in each DSH profile. To connect devices, set up [WebRTC Mesh](website/docs/develop/mesh.md). For optional long-term memory and event triggers, see [source installation and configuration](docs/CONFIG.md).
 
 ## For developers and contributors
 
 - Architecture, design principles, and source checkout instructions: [Technical reference](docs/TECH.md)
-- Development configuration and migration for shared conversations, memory, triggers, and WebRTC. [Configuration and migration](docs/CONFIG.md)
+- Configuration and migration for shared conversations, memory, triggers, and WebRTC. [Configuration and migration](docs/CONFIG.md)
 - Run the VitePress documentation site locally from the `dsh-prism` root:
 
 ```sh

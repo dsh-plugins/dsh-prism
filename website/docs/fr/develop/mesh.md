@@ -1,37 +1,21 @@
 # Mesh et sessions
 
-Prism associe **distribution transparente à la localisation** (`dsh-mesh-node`) et **reprise Copy-on-Conflict** afin que l’orchestration reste identique en local comme à distance sans jamais bloquer sur un verrou d’écriture.
+Prism 0.2.0 relie des appareils de confiance via des canaux de données WebRTC chiffrés. Le service de signalisation WSS négocie la connexion. Si un relais est nécessaire, TURN transmet les données chiffrées.
 
 ## Transparence de localisation
 
-Chaque nœud enregistre un Subagent Provider `prism-<nodeId>`. Le coordinateur émet un ticket à usage unique et reçoit l’ID d’une session DSH formelle sur le nœud cible. Comme **L1 choisit l’espace de L2** et **L3 hérite de celui de L2**, les accès fichiers restent locaux au nœud propriétaire.
+Le coordinateur utilise le Subagent Provider DSH `prism-<nodeId>` pour chaque nœud. L1 peut lancer plusieurs tâches L2 en même temps avec `agent_spawn` et choisir leurs projets par `(nodeId, projectId)`. L3 hérite de l’espace de travail de L2. Avec `room: true`, les tâches L2 autorisées du groupe peuvent échanger des messages grâce à `peer_send`.
 
 ## Connecter deux nœuds
 
-Placez le premier bloc `mesh` sur le coordinateur (`hub`) et le second sur l’exécutant (`worker`), avec le même secret dans `PRISM_WORKER_TOKEN` et le projet `atlas` déclaré des deux côtés avec `nodeId: "worker"` :
-
-```json
-{
-  "nodeId": "hub",
-  "peers": [{ "id": "worker", "url": "https://worker.example.org", "tokenEnv": "PRISM_WORKER_TOKEN" }]
-}
-```
-
-```json
-{
-  "nodeId": "worker",
-  "incoming": [{ "id": "hub", "tokenEnv": "PRISM_WORKER_TOKEN", "projects": ["atlas"] }]
-}
-```
-
-Utilisez HTTPS entre machines (HTTP loopback uniquement pour les tests locaux). Chaque nœud conserve son propre `DSH_HOME`.
+Attribuez à chaque appareil une `nodeId`, un profil DSH séparé et une clé Ed25519. Inscrivez les clés publiques auprès du service de signalisation et dans `peers[].publicKey` sur les appareils pairs. Configurez `webrtc.signalingUrl`, `webrtc.privateKeyEnv` et, selon le réseau, STUN ou TURN dans `webrtc.iceServers`. Partagez les projets via `peers[].projects` sur le nœud d’exécution. Les exemples et la migration coordonnée sont décrits dans [Configuration et migration](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md).
 
 ## Virtual Facade & Copy-on-Conflict
 
-En surface ce sont des Subagents légers ; en interne ce sont des **sessions DSH formelles**. Si l’activation rencontre un conflit de verrou d’écriture, le moteur effectue immédiatement un **Fork** de l’historique observable vers une nouvelle session, met à jour la liaison atomiquement et marque l’ancienne pour archivage.
+En cas de conflit de verrouillage, l’exécuteur crée une session DSH à partir de l’historique observable et met à jour la liaison de façon atomique. L’historique en lecture seule utilise une session séparée.
 
 ## Persistance et inspection à distance
 
-`conversations.sqlite` stocke messages, modèles, états et files, tandis que DSH conserve les journaux complets. Les lectures `trace` passent par le même lien Mesh sans acquérir de verrou d’écriture.
+Le coordinateur affiche l’état et les résultats des tâches. Les journaux complets restent dans les sessions DSH de l’appareil d’exécution. Pour les consulter, ouvrez l’espace de travail du projet sur cet appareil.
 
 Suite : [Interfaces de développement](/fr/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)

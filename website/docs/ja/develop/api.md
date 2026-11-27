@@ -4,22 +4,24 @@
 
 ## Web HTTP API
 
-DSH ログイン Cookie を使用し、書き込みリクエストには JSON と `X-Prism-Request: 1` ヘッダーを付与します。
+DSH ログイン Cookie を使用します。POST には `X-Prism-Request: 1` が必要です。メッセージとモデル選択には JSON を使い、アップロードにはメディアの MIME タイプを指定します。
 
 | インターフェース | 動作 |
 | --- | --- |
 | `GET /prism/api/view` | 現在の会話スナップショットと許可された L1 モデルを取得。 |
-| `GET /prism/api/events` | メッセージとタスクカードの SSE 更新を購読。 |
-| `POST /prism/api/message` | `text` と安定した `requestId` を送信。 |
+| `GET /prism/api/events` | メッセージとタスクカードの SSE 更新を購読。`appearance` イベントは `light`、`dark`、`system` のいずれかを送ります。 |
+| `POST /prism/api/message` | `text` と安定した `requestId` を送信。`attachments` にはアップロード済みの ID を最大 8 件指定できます。 |
+| `POST /prism/api/attachment?name=…` | 最大 16 MiB の画像または動画をアップロードして `assetId` を取得。メモリープラグインが必要です。 |
+| `GET /prism/api/attachment?id=…` | アクセス権のある添付ファイルを取得。 |
 | `POST /prism/api/model` | 次ターン以降の L1 `modelId` を選択。 |
-| `GET /prism/api/trace?task=…` | 所有タスクの読み取り専用ログを取得。 |
+| `GET /prism/api/trace?task=…` | 許可されたローカルタスクのログを取得。リモートタスクの場合は、実行ノード上の DSH ワークスペースが案内されます。 |
 
 ## Cordis サービス（`ctx.prism`）
 
 | インターフェース | 動作 |
 | --- | --- |
 | `ctx.prism.view(owner)` | 公開スナップショットを取得。 |
-| `ctx.prism.message(owner, text, requestId?)` | 認証済みメッセージをキューに追加。 |
+| `ctx.prism.message(owner, text, requestId?, source?, attachmentIds?)` | 認証済みメッセージをキューに追加。 |
 | `ctx.prism.selectModel(owner, modelId)` | 次回以降の L1 モデルを変更。 |
 | `ctx.prism.trace(owner, taskId)` | 所有タスクのログを読み取り。 |
 | `ctx.prism.subscribe(owner, listener)` | 更新を購読（戻り値の関数で解除）。 |
@@ -28,7 +30,7 @@ DSH ログイン Cookie を使用し、書き込みリクエストには JSON �
 
 ## ソースランチャーでの IM 設定
 
-パッケージ導入の場合は **Settings → Prism/IM → Add IM** をご利用ください（[利用ガイド](/ja/guide/im)）。ソースランチャー（`runtime/`）では `prism.config.json` の `im` 配下でアダプターを有効化します。
+パッケージ導入の場合は **Settings → Prism/IM → Add IM** をご利用ください（[利用ガイド](/ja/guide/im)）。固定された旧ソースのランチャー（`runtime/`）では `prism.config.json` の `im` 配下でアダプターを有効化します。
 
 ```sh
 npm run im -- login wechat --config prism.config.json

@@ -17,10 +17,12 @@
 | 安装顺序 | npm 包名及版本 |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` |
+| 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+
+请使用表格中的当前包版本。截图展示的是早期版本中的相同安装控件。启用 Mesh 后，编排器会启动。
 
 ![DSH 插件页的添加入口](../../guide/screens/0.1.2/zh/03-plugins.png)
 
@@ -31,13 +33,13 @@
 
 ![dsh-workspace-registry 安装成功，可立即启用](../../guide/screens/0.1.2/zh/05-1-installed-dsh-workspace-registry.png)
 
-![输入 dsh-mesh-node 的包名和版本](../../guide/screens/0.1.2/zh/04-2-source-dsh-mesh-node.png)
-
-![dsh-mesh-node 安装成功，可立即启用](../../guide/screens/0.1.2/zh/05-2-installed-dsh-mesh-node.png)
-
 ![输入 dsh-orchestrator 的包名和版本](../../guide/screens/0.1.2/zh/04-3-source-dsh-orchestrator.png)
 
 ![dsh-orchestrator 安装成功，可立即启用](../../guide/screens/0.1.2/zh/05-3-installed-dsh-orchestrator.png)
+
+![输入 dsh-mesh-node 的包名和版本](../../guide/screens/0.1.2/zh/04-2-source-dsh-mesh-node.png)
+
+![dsh-mesh-node 安装成功，可立即启用](../../guide/screens/0.1.2/zh/05-2-installed-dsh-mesh-node.png)
 
 ![输入 dsh-im-gateway 的包名和版本](../../guide/screens/0.1.2/zh/04-4-source-dsh-im-gateway.png)
 

@@ -9,10 +9,12 @@ Dans DSH, ouvrez **Plugins → Add plugin** et installez les cinq paquets ci-des
 | Ordre | Paquet et version |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` |
+| 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+
+L’orchestrateur démarre dès que Mesh est activé.
 
 > [!TIP]
 > Si **Prism** n’apparaît pas dans la barre latérale juste après avoir activé les cinq plugins, rechargez l’onglet du navigateur.

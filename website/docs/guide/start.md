@@ -17,10 +17,12 @@ In the sidebar, go to **Plugins → Add plugin**. Enter each npm package and ver
 | Order | Package and version |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` |
+| 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+
+The table lists the current package versions. The screenshots show the same controls from an earlier release. The orchestrator starts when Mesh is enabled.
 
 ![Add plugin in the native DSH plugin manager](./screens/0.1.2/en/03-plugins.png)
 
@@ -31,13 +33,13 @@ In the sidebar, go to **Plugins → Add plugin**. Enter each npm package and ver
 
 ![dsh-workspace-registry installed, ready to enable](./screens/0.1.2/en/05-1-installed-dsh-workspace-registry.png)
 
-![Package name and version entered for dsh-mesh-node](./screens/0.1.2/en/04-2-source-dsh-mesh-node.png)
-
-![dsh-mesh-node installed, ready to enable](./screens/0.1.2/en/05-2-installed-dsh-mesh-node.png)
-
 ![Package name and version entered for dsh-orchestrator](./screens/0.1.2/en/04-3-source-dsh-orchestrator.png)
 
 ![dsh-orchestrator installed, ready to enable](./screens/0.1.2/en/05-3-installed-dsh-orchestrator.png)
+
+![Package name and version entered for dsh-mesh-node](./screens/0.1.2/en/04-2-source-dsh-mesh-node.png)
+
+![dsh-mesh-node installed, ready to enable](./screens/0.1.2/en/05-2-installed-dsh-mesh-node.png)
 
 ![Package name and version entered for dsh-im-gateway](./screens/0.1.2/en/04-4-source-dsh-im-gateway.png)
 

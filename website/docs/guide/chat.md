@@ -10,6 +10,12 @@ Open the model selector next to **Send** in the composer to see which conversati
 
 Press **Enter** to send, or **Shift+Enter** for a new line. To change which models are available at each stage, open **Settings → Prism/Configuration** in DSH.
 
+With the memory plugin enabled, use the plus button in the composer to attach images or videos. Images show a preview, and video cards show the file name and size. You can retry or remove a failed upload.
+
+Prism follows the **Appearance** setting in DSH. In **System** mode it updates when the device switches between light and dark.
+
+Web and approved private chats share a conversation within each DSH profile. Replies and progress go back to the originating channel. Project permissions are checked against the person who made the request. Approve only users who should share this context.
+
 ## Follow progress without clutter
 
 When Prism delegates work to one or more projects, each task appears in the timeline as a compact card showing its title, status, and timestamp. While tasks run in the background, you can keep chatting or move on to other things—Prism will reply in the chat as soon as the results are ready.

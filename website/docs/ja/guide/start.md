@@ -9,10 +9,12 @@ DSH の **Plugins → Add plugin** から、下の表のパッケージを順番
 | 順序 | パッケージ名とバージョン |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
+| 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
+| 3 | `@dsh-prism/dsh-mesh-node@0.2.0` |
+| 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+
+Mesh を有効にするとオーケストレーターが起動します。
 
 > [!TIP]
 > 5 つすべてを有効にしてもサイドバーに **Prism** が表示されない場合は、ブラウザーのタブを再読み込みしてください。

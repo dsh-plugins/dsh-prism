@@ -4,22 +4,24 @@ Clientes externos usam uma API HTTP autenticada, enquanto plugins no host utiliz
 
 ## API HTTP Web
 
-Use o cookie de login do DSH. Requisições de escrita exigem JSON e o cabeçalho `X-Prism-Request: 1`.
+Use o cookie de sessão do DSH. Requisições POST exigem `X-Prism-Request: 1`. Use JSON para mensagens e seleção de modelos, e o tipo MIME da mídia ao enviar arquivos.
 
 | Interface | Comportamento |
 | --- | --- |
 | `GET /prism/api/view` | Conversa atual e modelos L1 permitidos. |
-| `GET /prism/api/events` | Stream SSE de mensagens e cartões de tarefas. |
-| `POST /prism/api/message` | Enviar `text` com um `requestId` estável. |
+| `GET /prism/api/events` | Fluxo SSE de mensagens e cartões de tarefas. O evento `appearance` envia `light`, `dark` ou `system`. |
+| `POST /prism/api/message` | Envie `text` e um `requestId` estável. `attachments` pode conter até oito IDs de arquivos já enviados. |
+| `POST /prism/api/attachment?name=…` | Envie uma imagem ou um vídeo de até 16 MiB para receber um `assetId`. Requer o plugin de memória. |
+| `GET /prism/api/attachment?id=…` | Leia um anexo acessível ao usuário autenticado. |
 | `POST /prism/api/model` | Selecionar o `modelId` L1 dos próximos turnos. |
-| `GET /prism/api/trace?task=…` | Ler o registro somente leitura de uma tarefa própria. |
+| `GET /prism/api/trace?task=…` | Leia o histórico de uma tarefa local autorizada. Para tarefas remotas, a resposta aponta para o espaço de trabalho DSH no dispositivo executor. |
 
 ## Serviço Cordis (`ctx.prism`)
 
 | Interface | Comportamento |
 | --- | --- |
 | `ctx.prism.view(owner)` | Ler o snapshot público. |
-| `ctx.prism.message(owner, text, requestId?)` | Enfileirar uma mensagem autenticada. |
+| `ctx.prism.message(owner, text, requestId?, source?, attachmentIds?)` | Enfileirar uma mensagem autenticada. |
 | `ctx.prism.selectModel(owner, modelId)` | Alterar o próximo modelo L1. |
 | `ctx.prism.trace(owner, taskId)` | Ler a transcrição de uma tarefa própria. |
 | `ctx.prism.subscribe(owner, listener)` | Assinar atualizações; retorna função de cancelamento. |
@@ -28,7 +30,7 @@ Integrações devem derivar `owner` de um canal autenticado; caminhos físicos s
 
 ## Mensageria no lançador de código-fonte
 
-Para instalações por pacotes, use **Settings → Prism/IM → Add IM** ([guia](/pt/guide/im)). No lançador de código-fonte (`runtime/`), ative o adaptador em `im` no `prism.config.json`:
+Para instalações por pacotes, use **Settings → Prism/IM → Add IM** ([guia](/pt/guide/im)). No inicializador da revisão histórica fixada do código-fonte (`runtime/`), ative o adaptador em `im` no `prism.config.json`:
 
 ```sh
 npm run im -- login wechat --config prism.config.json

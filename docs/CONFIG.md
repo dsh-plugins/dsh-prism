@@ -4,7 +4,7 @@
 
 ## 长期记忆与事件
 
-安装新版核心插件后，在同一 Profile 启用 `@dsh-prism/dsh-memory` 和 `@dsh-prism/dsh-triggers`。从源码联调时，各仓库先运行 `npm ci`、`npm run build`、`npm pack`，再在 DSH 插件页面安装本地 `.tgz`。
+安装 0.2.0 核心插件后，可以在同一 Profile 加装长期记忆 `@dsh-prism/dsh-memory` 和事件触发器 `@dsh-prism/dsh-triggers`。获取各插件的源码后，分别执行 `npm ci`、`npm run build`、`npm pack`，再在 DSH 插件页面选择各自的本地 `.tgz` 安装并启用。
 
 - 记忆默认使用本机 BGE。首次使用会下载并校验 ONNX 文件和词表。已有离线文件时，在 `embedding` 下设置 `backend: onnx`、`modelPath` 和 `tokenizerDirectory`。
 - 远端 BGE 使用 `backend: openai` 和 `model: bge-large-zh-v1.5`。用图片或视频进行语义检索时，设置 `model: Qwen3-VL-Embedding-8B`，服务需接受 vLLM 的多模态 `/v1/embeddings` 请求。将 `baseUrl` 设为服务地址（含 `/v1`），`apiKeyEnv` 填密钥的环境变量名。待嵌入的分片、查询和媒体会发送到该服务。
@@ -43,7 +43,7 @@ L1 用已有的 `event_add` 和 `event_remove` 管理订阅。以下示例监听
 
 ## WebRTC 节点
 
-每台设备使用 Node 24、唯一 `nodeId` 和独立的 Ed25519 密钥。私钥用 PKCS#8 DER 的 base64url 文本放到 `webrtc.privateKeyEnv` 指向的环境变量。公钥用 SPKI DER 的 base64url 文本登记到信令服务及对端 `peers[].publicKey`。信令配置包含 `host`、`port`、`certFile`、`keyFile` 和 `nodes`（节点 ID 到公钥的映射）。运行 `dsh-prism-mesh-signaling --config signaling.json` 启动 TLS 信令。
+每台设备使用 Node 24、唯一 `nodeId` 和独立的 Ed25519 密钥。把 PKCS#8 PEM 私钥全文写入 `webrtc.privateKeyEnv` 指向的环境变量。公钥用 SPKI DER 的 base64url 文本登记到信令服务及对端 `peers[].publicKey`。信令配置包含 `host`、`port`、`certFile`、`keyFile` 和 `nodes`（节点 ID 到公钥的映射）。用 0.2.0 的 `dsh-prism-mesh-signaling --config signaling.json` 启动 TLS 信令。
 
 以下为执行设备的 Profile 补丁。协调端需反向登记 `worker` 公钥。私有信令 CA 可用 `signalingCaFile` 指定。
 
@@ -72,6 +72,6 @@ L1 用已有的 `event_add` 和 `event_remove` 管理订阅。以下示例监听
 ## 切换与回滚
 
 1. 暂停新消息，等待执行中的任务结束。备份各设备的 DSH Profile、会话目录及旧 `$DSH_HOME/data/prism`，停止服务后再复制 SQLite 文件。
-2. 在所有设备安装同代插件和 WSS 信令。把旧共享令牌配置换成对端公钥与项目导出列表。先验证信令、STUN/TURN、工作区索引及一次只读派发，再恢复消息入口。
+2. 在所有设备安装 [0.2.0 兼容组合](../website/docs/zh/guide/start.md)，并启动 WSS 信令。将旧 `peers[].url`、`tokenEnv` 与 `incoming` 替换为对端公钥与项目导出列表。先验证信令、STUN/TURN、工作区索引及一次只读派发，再恢复消息入口。
 3. 新消息进入当前 Profile 的 `data/dsh-prism`。旧 Web 和 IM 会话数据原地归档。原 `web` Profile 可继续使用已有 IM 授权库。自定义过 `stateDirectory` 或 `statePath` 的实例沿用对应路径和备份。
 4. 回滚时暂停消息入口，按节点组恢复旧版本、配置与备份。分别保留切换前后的日志和数据库。恢复前核对中断任务是否已经产生外部副作用。
