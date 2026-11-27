@@ -14,6 +14,10 @@
 
 ## 连接两个节点
 
+支持托管连接的版本可在 **设置 → 棱镜/连接** 使用同一个信令地址和同一个随机连接码。两端点击 **连接** 即可配对。需要在本机提供网络服务时，在「作为服务端」下启用信令或 STUN/TURN。中继凭据在连接页单独填写。配对后的项目导出及 NAT 转发要求见[配置与迁移](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md#在设置中配对)。
+
+### 静态节点
+
 1. 为每台设备设置唯一的 `nodeId` 和独立的 Ed25519 密钥。在信令服务和对端的 `peers[].publicKey` 中登记设备公钥。
 2. 两端用 `webrtc.signalingUrl` 连接同一个可访问的 `wss://` 信令地址。将各自的 PKCS#8 PEM 私钥写入 `webrtc.privateKeyEnv` 指定的环境变量，按网络条件配置 `webrtc.iceServers` 中的 STUN 或 TURN。
 3. 在执行端登记 `atlas` 项目的本地绝对路径与权限，并将 `atlas` 加到执行端上协调设备对应的 `peers[].projects`。协调端通过 Mesh 发现获准项目的元数据。

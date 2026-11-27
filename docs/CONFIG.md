@@ -48,6 +48,26 @@ L1 用已有的 `event_add` 和 `event_remove` 管理订阅。以下示例监听
 
 ## WebRTC 节点
 
+### 在设置中配对
+
+支持托管连接的版本可在 **设置 → 棱镜/连接** 配对。两台设备使用同一个信令服务，复制一台生成的连接码到另一台，在两端点击 **连接**。连接码的等待窗口为 10 分钟。设备配对成功后保存对方的公钥，重启时自动重新建立连接。解除配对会关闭数据通道并撤销该对设备的信令转发权限。
+
+使用自托管信令时，启用 **作为服务端 → 信令服务器**，配置监听地址、端口和证书后保存。对外使用证书匹配的 `wss://` 地址，默认端口为 `8443/TCP`。同机测试可单独开启 `127.0.0.1:8080/WS`。信令 URL 省略路径时使用 `/prism/mesh/signaling/v2`。
+
+需要地址发现或跨 NAT 中继时，可接入外部 STUN/TURN，也可打开棱镜内嵌服务。控制端口默认 `3478/UDP+TCP`。开启 TURN 中继时必须设置认证，默认 UDP 中继范围为 `49152–49251`。可选的 `5349/TCP+UDP` 分别提供 TLS 和 DTLS，使用 TURN 配置中的证书与私钥。部署在 NAT 后要填公网地址并按原端口映射控制端口和整个中继范围。客户端单独填写 TURN 用户名与密码。共享密钥模式可在服务端生成短期凭据，到期后在客户端保存新凭据即可重连。[TURN 协议](https://www.rfc-editor.org/rfc/rfc8656.html)
+
+配对完成后，执行设备仍须登记要导出的工作区，并在其 Cordis 补丁中为协调设备的网络 ID 授予具体项目。网络 ID 可在「棱镜/连接」查看，工作区登记继续使用其 DSH 本机节点 ID。
+
+```yaml
+- id: dsh-mesh-node
+  config:
+    nodeId: local
+    managedPeerProjects:
+      '<协调设备的网络 ID>': ['atlas']
+```
+
+### 使用静态信令与节点配置
+
 每台设备使用 Node 24、唯一 `nodeId` 和独立的 Ed25519 密钥。把 PKCS#8 PEM 私钥全文写入 `webrtc.privateKeyEnv` 指向的环境变量。公钥用 SPKI DER 的 base64url 文本登记到信令服务及对端 `peers[].publicKey`。信令配置包含 `host`、`port`、`certFile`、`keyFile` 和 `nodes`（节点 ID 到公钥的映射）。用 `dsh-mesh-node` 0.2.1 提供的 `dsh-prism-mesh-signaling --config signaling.json` 启动 TLS 信令。
 
 以下为执行设备的 Profile 补丁。协调端需反向登记 `worker` 公钥。私有信令 CA 可用 `signalingCaFile` 指定。

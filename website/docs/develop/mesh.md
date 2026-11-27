@@ -14,6 +14,10 @@ The orchestrator registers a `prism-<nodeId>` provider for each node:
 
 ## Connecting two nodes
 
+With a release that supports managed connections, open **Settings → Prism/Connections** on both devices. Enter the same signaling server and connection code, then select **Connect** on both. Use the server options to host signaling or STUN/TURN inside Prism. Enter TURN credentials separately on each client. See [Configuration and migration](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md#在设置中配对) for project exports and NAT port forwarding.
+
+### Static nodes
+
 1. Give each device a unique `nodeId` and its own Ed25519 key. Register each public key with the signaling service and with the other device under `peers[].publicKey`.
 2. Set `webrtc.signalingUrl` to the same reachable `wss://` endpoint on both devices. Use `webrtc.privateKeyEnv` for each device's PKCS#8 PEM private key. Add STUN or TURN to `webrtc.iceServers` as required by the network.
 3. Register `atlas` on the worker with its local absolute path and permissions. On the worker, grant the coordinator access by adding `atlas` to `peers[].projects` for that peer. The coordinator discovers the exported project metadata through Mesh.
