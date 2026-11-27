@@ -1,6 +1,6 @@
 # Modelos e projetos
 
-Os plugins instalados pela interface do DSH usam o modelo escolhido na conversa do DSH. Você gerencia os projetos e as permissões nas configurações do Prism. Os exemplos JSON a seguir se aplicam ao inicializador compilado a partir do código-fonte. [Início rápido](/pt/guide/start)
+Abra as pastas de projeto como espaços de trabalho do DSH para que o Prism as detecte. Nas configurações do DSH, abra **Prism/Configuração** e selecione os modelos permitidos para L1, L2 e L3. Uma camada sem modelos selecionados usa o modelo padrão do DSH. Pelo ícone de lápis ao lado do modelo, você pode alterar a descrição e o prompt do modelo para aquela camada. Os exemplos de JSON abaixo são para o inicializador compilado a partir do código-fonte. [Início rápido](/pt/guide/start)
 
 O registro descreve os projetos acessíveis. O orquestrador configura separadamente os modelos e ferramentas nativas de cada função.
 

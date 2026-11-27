@@ -4,7 +4,9 @@ Cada conversa privada autenticada é associada a uma identidade L1 persistente. 
 
 ## Configurar pela interface do DSH
 
-Abra as configurações do Prism e selecione um dos sete serviços em **Messaging channels**. Nesse painel você gerencia as credenciais, os usuários autorizados, os códigos de pareamento e o estado da conexão. O Feishu/Lark também oferece registro por código QR. Com o DSH em português, esse painel exibe os rótulos em inglês. [Guia ilustrado em inglês](/guide/im) · [Guia ilustrado em chinês](/zh/guide/im)
+Nas configurações do DSH, abra **Prism/IM → Add IM** e escolha Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot ou Discord. Ao criar uma conta, preencha **Username** e as credenciais. O Feishu obtém o nome do bot durante a vinculação. Clique em **Save settings**, reabra o cartão da conta e selecione **Enable channel** para iniciar a conexão.
+
+No Feishu, escolha **Manual binding** para inserir as credenciais do aplicativo ou **QR binding → Generate QR code** para vincular pelo código QR. Leia o código com Feishu ou Lark e selecione ou crie um bot na página oficial de autorização. Quando alguém enviar a primeira mensagem privada ao bot, o proprietário do DSH poderá aceitar ou recusar a solicitação em **Pending approvals**, com **Approve** ou **Reject**. [Guia ilustrado em inglês](/guide/im) · [Guia ilustrado em chinês](/zh/guide/im)
 
 ## Conexão e pareamento pelo inicializador compilado
 
@@ -21,7 +23,7 @@ npm run im -- pair telegram --config prism.config.json
 
 O login por QR guarda credenciais localmente e autoriza quem fez a leitura verificada. O código de pareamento é de uso único e vale por dez minutos. Para um caminho de estado personalizado, passe `--config prism.config.json` à CLI e inicie com o mesmo arquivo.
 
-## Conexões disponíveis
+### Conexões disponíveis
 
 | Plataforma | Conexão |
 | --- | --- |
@@ -33,7 +35,7 @@ O login por QR guarda credenciais localmente e autoriza quem fez a leitura verif
 | QQ | Configure o bot QQ com o callback oficial `/prism/im/qq`. O gateway verifica a assinatura da plataforma. |
 | Discord | Habilite as mensagens diretas do bot Discord e faça o pareamento por DM. |
 
-## Chaves de configuração do inicializador compilado
+### Chaves de configuração do inicializador compilado
 
 Ative apenas os canais utilizados. Configure os segredos no ambiente do coordenador. `allowedUserIds` concede acesso a IDs conhecidos da plataforma. Preserve o SQLite nos reinícios para manter credenciais QR e pareamentos.
 

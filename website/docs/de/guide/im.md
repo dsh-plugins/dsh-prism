@@ -4,7 +4,9 @@ Ein authentifizierter privater Chat ist mit einer dauerhaften L1-Identität verb
 
 ## Einrichtung in der DSH-Oberfläche
 
-Öffnen Sie die Prism-Einstellungen und wählen Sie unter **Messaging channels** einen der sieben Dienste. Hier können Sie Zugangsdaten, zugelassene Benutzer, Kopplungscodes und den Verbindungsstatus verwalten. Für Feishu/Lark gibt es zusätzlich die QR-Registrierung. Dieser Teil der Oberfläche verwendet bei deutscher Sprache die englischen Bezeichnungen. [Anleitung mit englischen Bildern](/guide/im) · [Anleitung mit chinesischen Bildern](/zh/guide/im)
+Öffnen Sie in den DSH-Einstellungen **Prism/IM → Add IM** und wählen Sie Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot oder Discord. Für ein neues Konto geben Sie den **Username** und die Zugangsdaten ein. Feishu übernimmt den Bot-Namen aus der Bindung. **Save settings** speichert die Kontokarte. Öffnen Sie diese erneut und wählen Sie **Enable channel**, um die Verbindung zu starten.
+
+Bei Feishu wählen Sie **Manual binding** für die App-Zugangsdaten oder **QR binding → Generate QR code**. Scannen Sie den Code mit Feishu oder Lark und wählen oder erstellen Sie einen Bot auf der offiziellen Freigabeseite. Unter **Pending approvals** kann der DSH-Eigentümer Anfragen von Personen, die dem Bot erstmals privat schreiben, mit **Approve** oder **Reject** beantworten. [Anleitung mit englischen Bildern](/guide/im) · [Anleitung mit chinesischen Bildern](/zh/guide/im)
 
 ## Anmelden und koppeln beim Start aus dem Quellcode
 
@@ -21,7 +23,7 @@ npm run im -- pair telegram --config prism.config.json
 
 Die QR-Anmeldung speichert die Zugangsdaten lokal und autorisiert den bestätigten Benutzer. Codes sind einmalig und zehn Minuten gültig. Nutzen Sie bei eigenem Zustandspfad `--config prism.config.json` für CLI und Koordinator.
 
-## Verbindungsarten
+### Verbindungsarten
 
 | Plattform | Anbindung |
 | --- | --- |
@@ -33,7 +35,7 @@ Die QR-Anmeldung speichert die Zugangsdaten lokal und autorisiert den bestätigt
 | QQ | QQ-Bot einrichten und den offiziellen Callback auf `/prism/im/qq` setzen. Der Gateway prüft die Signatur. |
 | Discord | Discord-Bot für Direktnachrichten aktivieren und den Benutzer im privaten Chat koppeln. |
 
-## Schlüssel für die Quellcode-Konfiguration
+### Schlüssel für die Quellcode-Konfiguration
 
 Aktivieren Sie nur benötigte Kanäle und setzen Sie Geheimnisse im Prozessumfeld des Koordinators. `allowedUserIds` gewährt bekannten Plattformbenutzern Zugriff. Bewahren Sie die SQLite-Datei mit QR-Zugängen und Kopplungen bei Neustarts auf.
 

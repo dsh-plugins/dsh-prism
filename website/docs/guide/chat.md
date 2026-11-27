@@ -1,21 +1,21 @@
-# The conversation
+# Use the Prism conversation
 
-Open the project folders as DSH workspaces and refer to them by name in Prism. For example, ask Prism to review the mobile release checklist and summarize the missing checks. [Set up two projects](/guide/start)
+Choose **Prism** in the DSH sidebar. Name the workspace and the result you want. For example, ask for one executor per workspace to read its README and report the event time, venue and coordinator. A two-project example includes the input files and a ready-to-send prompt. [Start with two workspaces](./start.md)
 
-## Choose a conversation model
+## Choose the next model
 
-The model picker sits inside the composer, immediately to the left of Send. Open it to read each L1 model’s description. Selecting a model affects subsequent turns and preserves your draft. Enter sends a message; Shift+Enter adds a line.
+Open the model picker beside **Send** in the composer to see the permitted conversation models and their descriptions. Your selection applies to subsequent turns and preserves the current draft. Press Enter to send, or Shift+Enter to insert a line. To change which models a layer can use, open **Settings → Prism/Configuration** in DSH.
 
-## Follow a task
+## Follow the task and check the evidence
 
-A collapsed card appears for delegated work. Expand it to see its status and execution steps. Ask a follow-up in the same conversation if priorities change. The planning agent can report an update while other steps continue.
+Each delegated project appears in the timeline with its title, status and timestamp. Read the assistant's summary below the task cards. In this example, the bookshop and the café have different coordinators, rooms and event times.
 
-![Two completed project tasks, event details and the selected model](./screens/en/16-results.png)
+![The two project cards and the summary of the verified event briefs](./screens/0.1.2/en/16-results.png)
 
-## Read the underlying session
+Choose **DeepSeek Harness** and expand the appropriate workspace in the DSH sidebar. The read-only records are named **棱镜** for the conversation, **棱镜 L2** for planning and **棱镜 L3** for execution. Open the executor, expand the recorded process and select the `read` tool to see the path and lines returned from the file. Use the **Prism** shortcut to resume the conversation.
 
-Choose **DeepSeek Harness** to return to DSH. In the workspace sidebar, open the read-only history for the conversation, planning or execution layer. The screenshot below shows the session viewer from Prism 0.1.1.
+![Workspace sidebar with the conversation, planning and execution sessions](./screens/0.1.2/en/17-native-workspace-history.png)
 
-![The bookshop executor’s read tool and the README lines it returned](./screens/en/17-harbor-books-read-only-session.png)
+![The bookshop executor’s read tool and the event details in the project README](./screens/0.1.2/en/17-harbor-books-executor.png)
 
-[Messaging apps](/guide/im) · [Roles and permissions](/develop/layers)
+[Messaging accounts](./im.md) · [Roles and permissions](../develop/layers.md)

@@ -1,6 +1,6 @@
 # Modelos y proyectos
 
-Al instalar los complementos desde DSH, Prism usa el modelo seleccionado en el chat de DSH. Los proyectos y sus permisos se gestionan en los ajustes de Prism. Los ejemplos JSON de esta página corresponden al lanzador compilado desde el código fuente. [Inicio rápido](/es/guide/start)
+Abre las carpetas como espacios de trabajo de DSH. Prism las detecta automáticamente. En los ajustes de DSH, abre **Prism/Configuración** y selecciona los modelos permitidos para L1, L2 y L3. Si un nivel queda sin modelos seleccionados, usa el modelo predeterminado de DSH. Con el icono del lápiz junto al modelo puedes modificar la descripción y las instrucciones del modelo en ese nivel. Los ejemplos de JSON siguientes corresponden al lanzador de código fuente. [Inicio rápido](/es/guide/start)
 
 El registro define los proyectos accesibles. El orquestador configura por separado los modelos y las herramientas nativas de cada rol.
 

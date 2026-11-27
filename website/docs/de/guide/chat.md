@@ -8,14 +8,12 @@ Der Modellwähler steht im Eingabefeld links neben der Sendeschaltfläche. Er ze
 
 ## Fortschritt verfolgen
 
-Für delegierte Arbeit erscheint eine eingeklappte Aufgabenkarte. Öffnen Sie sie für Status und Arbeitsschritte. Geänderte Prioritäten können Sie im gleichen Gespräch mitteilen. Der Planer kann während der Ausführung Bericht erstatten.
-
-![Chinesischer Web-Client mit Checkliste, abgeschlossener Aufgabe und Modellwähler.](/screens/web-task.png)
+Eine Aufgabenkarte zeigt Titel, Zeit und Status des delegierten Auftrags. Sobald die Ergebnisse vorliegen, antwortet Prism im Gespräch.
 
 ## Sitzung lesen
 
-Öffnen Sie den schreibgeschützten Verlauf einer Aufgabe für Dialog und Werkzeugnamen. Aktualisieren lädt neuere Einträge. Die Zugehörigkeit wird geprüft, eine Schreibsperre ist nicht erforderlich. Web-Fenster desselben DSH-Eigentümers teilen das Gespräch; Messenger-Identitäten haben eigene Verläufe.
+Kehren Sie über **DeepSeek Harness** zu DSH zurück. Öffnen Sie in der Seitenleiste des jeweiligen Arbeitsbereichs den schreibgeschützten Verlauf. Die Einträge heißen `棱镜` für das Gespräch, `棱镜 L2` für die Planung und `棱镜 L3` für die Ausführung. Im L3-Verlauf sehen Sie die Werkzeugaufrufe und die gelesenen Dateien.
 
-![Sitzung lesen](/screens/web-trace.png)
+[Bebilderte Anleitung auf Englisch](/guide/chat) · [Bebilderte Anleitung auf Chinesisch](/zh/guide/chat)
 
 [Messenger einrichten](/de/guide/im) · [Rollen und Rechte](/de/develop/layers)

@@ -1,6 +1,6 @@
 # Modèles et projets
 
-Les plugins installés depuis DSH utilisent le modèle choisi dans la conversation DSH. Les projets et leurs autorisations se gèrent dans les paramètres de Prism. Les exemples JSON ci-dessous concernent le lanceur compilé depuis le code source. [Démarrage rapide](/fr/guide/start)
+Ouvrez les dossiers comme espaces de travail DSH pour que Prism les détecte. Dans les paramètres de DSH, ouvrez **Prism/Configuration**, puis cochez les modèles autorisés pour L1, L2 et L3. Un niveau dont la sélection est vide utilise le modèle par défaut de DSH. Avec le bouton en forme de crayon à côté du modèle, vous pouvez modifier la description et les instructions du modèle pour ce niveau. Les exemples JSON ci-dessous concernent le lanceur compilé depuis les sources. [Démarrage rapide](/fr/guide/start)
 
 Le registre décrit les projets accessibles. L’orchestrateur définit séparément les modèles et les outils natifs de chaque rôle.
 

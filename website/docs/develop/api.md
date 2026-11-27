@@ -34,7 +34,7 @@ Implement `ImTransport` with a stable channel/bot namespace, destination authori
 
 ## Messaging from the source launcher
 
-For a packaged DSH installation, use the controls in **Settings → Prism → Messaging channels**. The following commands and keys apply to developers running the source launcher. [Configure messaging in the browser](/guide/im)
+For a packaged DSH installation, use the controls in **Settings → Prism/IM → Add IM**. The following commands and keys apply to developers running the source launcher. [Configure messaging in the browser](/guide/im)
 
 Enable the adapter under `im` in `prism.config.json`. For QR login, run the command on the coordinating host and scan the displayed QR in the matching app. For an additional user, issue a pairing code on that host and send `/pair CODE` in a private chat with the bot.
 

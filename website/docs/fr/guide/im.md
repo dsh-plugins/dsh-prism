@@ -4,7 +4,9 @@ Chaque conversation privée authentifiée correspond à une identité L1 persist
 
 ## Configuration dans l’interface DSH
 
-Dans les paramètres de Prism, choisissez l’un des sept services sous **Messaging channels**. Vous pouvez y gérer les identifiants, les utilisateurs autorisés, les codes d’association et l’état de la connexion. Feishu/Lark propose également une inscription par QR code. Avec DSH en français, cette section affiche les libellés anglais. [Guide illustré en anglais](/guide/im) · [Guide illustré en chinois](/zh/guide/im)
+Dans les paramètres de DSH, ouvrez **Prism/IM → Add IM** et choisissez Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot ou Discord. Pour un nouveau compte, renseignez **Username** et les identifiants. Feishu récupère le nom du bot lors de l’association. Cliquez sur **Save settings**, rouvrez la fiche du compte, puis choisissez **Enable channel** pour lancer la connexion.
+
+Pour Feishu, choisissez **Manual binding** si vous avez les identifiants de l’application, ou **QR binding → Generate QR code** pour associer le bot par QR code. Scannez-le avec Feishu ou Lark et choisissez ou créez un bot sur la page officielle d’autorisation. Lorsqu’une personne écrit au bot en privé pour la première fois, le propriétaire de DSH peut accéder à **Pending approvals** et choisir **Approve** ou **Reject**. [Guide illustré en anglais](/guide/im) · [Guide illustré en chinois](/zh/guide/im)
 
 ## Connexion et association depuis le lanceur compilé
 
@@ -21,7 +23,7 @@ npm run im -- pair telegram --config prism.config.json
 
 La connexion QR conserve les identifiants localement et autorise l’utilisateur vérifié. Un code d’association est valable une fois pendant dix minutes. Pour un chemin d’état personnalisé, transmettez `--config prism.config.json` à la CLI et utilisez ce même fichier au démarrage.
 
-## Canaux pris en charge
+### Canaux pris en charge
 
 | Plateforme | Connexion |
 | --- | --- |
@@ -33,7 +35,7 @@ La connexion QR conserve les identifiants localement et autorise l’utilisateur
 | QQ | Configurez le bot QQ et son callback officiel `/prism/im/qq`. La passerelle vérifie la signature. |
 | Discord | Activez les messages directs du bot Discord et associez l’utilisateur par message privé. |
 
-## Clés de configuration du lanceur compilé
+### Clés de configuration du lanceur compilé
 
 Activez uniquement les canaux utilisés et renseignez les secrets dans l’environnement du coordinateur. `allowedUserIds` autorise des identifiants connus sur la plateforme. Conservez le fichier SQLite qui contient les associations et les identifiants QR.
 

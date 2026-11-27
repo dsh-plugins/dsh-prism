@@ -4,7 +4,9 @@ Un chat privado autenticado se vincula a una identidad L1 persistente. Cada cana
 
 ## Configuración desde la interfaz de DSH
 
-Abre los ajustes de Prism y elige uno de los siete servicios en **Messaging channels**. Allí puedes gestionar las credenciales, los usuarios permitidos, los códigos de emparejamiento y el estado de conexión. Feishu/Lark también ofrece un registro por QR. Con DSH en español, esta sección de la interfaz usa etiquetas en inglés. [Guía ilustrada en inglés](/guide/im) · [Guía ilustrada en chino](/zh/guide/im)
+En los ajustes de DSH abre **Prism/IM → Add IM** y elige Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot o Discord. Para una cuenta nueva introduce su **Username** y las credenciales. Feishu obtiene el nombre del bot durante la vinculación. Pulsa **Save settings**, vuelve a abrir la tarjeta de la cuenta y pulsa **Enable channel** para iniciar la conexión.
+
+Para Feishu elige **Manual binding** si tienes las credenciales de la aplicación o **QR binding → Generate QR code** para vincularla mediante un código. Escanéalo con Feishu o Lark y selecciona o crea un bot en la página oficial de autorización. Cuando una persona escriba al bot por privado por primera vez, el propietario de DSH podrá aceptar o rechazar la solicitud en **Pending approvals** con **Approve** o **Reject**. [Guía ilustrada en inglés](/guide/im) · [Guía ilustrada en chino](/zh/guide/im)
 
 ## Conexión y emparejamiento con el lanzador de código fuente
 
@@ -21,7 +23,7 @@ npm run im -- pair telegram --config prism.config.json
 
 El acceso QR guarda credenciales locales y autoriza a quien escaneó el código. Los códigos de emparejamiento son de un uso y duran diez minutos. Si usas otra ruta de estado, pasa `--config prism.config.json` a la CLI y arranca el coordinador con el mismo archivo.
 
-## Canales disponibles
+### Canales disponibles
 
 | Plataforma | Conexión |
 | --- | --- |
@@ -33,7 +35,7 @@ El acceso QR guarda credenciales locales y autoriza a quien escaneó el código.
 | QQ | Registra el callback oficial en `/prism/im/qq`. La pasarela comprueba la firma de QQ. |
 | Discord | Habilita los mensajes directos del bot y empareja al usuario en un DM de Discord. |
 
-## Claves de configuración del lanzador de código fuente
+### Claves de configuración del lanzador de código fuente
 
 Habilita solo los canales que utilices y guarda sus secretos en el entorno del coordinador. `allowedUserIds` autoriza identificadores conocidos de la plataforma. Conserva SQLite tras reiniciar para mantener credenciales QR y emparejamientos.
 
