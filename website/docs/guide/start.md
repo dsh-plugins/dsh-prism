@@ -150,7 +150,7 @@ For this example, you can select `deepseek-v4.1-flash` across all three stages w
 
 ## 5. Ask Prism to check both projects at once
 
-Close Settings and click **Prism** in the DSH sidebar (or **Open Prism** in **Prism/Configuration**). Confirm that `deepseek-v4.1-flash` is selected in the chat composer, and send a message like this:
+Close Settings and click **Prism** in the DSH sidebar. Confirm that `deepseek-v4.1-flash` is selected in the chat composer, and send a message like this:
 
 > Delegate one task to harbor-books and one to lantern-cafe. Use the respective project name as each task title. Have each planner assign an executor to use the read tool on its own workspace’s README.md and verify the event time, venue and on-site coordinator. After both finish, reply here in two lines, starting each with the project name.
 
