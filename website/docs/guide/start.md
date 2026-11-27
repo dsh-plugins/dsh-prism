@@ -20,7 +20,7 @@ In the sidebar, go to **Plugins → Add plugin**. Enter each npm package and ver
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
 
 The table lists the current package versions. The screenshots show the same controls from an earlier release. The orchestrator starts when Mesh is enabled.
 
@@ -69,9 +69,11 @@ After enabling the five core plugins, add either or both of these packages in th
 In **Plugins → Add plugin**, enter the exact package and version, then choose **Enable now**. You can also install them in the `web` profile from the command line.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
+
+In **Settings → Prism/Memory**, bind a local embedding model or a remote API. Memory tools become available as soon as initialization completes, and Prism reloads the binding automatically on later DSH starts.
 
 ## 2. Connect your model
 

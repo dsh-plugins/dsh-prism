@@ -12,7 +12,7 @@ Mit Prism müssen Sie nicht mehr zwischen Projektordnern hin- und herspringen. S
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
 
 Der Orchestrator startet, sobald Mesh aktiviert ist.
 
@@ -26,9 +26,11 @@ Nach der Aktivierung der fünf Kern-Plugins können Sie diese Pakete bei Bedarf 
 Geben Sie unter **Plugins → Add plugin** den genauen Paketnamen mit Version ein und wählen Sie **Enable now**. Für das Profil `web` können Sie auch die folgenden Befehle verwenden.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
+
+Binden Sie unter **Settings → Prism/Memory** ein lokales Embedding-Modell oder eine Remote-API. Die Speicherwerkzeuge stehen nach der Initialisierung sofort zur Verfügung. Bei späteren DSH-Starts wird die Bindung automatisch geladen.
 
 ## 2. Modell und Projektordner einrichten
 

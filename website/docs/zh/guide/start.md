@@ -20,7 +20,7 @@
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
 
 请使用表格中的当前包版本。截图展示的是早期版本中的相同安装控件。启用 Mesh 后，编排器会启动。
 
@@ -69,9 +69,11 @@
 在 **插件 → 添加插件** 中输入完整包名与版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
+
+在 **设置 → 棱镜/记忆** 中绑定本地嵌入模型或远程 API。初始化完成后立即启用记忆工具，之后每次启动 DSH 都会自动加载绑定。
 
 ## 2. 接入模型
 

@@ -12,7 +12,7 @@ En DSH, abre **Plugins → Add plugin** e instala uno por uno los paquetes de la
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
 
 El orquestador se inicia al habilitar Mesh.
 
@@ -26,9 +26,11 @@ Después de habilitar los cinco complementos principales, instala los paquetes q
 En **Plugins → Add plugin**, introduce el nombre exacto del paquete y su versión y elige **Enable now**. También puedes usar los siguientes comandos para el perfil `web`.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
+
+En **Settings → Prism/Memory**, vincula un modelo de embeddings local o una API remota. Las herramientas de memoria se habilitan al terminar la inicialización y Prism carga la vinculación automáticamente cada vez que se inicia DSH.
 
 ## 2. Conecta tu modelo y añade tus proyectos
 

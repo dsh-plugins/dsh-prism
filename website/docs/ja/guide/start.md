@@ -12,7 +12,7 @@ DSH の **Plugins → Add plugin** から、下の表のパッケージを順番
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
 
 Mesh を有効にするとオーケストレーターが起動します。
 
@@ -26,9 +26,11 @@ Mesh を有効にするとオーケストレーターが起動します。
 **Plugins → Add plugin** でパッケージ名とバージョンを入力し、**Enable now** を選択します。`web` プロファイルでは、以下のコマンドも使えます。
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
+
+**Settings → Prism/Memory** で、ローカルの埋め込みモデルまたはリモート API を設定します。初期化が完了するとすぐにメモリツールを利用でき、以後 DSH を起動するたびに設定が自動で読み込まれます。
 
 ## 2. モデルとプロジェクトを準備
 

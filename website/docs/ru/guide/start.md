@@ -12,7 +12,7 @@
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` |
 
 Оркестратор запускается после включения Mesh.
 
@@ -26,9 +26,11 @@
 В разделе **Plugins → Add plugin** введите точное имя пакета с версией и нажмите **Enable now**. Для профиля `web` можно также использовать следующие команды.
 
 ```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ```
+
+В разделе **Settings → Prism/Memory** привяжите локальную модель эмбеддингов или удалённый API. Инструменты памяти доступны сразу после инициализации, а при следующих запусках DSH Prism автоматически загружает привязку.
 
 ## 2. Подключите модель и добавьте проекты
 

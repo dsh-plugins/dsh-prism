@@ -84,9 +84,9 @@ npm pack --workspaces --pack-destination ../tarballs
 | 2 | `@dsh-prism/dsh-orchestrator@0.2.0` | `orchestrator` | [工具、模型和持久化](https://github.com/dsh-plugins/dsh-orchestrator/blob/main/docs/TECH.md) |
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.1` | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.2.1` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
 
-核心插件启用后，可按需在同一个 DSH 配置档安装 `@dsh-prism/dsh-memory@0.2.0` 和 `@dsh-prism/dsh-triggers@0.2.0`。[可选插件安装与配置](CONFIG.md#长期记忆与事件)
+核心插件启用后，可按需在同一个 DSH 配置档安装 `@dsh-prism/dsh-memory@0.3.0` 和 `@dsh-prism/dsh-triggers@0.2.1`。[可选插件安装与配置](CONFIG.md#长期记忆与事件)
 
 ## 本地预览官网文档
 
