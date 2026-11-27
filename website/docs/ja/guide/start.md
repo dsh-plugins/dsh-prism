@@ -19,6 +19,17 @@ Mesh を有効にするとオーケストレーターが起動します。
 > [!TIP]
 > 5 つすべてを有効にしてもサイドバーに **Prism** が表示されない場合は、ブラウザーのタブを再読み込みしてください。
 
+### 長期メモリーとイベントトリガー（任意） {#optional-plugins}
+
+5 つのコアプラグインを有効にした後、必要なパッケージを同じ DSH プロファイルに追加できます。長期メモリーは情報の保存とメディア添付、トリガーはリマインダーの予約と外部イベントに対応します。
+
+**Plugins → Add plugin** でパッケージ名とバージョンを入力し、**Enable now** を選択します。`web` プロファイルでは、以下のコマンドも使えます。
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
 ## 2. モデルとプロジェクトを準備
 
 1. **Settings → Models → Add model provider → Custom model API** を開き、**OpenAI Responses** を選択してエンドポイント・API キー・モデル ID（`deepseek-v4.1-flash`）を登録し、DSH チャットで選択します。

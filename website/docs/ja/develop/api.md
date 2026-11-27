@@ -11,7 +11,7 @@ DSH ログイン Cookie を使用します。POST には `X-Prism-Request: 1` �
 | `GET /prism/api/view` | 現在の会話スナップショットと許可された L1 モデルを取得。 |
 | `GET /prism/api/events` | メッセージとタスクカードの SSE 更新を購読。`appearance` イベントは `light`、`dark`、`system` のいずれかを送ります。 |
 | `POST /prism/api/message` | `text` と安定した `requestId` を送信。`attachments` にはアップロード済みの ID を最大 8 件指定できます。 |
-| `POST /prism/api/attachment?name=…` | 最大 16 MiB の画像または動画をアップロードして `assetId` を取得。メモリープラグインが必要です。 |
+| `POST /prism/api/attachment?name=…` | 最大 16 MiB の画像または動画をアップロードして `assetId` を取得。[メモリープラグイン](../guide/start.md#optional-plugins)が必要です。 |
 | `GET /prism/api/attachment?id=…` | アクセス権のある添付ファイルを取得。 |
 | `POST /prism/api/model` | 次ターン以降の L1 `modelId` を選択。 |
 | `GET /prism/api/trace?task=…` | 許可されたローカルタスクのログを取得。リモートタスクの場合は、実行ノード上の DSH ワークスペースが案内されます。 |

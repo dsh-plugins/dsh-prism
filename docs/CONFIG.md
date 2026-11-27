@@ -4,7 +4,12 @@
 
 ## 长期记忆与事件
 
-按[安装表](../website/docs/zh/guide/start.md)启用核心插件后，可以在同一 Profile 加装长期记忆 `@dsh-prism/dsh-memory` 和事件触发器 `@dsh-prism/dsh-triggers`。获取各插件的源码后，分别执行 `npm ci`、`npm run build`、`npm pack`，再在 DSH 插件页面选择各自的本地 `.tgz` 安装并启用。
+启用五个核心插件后，可在同一个 DSH 配置档按需从 npm 加装长期记忆和事件触发器。在 **插件 → 添加插件** 中输入完整包名与版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
 
 - 记忆默认使用本机 BGE。首次使用会下载并校验 ONNX 文件和词表。已有离线文件时，在 `embedding` 下设置 `backend: onnx`、`modelPath` 和 `tokenizerDirectory`。
 - 远端 BGE 使用 `backend: openai` 和 `model: bge-large-zh-v1.5`。用图片或视频进行语义检索时，设置 `model: Qwen3-VL-Embedding-8B`，服务需接受 vLLM 的多模态 `/v1/embeddings` 请求。将 `baseUrl` 设为服务地址（含 `/v1`），`apiKeyEnv` 填密钥的环境变量名。待嵌入的分片、查询和媒体会发送到该服务。

@@ -62,6 +62,17 @@ If DSH asks for permission to run a dependency script during installation, revie
 
 ![The Prism sidebar entry after reloading DSH](./screens/0.1.2/en/06-after-reload.png)
 
+### Long-term memory and event triggers (optional) {#optional-plugins}
+
+After enabling the five core plugins, add either or both of these packages in the same DSH profile. Memory adds saved knowledge and media attachments. Triggers add scheduled reminders and external events.
+
+In **Plugins → Add plugin**, enter the exact package and version, then choose **Enable now**. You can also install them in the `web` profile from the command line.
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
 ## 2. Connect your model
 
 Open the account menu and go to **Settings → Models → Add model provider → Custom model API**. Select **OpenAI Responses** as the API protocol. Give it an internal **Provider ID** (e.g., `prism-responses`) and a friendly **Display name** (e.g., **Prism Responses**) that will show up in your model menu.

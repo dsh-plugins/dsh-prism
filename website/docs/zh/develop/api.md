@@ -11,7 +11,7 @@ Web 前端通过受限且经过认证的 HTTP 接口与棱镜交互，宿主内�
 | `GET /prism/api/view` | 获取当前可见对话快照与获准的 L1 模型列表。 |
 | `GET /prism/api/events` | 通过服务器发送事件（SSE）订阅消息及任务卡。命名事件 `appearance` 的数据为 `light`、`dark` 或 `system`。 |
 | `POST /prism/api/message` | 提交 `text` 和客户端生成的稳定 `requestId`。可选的 `attachments` 数组可包含最多八个已上传的附件 ID。 |
-| `POST /prism/api/attachment?name=…` | 上传最多 16 MiB 的图片或视频原始字节，取得其 `assetId`。需要记忆插件。 |
+| `POST /prism/api/attachment?name=…` | 上传最多 16 MiB 的图片或视频原始字节，取得其 `assetId`。需要[记忆插件](../guide/start.md#optional-plugins)。 |
 | `GET /prism/api/attachment?id=…` | 读取当前认证主体有权访问的附件原件。 |
 | `POST /prism/api/model` | 切换后续轮次使用的 L1 `modelId`。 |
 | `GET /prism/api/trace?task=…` | 读取获准的本机任务记录。远程任务的响应会提示到执行节点的 DSH 工作区查看。 |

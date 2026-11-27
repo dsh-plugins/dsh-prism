@@ -62,6 +62,17 @@
 
 ![刷新 DSH 后显示棱镜入口](../../guide/screens/0.1.2/zh/06-after-reload.png)
 
+### 可选安装长期记忆和事件触发器 {#optional-plugins}
+
+启用五个核心插件后，可在同一个 DSH 配置档中按需加装长期记忆和事件触发器。长期记忆支持资料保存和媒体附件，事件触发器支持定时提醒与外部事件。
+
+在 **插件 → 添加插件** 中输入完整包名与版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
 ## 2. 接入模型
 
 打开账号菜单，进入 **设置 → 模型 → 添加模型提供商 → 自定义模型 API**。在 **API 协议** 中选择 **OpenAI Responses**，填入连接标识（如 `prism-responses`）和显示名称（如 **Prism Responses**）。

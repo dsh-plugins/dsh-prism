@@ -39,7 +39,18 @@ You can try Prism with your own project folders or with the two sample folders (
 
 Want to message Prism from Telegram, WeChat, Feishu/Lark, WeCom, QQ, OneBot, or Discord? See the [Messaging apps guide](website/docs/guide/im.md) ([online](https://prism.dsh-plug.in/guide/im)).
 
-Prism 0.2.0 shares the conversation across Web and approved private chats in each DSH profile. To connect devices, set up [WebRTC Mesh](website/docs/develop/mesh.md). For optional long-term memory and event triggers, see [source installation and configuration](docs/CONFIG.md).
+Prism 0.2.0 shares the conversation across Web and approved private chats in each DSH profile. To connect devices, set up [WebRTC Mesh](website/docs/develop/mesh.md).
+
+### Optional memory and triggers
+
+After enabling the five core plugins, add memory for saved knowledge and media attachments, or triggers for reminders and external events. Install the packages you need in the same DSH profile using **Plugins → Add plugin**, then choose **Enable now**. For the `web` profile, you can also use the command line.
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
+[Memory and trigger configuration](docs/CONFIG.md#长期记忆与事件)
 
 ## For developers and contributors
 

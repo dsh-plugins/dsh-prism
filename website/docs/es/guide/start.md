@@ -19,6 +19,17 @@ El orquestador se inicia al habilitar Mesh.
 > [!TIP]
 > Si **Prism** no aparece en la barra lateral justo después de activar los cinco plugins, recarga la pestaña del navegador.
 
+### Memoria a largo plazo y disparadores de eventos (opcional) {#optional-plugins}
+
+Después de habilitar los cinco complementos principales, instala los paquetes que necesites en el mismo perfil de DSH. La memoria permite guardar información y adjuntar archivos multimedia. Los disparadores añaden recordatorios programados y eventos externos.
+
+En **Plugins → Add plugin**, introduce el nombre exacto del paquete y su versión y elige **Enable now**. También puedes usar los siguientes comandos para el perfil `web`.
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
 ## 2. Conecta tu modelo y añade tus proyectos
 
 1. Ve a **Settings → Models → Add model provider → Custom model API**, elige **OpenAI Responses**, introduce tu endpoint, clave API y el modelo `deepseek-v4.1-flash`, y selecciónalo en el chat de DSH.

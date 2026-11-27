@@ -6,7 +6,7 @@ Clique em **Prism** na barra lateral do DSH para abrir o chat. Você não precis
 
 O seletor ao lado de **Send** mostra os modelos disponíveis e em que cada um se destaca. A troca vale a partir da próxima mensagem sem apagar seu rascunho. Pressione **Enter** para enviar ou **Shift+Enter** para quebrar linha.
 
-Com o plugin de memória ativado, use o botão de adição do campo de mensagem para anexar imagens ou vídeos. Você pode repetir ou remover os envios que falharem.
+Com o [plugin de memória](./start.md#optional-plugins) ativado, use o botão de adição do campo de mensagem para anexar imagens ou vídeos. Você pode repetir ou remover os envios que falharem.
 
 O Prism segue a aparência do DSH. No modo Sistema, a página acompanha o tema claro ou escuro do dispositivo.
 

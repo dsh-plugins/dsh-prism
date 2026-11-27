@@ -11,7 +11,7 @@ Utilisez le cookie de session DSH. Les requêtes POST exigent `X-Prism-Request: 
 | `GET /prism/api/view` | Conversation en cours et modèles L1 autorisés. |
 | `GET /prism/api/events` | Flux SSE des messages et cartes de tâches. L’événement `appearance` contient `light`, `dark` ou `system`. |
 | `POST /prism/api/message` | Envoyer `text` et un `requestId` stable. `attachments` peut contenir jusqu’à huit identifiants déjà téléversés. |
-| `POST /prism/api/attachment?name=…` | Téléverser une image ou une vidéo de 16 Mio au plus et recevoir son `assetId`. Le module de mémoire est requis. |
+| `POST /prism/api/attachment?name=…` | Téléverser une image ou une vidéo de 16 Mio au plus et recevoir son `assetId`. Le [module de mémoire](../guide/start.md#optional-plugins) est requis. |
 | `GET /prism/api/attachment?id=…` | Ouvrir une pièce jointe accessible au demandeur. |
 | `POST /prism/api/model` | Choisir le `modelId` L1 des prochains tours. |
 | `GET /prism/api/trace?task=…` | Lire le journal d’une tâche locale autorisée. Pour une tâche distante, la réponse indique l’espace de travail DSH sur l’appareil d’exécution. |

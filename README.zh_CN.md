@@ -39,7 +39,18 @@
 
 想在微信、飞书/Lark、Telegram、企业微信、QQ、OneBot 或 Discord 里直接找棱镜办事？请查看[接入即时通讯指南](website/docs/zh/guide/im.md)（[官网阅读](https://prism.dsh-plug.in/zh/guide/im)）。
 
-棱镜 0.2.0 在每个 DSH 配置档中为 Web 和已获批的私聊共享会话。跨设备执行请配置 [WebRTC Mesh](website/docs/zh/develop/mesh.md)。长期记忆和事件触发器可按[源码安装与配置](docs/CONFIG.md)加装。
+棱镜 0.2.0 在每个 DSH 配置档中为 Web 和已获批的私聊共享会话。跨设备执行请配置 [WebRTC Mesh](website/docs/zh/develop/mesh.md)。
+
+### 可选安装长期记忆和事件触发器
+
+启用五个核心插件后，可在同一个 DSH 配置档中按需加装长期记忆和事件触发器。长期记忆支持资料保存和媒体附件，事件触发器支持定时提醒与外部事件。在 **插件 → 添加插件** 中输入完整包名和版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
+[长期记忆与事件触发器配置](docs/CONFIG.md#长期记忆与事件)
 
 ## 开发者与贡献者
 

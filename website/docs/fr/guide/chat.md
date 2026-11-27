@@ -6,7 +6,7 @@ Cliquez sur **Prism** dans la barre latérale de DSH pour ouvrir la conversation
 
 Le sélecteur près de **Send** affiche les modèles autorisés et leurs points forts. Le changement s’applique dès le message suivant tout en conservant votre brouillon. **Entrée** envoie le message ; **Maj+Entrée** insère un saut de ligne.
 
-Une fois le module de mémoire activé, utilisez le bouton plus du champ de saisie pour joindre une image ou une vidéo. Vous pouvez réessayer ou retirer les envois en échec.
+Une fois le [module de mémoire](./start.md#optional-plugins) activé, utilisez le bouton plus du champ de saisie pour joindre une image ou une vidéo. Vous pouvez réessayer ou retirer les envois en échec.
 
 Prism suit l’apparence de DSH. En mode Système, la page suit le thème clair ou sombre de l’appareil.
 

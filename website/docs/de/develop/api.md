@@ -11,7 +11,7 @@ Browser-Anfragen nutzen das DSH-Login-Cookie. POST-Anfragen benötigen `X-Prism-
 | `GET /prism/api/view` | Aktuelle Unterhaltung und erlaubte L1-Modelle abrufen. |
 | `GET /prism/api/events` | SSE-Stream für Nachrichten und Aufgabenkarten. Das Ereignis `appearance` überträgt `light`, `dark` oder `system`. |
 | `POST /prism/api/message` | `text` und eine stabile `requestId` senden. `attachments` kann bis zu acht hochgeladene IDs enthalten. |
-| `POST /prism/api/attachment?name=…` | Bild- oder Videodaten bis 16 MiB hochladen und eine `assetId` erhalten. Erfordert das Speicher-Plugin. |
+| `POST /prism/api/attachment?name=…` | Bild- oder Videodaten bis 16 MiB hochladen und eine `assetId` erhalten. Erfordert das [Speicher-Plugin](../guide/start.md#optional-plugins). |
 | `GET /prism/api/attachment?id=…` | Einen zugänglichen Anhang abrufen. |
 | `POST /prism/api/model` | Erlaubtes L1-Modell (`modelId`) für Folge-Turns wählen. |
 | `GET /prism/api/trace?task=…` | Protokoll einer berechtigten lokalen Aufgabe lesen. Bei entfernten Aufgaben verweist die Antwort auf den DSH-Arbeitsbereich des Zielgeräts. |

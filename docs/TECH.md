@@ -86,6 +86,8 @@ npm pack --workspaces --pack-destination ../tarballs
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.0` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
 
+核心插件启用后，可按需在同一个 DSH 配置档安装 `@dsh-prism/dsh-memory@0.2.0` 和 `@dsh-prism/dsh-triggers@0.2.0`。[可选插件安装与配置](CONFIG.md#长期记忆与事件)
+
 ## 本地预览官网文档
 
 官网基于 VitePress 构建，在公开仓库根目录执行：

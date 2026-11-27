@@ -19,6 +19,17 @@ Der Orchestrator startet, sobald Mesh aktiviert ist.
 > [!TIP]
 > Falls **Prism** nach dem Aktivieren aller fünf Plugins noch nicht in der Seitenleiste erscheint, laden Sie den Browser-Tab einmal neu.
 
+### Langzeitspeicher und Ereignisauslöser (optional) {#optional-plugins}
+
+Nach der Aktivierung der fünf Kern-Plugins können Sie diese Pakete bei Bedarf im gleichen DSH-Profil ergänzen. Der Langzeitspeicher ermöglicht gespeichertes Wissen und Medienanhänge. Die Auslöser unterstützen geplante Erinnerungen und externe Ereignisse.
+
+Geben Sie unter **Plugins → Add plugin** den genauen Paketnamen mit Version ein und wählen Sie **Enable now**. Für das Profil `web` können Sie auch die folgenden Befehle verwenden.
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
 ## 2. Modell und Projektordner einrichten
 
 1. Öffnen Sie **Settings → Models → Add model provider → Custom model API**, wählen Sie **OpenAI Responses**, tragen Sie Ihre Zugangsdaten sowie die Modell-ID `deepseek-v4.1-flash` ein und wählen Sie das Modell im DSH-Chat aus.

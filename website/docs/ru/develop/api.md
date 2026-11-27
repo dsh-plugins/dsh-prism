@@ -11,7 +11,7 @@
 | `GET /prism/api/view` | Текущий диалог и разрешённые модели L1. |
 | `GET /prism/api/events` | Поток SSE с сообщениями и карточками задач. Событие `appearance` содержит `light`, `dark` или `system`. |
 | `POST /prism/api/message` | Отправить `text` и постоянный `requestId`. В `attachments` можно указать до восьми идентификаторов загруженных файлов. |
-| `POST /prism/api/attachment?name=…` | Загрузить изображение или видео размером до 16 МиБ и получить `assetId`. Требуется плагин памяти. |
+| `POST /prism/api/attachment?name=…` | Загрузить изображение или видео размером до 16 МиБ и получить `assetId`. Требуется [плагин памяти](../guide/start.md#optional-plugins). |
 | `GET /prism/api/attachment?id=…` | Получить вложение, доступное пользователю. |
 | `POST /prism/api/model` | Выбор модели `modelId` L1 для следующих сообщений. |
 | `GET /prism/api/trace?task=…` | Прочитать журнал разрешённой локальной задачи. Для удалённой задачи ответ указывает рабочую область DSH на узле исполнения. |

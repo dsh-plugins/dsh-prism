@@ -11,7 +11,7 @@ Browser requests authenticate with the DSH login cookie. POST requests require `
 | `GET /prism/api/view` | Fetch the current conversation snapshot and permitted L1 models. |
 | `GET /prism/api/events` | Subscribe to Server-Sent Events (SSE) for messages and task cards. The named `appearance` event carries `light`, `dark`, or `system`. |
 | `POST /prism/api/message` | Submit `text` and a stable client-generated `requestId`. Add up to eight staged IDs in the optional `attachments` array. |
-| `POST /prism/api/attachment?name=…` | Stage raw image or video bytes (up to 16 MiB) and receive an `assetId`. Requires the memory plugin. |
+| `POST /prism/api/attachment?name=…` | Stage raw image or video bytes (up to 16 MiB) and receive an `assetId`. Requires [the memory plugin](../guide/start.md#optional-plugins). |
 | `GET /prism/api/attachment?id=…` | Read an attachment accessible to the authenticated caller. |
 | `POST /prism/api/model` | Switch the active L1 `modelId` for upcoming turns. |
 | `GET /prism/api/trace?task=…` | Read the transcript of an authorized local task. For a remote task, the response directs the caller to the execution node’s DSH workspace. |

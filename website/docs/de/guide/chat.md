@@ -6,7 +6,7 @@
 
 Über das Modellmenü neben **Send** sehen Sie die freigegebenen Gesprächsmodelle samt Kurzbeschreibung. Ein Wechsel gilt ab der nächsten Nachricht, Ihr aktueller Entwurf bleibt erhalten. Mit **Enter** senden Sie, mit **Shift+Enter** fügen Sie einen Zeilenumbruch ein.
 
-Mit aktiviertem Speicher-Plugin fügen Sie über das Pluszeichen im Eingabefeld Bilder oder Videos an. Fehlgeschlagene Uploads lassen sich wiederholen oder entfernen.
+Mit aktiviertem [Speicher-Plugin](./start.md#optional-plugins) fügen Sie über das Pluszeichen im Eingabefeld Bilder oder Videos an. Fehlgeschlagene Uploads lassen sich wiederholen oder entfernen.
 
 Prism übernimmt das Erscheinungsbild aus DSH. Im Systemmodus folgt die Seite dem Hell-Dunkel-Wechsel des Geräts.
 

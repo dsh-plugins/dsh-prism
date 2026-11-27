@@ -19,6 +19,17 @@ L’orchestrateur démarre dès que Mesh est activé.
 > [!TIP]
 > Si **Prism** n’apparaît pas dans la barre latérale juste après avoir activé les cinq plugins, rechargez l’onglet du navigateur.
 
+### Mémoire à long terme et déclencheurs d’événements (facultatifs) {#optional-plugins}
+
+Après avoir activé les cinq modules principaux, ajoutez les paquets dont vous avez besoin dans le même profil DSH. La mémoire conserve les informations et permet de joindre des médias. Les déclencheurs ajoutent des rappels planifiés et des événements externes.
+
+Dans **Plugins → Add plugin**, saisissez le nom exact du paquet et sa version, puis choisissez **Enable now**. Vous pouvez aussi utiliser les commandes suivantes pour le profil `web`.
+
+```sh
+dsh plugin --profile web add "@dsh-prism/dsh-memory@0.2.0"
+dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.0"
+```
+
 ## 2. Connecter un modèle et ajouter vos projets
 
 1. Allez dans **Settings → Models → Add model provider → Custom model API**, choisissez **OpenAI Responses**, renseignez votre point d’accès, votre clé API et l’identifiant `deepseek-v4.1-flash`, puis sélectionnez ce modèle dans un chat DSH.
