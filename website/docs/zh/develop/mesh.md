@@ -1,5 +1,7 @@
 # Mesh 与遇锁自愈
 
+本页记录已发布的 HTTP Mesh 配置。开发版采用 WebRTC，需要全组切换。新版的信令、TURN、项目导出、Room 和迁移步骤见[配置与迁移](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md)。
+
 棱镜在分布式执行层遵循两条核心路线：**位置透明的跨机抽象**（`dsh-mesh-node`）与**外轻内重、遇锁自愈的会话模型**，让编排逻辑无需感知网络拓扑，也不会被底层写锁卡死。
 
 ## 位置透明：把远程节点封装为标准 Provider

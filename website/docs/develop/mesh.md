@@ -1,5 +1,7 @@
 # Mesh and session resilience
 
+This page covers the released HTTP Mesh configuration. The development version uses WebRTC and requires a coordinated upgrade. [WebRTC configuration and migration](https://github.com/dsh-plugins/dsh-prism/blob/main/docs/CONFIG.md)
+
 Prism's distributed runtime combines **location-transparent dispatch** (`dsh-mesh-node`) with **Copy-on-Conflict session recovery** so orchestration logic stays identical across local and remote nodes and never deadlocks on a session write lock.
 
 ## Location transparency via Subagent Providers

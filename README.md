@@ -42,6 +42,7 @@ Want to message Prism from Telegram, WeChat, Feishu/Lark, WeCom, QQ, OneBot, or 
 ## For developers and contributors
 
 - Architecture, design principles, and source checkout instructions: [Technical reference](docs/TECH.md)
+- Development configuration and migration for shared conversations, memory, triggers, and WebRTC. [Configuration and migration](docs/CONFIG.md)
 - Run the VitePress documentation site locally from the `dsh-prism` root:
 
 ```sh
