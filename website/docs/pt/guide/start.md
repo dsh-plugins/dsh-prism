@@ -2,9 +2,9 @@
 
 Com o Prism você não precisa alternar entre pastas de projeto: basta fazer um pedido em um único chat para que ele verifique vários projetos ao mesmo tempo e entregue o resumo. O guia ilustrado passo a passo está disponível em [inglês](/guide/start) e em [chinês](/zh/guide/start) (DeepSeek Harness `0.2.3-alpha.2`).
 
-## 1. Instale os cinco plugins
+## 1. Instale os sete plugins obrigatórios
 
-No DSH, abra **Plugins → Add plugin** e instale os cinco pacotes abaixo na ordem indicada. Clique em **Enable now** após cada instalação antes de passar ao próximo:
+No DSH, abra **Plugins → Add plugin** e instale os sete pacotes abaixo na ordem indicada. Clique em **Enable now** após cada instalação antes de passar ao próximo:
 
 | Ordem | Pacote e versão |
 | --- | --- |
@@ -13,30 +13,26 @@ No DSH, abra **Plugins → Add plugin** e instale os cinco pacotes abaixo na ord
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` |
+| 6 | `@dsh-prism/dsh-memory@0.3.1` |
+| 7 | `@dsh-prism/dsh-triggers@0.2.1` |
 
 O orquestrador inicia assim que o Mesh é habilitado.
 
 > [!TIP]
-> Se **Prism** não aparecer na barra lateral logo após ativar os cinco plugins, recarregue a aba do navegador.
+> Se **Prism** não aparecer na barra lateral logo após ativar os sete plugins, recarregue a aba do navegador.
 
-### Memória de longo prazo e gatilhos de eventos (opcionais) {#optional-plugins}
+### Memória de longo prazo e gatilhos de eventos {#optional-plugins}
 
-Depois de habilitar os cinco plugins principais, instale os pacotes de que precisa no mesmo perfil do DSH. A memória guarda informações e permite anexar mídia. Os gatilhos acrescentam lembretes agendados e eventos externos.
+A memória guarda informações e permite anexar mídia. Os gatilhos acrescentam lembretes agendados e eventos externos.
 
-Em **Plugins → Add plugin**, informe o nome exato e a versão do pacote e selecione **Enable now**. Você também pode usar os comandos abaixo para o perfil `web`.
-
-```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
-```
-
-Em **Settings → Prism/Memory**, vincule um modelo de embeddings local ou uma API remota. As ferramentas de memória ficam disponíveis assim que a inicialização termina, e o Prism carrega o vínculo automaticamente nas próximas inicializações do DSH.
+Em **Settings → Prism/Memory**, escolha **Remote API**. Nos campos `BASE_URL` e `API_KEY`, informe os valores das variáveis de ambiente `EMBEDDINGS_BASE_URL` e `EMBEDDINGS_API_KEY`, respectivamente. Preencha `MODEL_ID` com `BAAI/bge-large-zh-v1.5`, confirme a conexão e aguarde o fim da inicialização. As ferramentas de memória ficam disponíveis nesse momento, e o Prism carrega o vínculo automaticamente nas próximas inicializações do DSH.
 
 ## 2. Conecte seu modelo e adicione os projetos
 
-1. Abra **Settings → Models → Add model provider → Custom model API**, escolha **OpenAI Responses**, informe seu endpoint, chave de API e o modelo `deepseek-v4.1-flash`, e selecione-o em um chat do DSH.
-2. Na barra lateral, clique em **Add workspace** e abra suas pastas de projeto (por exemplo, `harbor-books` e `lantern-cafe`). O Prism identifica os espaços locais automaticamente pelo nome.
-3. Se quiser definir modelos específicos para cada etapa (**L1 Conversa**, **L2 Planejamento**, **L3 Execução**), acesse **Settings → Prism/Configuration**.
+1. Abra **Settings → Models → Add model provider → Custom model API** e escolha **OpenAI Responses**. Use os valores das variáveis de ambiente `BASE_URL` e `API_KEY` e adicione `deepseek-v4.1-flash` como ID do modelo.
+2. Edite o provedor, abra **Customized settings → Model options** e habilite **Reasoning levels**. Salve o nível `high` com o valor de API `high`. No chat do DSH, selecione o modelo e escolha **Effort → High**. O orquestrador do Prism `0.2.1` passa apenas o provedor e o modelo às sessões do Prism, que não herdam o nível de raciocínio escolhido no chat do DSH.
+3. Na barra lateral, clique em **Add workspace** e abra suas pastas de projeto, como `harbor-books` e `lantern-cafe`. O Prism identifica os espaços locais automaticamente pelo nome.
+4. Em **Settings → Prism/Configuration**, use a mesma descrição e o mesmo prompt para cada modelo em **L1 Conversa**, **L2 Planejamento** e **L3 Execução**. Veja [descrições e prompts dos modelos](../../guide/model-metadata.md). Configure `gpt-6.2-sol` se ele também estiver disponível no DSH por outro provedor.
 
 ## 3. Envie o pedido e confira o resultado
 

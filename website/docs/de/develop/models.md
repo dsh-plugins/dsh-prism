@@ -12,14 +12,16 @@ Unter **Settings → Prism/Configuration** (oder `orchestrator.models` in `prism
 
 Während Nutzer das **L1**-Modell frei wechseln, wählen übergeordnete Agenten **L2** und **L3** dynamisch aus.
 
+Verwenden Sie auf jeder Ebene, auf der dasselbe Modell verfügbar ist, dieselbe Beschreibung und denselben Prompt. Die [Modellprofile](../../guide/model-metadata.md) enthalten die Werte für `deepseek-v4.1-flash` und `gpt-6.2-sol`.
+
 ```json
 {
   "defaultProjectId": "prism",
-  "defaultL1Model": "deepseek-flash",
+  "defaultL1Model": "example-model",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "Anfragen klären und verteilen" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "Planung und Gegenprüfung" }],
-    "L3": [{ "id": "deepseek-flash", "description": "Gezielte Code-Prüfung", "promptMode": "append", "prompt": "Geprüfte Dateien angeben." }]
+    "L1": [{ "id": "example-model", "description": "Effizient bei klar abgegrenzten Aufgaben", "prompt": "Formuliere knapp und präzise." }],
+    "L2": [{ "id": "example-model", "description": "Effizient bei klar abgegrenzten Aufgaben", "prompt": "Formuliere knapp und präzise." }],
+    "L3": [{ "id": "example-model", "description": "Effizient bei klar abgegrenzten Aufgaben", "prompt": "Formuliere knapp und präzise." }]
   }
 }
 ```

@@ -12,14 +12,16 @@ Prism は**モデルの選択権**と**実体パスの解決権**を分離し、
 
 **L1** モデルはユーザーが自由に選び、**L2** と **L3** は上位エージェントが動的に選択します。
 
+同じモデルを複数の層で使う場合は、すべての層で同じ説明とプロンプトを設定します。説明にはモデルの能力や適した用途を記載し、プロンプトには層や個別タスクに依存しない指針を記載します。[モデルの説明とプロンプト](../../guide/model-metadata.md)を参照してください。
+
 ```json
 {
   "defaultProjectId": "prism",
-  "defaultL1Model": "deepseek-flash",
+  "defaultL1Model": "example-model",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "要望の整理と振り分け" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "計画立案と検証" }],
-    "L3": [{ "id": "deepseek-flash", "description": "ピンポイントのコード確認", "promptMode": "append", "prompt": "確認したファイル名を明記すること。" }]
+    "L1": [{ "id": "example-model", "description": "範囲が明確なタスクに適しています。", "promptMode": "append", "prompt": "簡潔で自然な言葉を使ってください。" }],
+    "L2": [{ "id": "example-model", "description": "範囲が明確なタスクに適しています。", "promptMode": "append", "prompt": "簡潔で自然な言葉を使ってください。" }],
+    "L3": [{ "id": "example-model", "description": "範囲が明確なタスクに適しています。", "promptMode": "append", "prompt": "簡潔で自然な言葉を使ってください。" }]
   }
 }
 ```

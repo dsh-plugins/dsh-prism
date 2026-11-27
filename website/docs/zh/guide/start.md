@@ -4,7 +4,7 @@
 
 本指南基于 DeepSeek Harness `0.2.3-alpha.2`。你可以直接使用自己的项目目录，也可以下载仓库自带的两个示例目录：[查看 GitHub 示例目录](https://github.com/dsh-plugins/dsh-prism/tree/main/docs/examples)。
 
-## 1. 安装五个棱镜插件
+## 1. 安装七个必需的棱镜插件
 
 打开 DeepSeek Harness。首次启动时，在预览版说明中点击 **继续**，如果弹出 **开始使用** 窗口可以直接关掉。
 
@@ -21,13 +21,15 @@
 | 3 | `@dsh-prism/dsh-mesh-node@0.2.2` |
 | 4 | `@dsh-prism/dsh-im-gateway@0.2.0` |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.2.2` |
+| 6 | `@dsh-prism/dsh-memory@0.3.1` |
+| 7 | `@dsh-prism/dsh-triggers@0.2.1` |
 
 请使用表格中的当前包版本。截图展示的是早期版本中的相同安装控件。启用 Mesh 后，编排器会启动。
 
 ![DSH 插件页的添加入口](../../guide/screens/0.1.2/zh/03-plugins.png)
 
 <details>
-<summary>展开查看：五个插件的逐个安装截图</summary>
+<summary>前五个插件的安装截图</summary>
 
 ![输入 dsh-workspace-registry 的包名和版本](../../guide/screens/0.1.2/zh/04-1-source-dsh-workspace-registry.png)
 
@@ -55,33 +57,32 @@
 
 </details>
 
-![五个棱镜插件全部安装完成](../../guide/screens/0.1.2/zh/06-before-reload.png)
+![刷新前的 DSH 插件列表](../../guide/screens/0.1.2/zh/06-before-reload.png)
 
 > [!TIP]
-> 如果五个插件都启用后，左侧栏还没有出现 **棱镜** 入口，刷新一次浏览器页面即可。
+> 如果七个插件都启用后，左侧栏还没有出现 **棱镜** 入口，刷新一次浏览器页面。如果页面提示 `missing or incompatible host boot descriptor`，刷新也会重新加载棱镜客户端。
+
+![DSH 插件页中七个棱镜插件均已启用](../../guide/screens/frontend-verification/zh/seven-plugins.png)
 
 ![刷新 DSH 后显示棱镜入口](../../guide/screens/0.1.2/zh/06-after-reload.png)
 
 要连接另一台设备，请在两台设备的 **设置 → 棱镜/连接** 输入同一个信令地址和连接码。[WebRTC Mesh 指南](../develop/mesh.md)
 
-### 可选安装长期记忆和事件触发器 {#optional-plugins}
+### 配置长期记忆和事件触发器 {#optional-plugins}
 
-启用五个核心插件后，可在同一个 DSH 配置档中按需加装长期记忆和事件触发器。长期记忆支持资料保存和媒体附件，事件触发器支持定时提醒与外部事件。
+长期记忆插件支持保存资料和媒体附件，事件触发器插件支持定时提醒与外部事件。请在同一个 DSH 配置档中启用全部七个插件。
 
-在 **插件 → 添加插件** 中输入完整包名与版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
+打开 **设置 → 棱镜/记忆 → 远程 API**。将 `EMBEDDINGS_BASE_URL` 的值填入 **BASE_URL**，将 `EMBEDDINGS_API_KEY` 的值填入 **API_KEY**，在 **MODEL_ID** 中输入 `BAAI/bge-large-zh-v1.5`。确认绑定并等待初始化。页面显示当前模型和向量维度后，即可使用记忆工具。之后每次启动 DSH 都会自动加载绑定。
 
-```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
-```
+![远程模型已绑定，记忆工具处于启用状态](../../guide/screens/frontend-verification/zh/memory-bound.png)
 
-在 **设置 → 棱镜/记忆** 中打开 **本地部署** 的模型菜单，选择嵌入模型并点击 **下载**，也可以绑定 **远程API**。初始化完成后立即启用记忆工具，之后每次启动 DSH 都会自动加载绑定。
+在本次 Responses 接入实测中，`event_add` 调用把 Cron 的 `params` 作为 JSON 字符串传入。触发器返回「参数必须是 JSON 对象」，未创建订阅。[工具调用截图](../../guide/screens/frontend-verification/zh/cron-parameters.png)
 
 ## 2. 接入模型
 
 打开账号菜单，进入 **设置 → 模型 → 添加模型提供商 → 自定义模型 API**。在 **API 协议** 中选择 **OpenAI Responses**，填入连接标识（如 `prism-responses`）和显示名称（如 **Prism Responses**）。
 
-点击 **添加模型**，在 **模型 ID 1** 中输入 `deepseek-v4.1-flash`，填好你的 **API 地址** 和 **API 密钥** 后点击 **创建提供商**。
+点击 **添加模型**，在 **模型 ID 1** 中输入 `deepseek-v4.1-flash`。将 `BASE_URL` 的值填入 **API 地址**，将 `API_KEY` 的值填入 **API 密钥**，然后点击 **创建提供商**。
 
 ![从 DSH 模型设置添加提供商](../../guide/screens/0.1.2/zh/models.png)
 
@@ -91,7 +92,11 @@ dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 
 ![已保存 Prism Responses 提供商](../../guide/screens/0.1.2/zh/provider_saved.png)
 
-接着在 DSH 对话输入框旁的模型菜单里，选中 **Prism Responses → deepseek-v4.1-flash** 作为默认模型。
+编辑提供商，打开 **自定义设置**，展开 `deepseek-v4.1-flash` 的 **模型选项**。启用 **推理强度**，确认 **高** 对应的 API 值为 `high`，然后保存。在 DSH 对话的模型菜单中选择 **Prism Responses → deepseek-v4.1-flash**，再把推理强度设为 **高（`high`）**。[DSH 模型提供商指南](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md#reasoning-effort)
+
+棱镜编排器 `0.2.1` 在创建会话时只传递提供商和模型 ID。前端实测中，原生 DSH 会话显示 **High**，棱镜 L1 及两个项目的 L2、L3 会话均显示 **Default**。
+
+![棱镜执行会话的推理等级显示 Default](../../guide/screens/frontend-verification/zh/prism-effort-default.png)
 
 ![DSH 模型菜单中的提供商和模型](../../guide/screens/0.1.2/zh/model-picker.png)
 
@@ -118,32 +123,20 @@ dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 - **L2（规划）**：负责在具体项目里拆解步骤。
 - **L3（执行）**：负责读取文件、核查资料和执行具体操作。
 
-勾选某个环节允许使用的模型即可；如果某个环节不勾选，就会自动沿用 DSH 的默认模型。你还可以点击模型旁边的编辑按钮，写一段 **模型介绍**（帮棱镜判断什么时候适合派它上场）和 **模型提示词**，最后点击 **保存**。
+在三个环节都勾选 `deepseek-v4.1-flash`。如果某个环节未选择模型，棱镜会沿用 DSH 的默认模型。点击模型旁边的编辑按钮，填入 **模型介绍** 和 **模型提示词** 后保存。在多个环节启用同一个模型时，请使用相同的介绍与提示词。模型介绍供上一级选择子代理，模型提示词用于设置该模型的工作偏好。如果你的 DSH 已通过其他提供商接入 `gpt-6.2-sol`，可以为它填写对应的介绍与提示词。[模型介绍与提示词](../../guide/model-metadata.md)
 
-在下面的示例里，我们为三个环节都勾选 `deepseek-v4.1-flash`，并填上对应的介绍与提示词：
-
-| 环节 | 模型介绍 | 模型提示词 |
-| --- | --- | --- |
-| L1（对话） | 协调多个项目的任务 | 按照用户指定的语言和格式汇总已核实的结果。 |
-| L2（规划） | 规划项目任务 | 复用已经核实的结果，并向协调者汇报已完成的工作。 |
-| L3（执行） | 核查工作区资料 | 报告已核实的事实，并在需要时注明来源文件。 |
+![在棱镜分层配置中查看已保存的 DeepSeek 模型介绍与提示词](../../guide/screens/frontend-verification/zh/model-l1.png)
 
 <details>
-<summary>展开查看：配置各环节模型与规则的截图</summary>
+<summary>各环节的模型选择截图</summary>
 
 ![配置页及本机工作区发现说明](../../guide/screens/0.1.2/zh/10-prism-configuration.png)
 
 ![L1 已勾选目标模型](../../guide/screens/0.1.2/zh/11-l1-model.png)
 
-![L1 的模型介绍和提示词](../../guide/screens/0.1.2/zh/11-l1-rule.png)
-
 ![L2 已勾选目标模型](../../guide/screens/0.1.2/zh/11-l2-model.png)
 
-![L2 的模型介绍和提示词](../../guide/screens/0.1.2/zh/11-l2-rule.png)
-
 ![L3 已勾选目标模型](../../guide/screens/0.1.2/zh/11-l3-model.png)
-
-![L3 的模型介绍和提示词](../../guide/screens/0.1.2/zh/11-l3-rule.png)
 
 ![重新进入配置页核对已保存的分层设置](../../guide/screens/0.1.2/zh/12-model-settings-verified.png)
 
@@ -167,6 +160,13 @@ dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 你会看到时间线里出现两张折叠任务卡，棱镜在后台分别核查完两个项目后，会直接给你汇总出两行结果：
 
 ![对话时间线中显示两项派发任务](../../guide/screens/0.1.2/zh/15-dispatched.png)
+
+<details>
+<summary>查看 OpenAI Responses 前端实测结果</summary>
+
+![两个项目完成后，棱镜在同一对话中汇总结果](../../guide/screens/frontend-verification/zh/two-project-results.png)
+
+</details>
 
 ![棱镜回复分别列出了两个项目的活动资料](../../guide/screens/0.1.2/zh/16-results.png)
 
@@ -207,5 +207,5 @@ dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
 ## 常见问题
 
 - **安装插件时提示“这个包没有声明组合包”**：请核对是否按第 1 步表格填写了带版本号的完整包名（例如 `@dsh-prism/dsh-workspace-registry@0.1.2`），并在每次安装后点击 **立即启用**。
-- **五个插件都启用了，但侧栏找不到“棱镜”**：刷新一次 DSH 浏览器标签页即可。
+- 如果启用七个插件后侧栏仍没有显示 **棱镜**，刷新一次 DSH 浏览器标签页。
 - **在目录选择器输入路径后，页面仍停留在原目录**：再点一次 **编辑路径** 输入目标路径，确认路径栏末尾已经变成目标文件夹名后再点 **打开**。

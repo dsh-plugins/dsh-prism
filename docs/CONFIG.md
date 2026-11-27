@@ -4,12 +4,9 @@
 
 ## 长期记忆与事件
 
-启用五个核心插件后，可在同一个 DSH 配置档按需从 npm 加装长期记忆和事件触发器。在 **插件 → 添加插件** 中输入完整包名与版本，安装后选择 **立即启用**。也可以通过命令行安装到 `web` 配置档。
+长期记忆 (`@dsh-prism/dsh-memory@0.3.1`) 和事件触发器 (`@dsh-prism/dsh-triggers@0.2.1`) 都是[快速开始](../website/docs/zh/guide/start.md)中的必需插件。在同一个 DSH 配置档的 **插件 → 添加插件** 中输入完整包名与版本，安装后选择 **立即启用**。
 
-```sh
-dsh plugin --profile web add "@dsh-prism/dsh-memory@0.3.1"
-dsh plugin --profile web add "@dsh-prism/dsh-triggers@0.2.1"
-```
+快速开始使用远程嵌入模型。在 **设置 → 棱镜/记忆 → 远程 API** 中将 `EMBEDDINGS_BASE_URL` 的值填到 **BASE_URL**，将 `EMBEDDINGS_API_KEY` 的值填到 **API_KEY**，并将 **MODEL_ID** 设为 `BAAI/bge-large-zh-v1.5`。确认绑定后，等待读取模型的向量维度并完成初始化。
 
 - 在 **设置 → 棱镜/记忆** 中选择 **本地部署** 或 **远程API**。本地可选 `bge-m3`、`bge-large-zh-v1.5`、`bge-large-en-v1.5`、`Qwen3-Embedding-0.6B`，确认后按文件从 HF-Mirror 下载，失败时尝试 Hugging Face 官方源。远程需填写 `BASE_URL` 和 `MODEL_ID`，接口允许匿名访问时可留空 `API_KEY`。连接验证后会显示实际向量维度和上下文长度，服务未提供长度且模型上限未知时会标注保守估计值。绑定成功后锁定来源和模型，初始化完成即启用工具，之后每次启动自动加载。旧配置档中显式设置的 Cordis `embedding` 仍可生效。
 - 用图片或视频进行语义检索时，绑定 `Qwen3-VL-Embedding-8B`，服务需接受 vLLM 的多模态 `/v1/embeddings` 请求。待嵌入的分片、查询和媒体会发送到该服务。
@@ -50,7 +47,7 @@ L1 用已有的 `event_add` 和 `event_remove` 管理订阅。以下示例监听
 
 ### 在设置中配对
 
-按[快速开始](../website/docs/zh/guide/start.md)在两台设备上启用最新版棱镜核心插件。更新已有安装时，请使用指南中列出的 `@dsh-prism/dsh-concierge-ui@0.2.2` 和 `@dsh-prism/dsh-mesh-node@0.2.2` 与编排器版本。打开 **设置 → 棱镜/连接**。两台设备使用同一个信令服务，复制一台生成的连接码到另一台，在两端点击 **连接**。先连接的一方最多等待 10 分钟。设备配对成功后保存对方的公钥，重启时自动重新建立连接。解除配对会关闭数据通道并撤销该对设备的信令转发权限。
+按[快速开始](../website/docs/zh/guide/start.md)在两台设备上启用棱镜插件。更新已有安装时，请使用指南中列出的 `@dsh-prism/dsh-concierge-ui@0.2.2` 和 `@dsh-prism/dsh-mesh-node@0.2.2` 与编排器版本。打开 **设置 → 棱镜/连接**。两台设备使用同一个信令服务，复制一台生成的连接码到另一台，在两端点击 **连接**。先连接的一方最多等待 10 分钟。设备配对成功后保存对方的公钥，重启时自动重新建立连接。解除配对会关闭数据通道并撤销该对设备的信令转发权限。
 
 使用自托管信令时，启用 **作为服务端 → 信令服务器**，配置监听地址、端口和证书后保存。对外使用证书匹配的 `wss://` 地址，默认端口为 `8443/TCP`。同机测试可单独开启 `127.0.0.1:8080/WS`。信令 URL 省略路径时使用 `/prism/mesh/signaling/v2`。
 
