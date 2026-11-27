@@ -8,7 +8,7 @@ Verwenden Sie unter **Settings → Prism/Configuration** für ein Modell dieselb
 
 ## `deepseek-v4.1-flash`
 
-Wählen Sie in der DSH-Modellauswahl die Denkstufe **High** (`high`). Der Prism-Orchestrator `0.2.1` übergibt an Prism-Sitzungen nur den Anbieter und die Modell-ID. In diesen Sitzungen gilt die Standard-Denkstufe des Anbieters. [Schnellstart](./start.md)
+Wählen Sie in der DSH-Modellauswahl die Denkstufe **High** (`high`). Mit dem Prism-Orchestrator `0.2.2` übernimmt eine Sitzung die DSH-Denkstufe, wenn Anbieter und Modell-ID mit der DSH-Standardauswahl übereinstimmen. Andere Sitzungen verwenden die Standard-Denkstufe ihrer Modellroute. In `0.2.1` verwendeten alle Sitzungen die Standard-Denkstufe ihrer Route. [Schnellstart](./start.md)
 
 ### Modellbeschreibung {#deepseek-description}
 

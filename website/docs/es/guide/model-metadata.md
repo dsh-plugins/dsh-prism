@@ -8,7 +8,7 @@ En **Settings → Prism/Configuration**, usa la misma descripción y el mismo pr
 
 ## `deepseek-v4.1-flash`
 
-Selecciona el esfuerzo de razonamiento **High** (`high`) en el selector de modelos de DSH. El orquestador de Prism `0.2.1` solo pasa el proveedor y el identificador del modelo a sus sesiones. Estas usan el esfuerzo de razonamiento predeterminado del proveedor. [Inicio rápido](./start.md)
+Selecciona el esfuerzo de razonamiento **High** (`high`) en el selector de modelos de DSH. Con el orquestador de Prism `0.2.2`, una sesión hereda el esfuerzo de DSH cuando el proveedor y el identificador del modelo coinciden con la selección predeterminada de DSH. Las demás sesiones usan el esfuerzo predeterminado de la ruta del modelo. En `0.2.1`, todas las sesiones usaban el valor predeterminado de su ruta. [Inicio rápido](./start.md)
 
 ### Descripción del modelo {#deepseek-description}
 

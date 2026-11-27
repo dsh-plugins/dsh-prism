@@ -8,7 +8,7 @@ Em **Settings → Prism/Configuration**, use a mesma descrição e o mesmo promp
 
 ## `deepseek-v4.1-flash`
 
-Selecione o nível de raciocínio **High** (`high`) no seletor de modelos do DSH. O orquestrador do Prism `0.2.1` envia às sessões apenas o provedor e o ID do modelo, de modo que o nível de raciocínio no Prism segue o padrão do provedor. [Início rápido](./start.md)
+Selecione o nível de raciocínio **High** (`high`) no seletor de modelos do DSH. No orquestrador do Prism `0.2.2`, uma sessão herda o nível de raciocínio do DSH quando o provedor e o ID do modelo coincidem com a seleção padrão do DSH. As outras sessões usam o nível padrão da rota do modelo. No `0.2.1`, todas as sessões usavam o padrão da rota. [Início rápido](./start.md)
 
 ### Descrição do modelo {#deepseek-description}
 

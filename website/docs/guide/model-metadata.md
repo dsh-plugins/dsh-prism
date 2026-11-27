@@ -8,7 +8,7 @@ Under **Settings → Prism/Configuration**, use the same description and prompt 
 
 ## `deepseek-v4.1-flash`
 
-Select **High** (`high`) reasoning effort in the DSH model picker. Prism orchestrator `0.2.1` passes only the provider and model ID to its sessions, so Prism's reasoning effort depends on the provider default. [Quick start](./start.md)
+Select **High** (`high`) reasoning effort in the DSH model picker. With Prism orchestrator `0.2.2`, a session inherits the DSH effort when its provider and model ID both match the DSH default selection. Other sessions use the default effort for their model route. Orchestrator `0.2.1` used the route default for all sessions. [Quick start](./start.md)
 
 ### Model description {#deepseek-description}
 

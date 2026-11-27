@@ -8,7 +8,7 @@ Dans **Settings → Prism/Configuration**, utilisez la même description et le m
 
 ## `deepseek-v4.1-flash`
 
-Sélectionnez l’effort de raisonnement **High** (`high`) dans le sélecteur de modèles de DSH. L’orchestrateur Prism `0.2.1` transmet uniquement le fournisseur et l’identifiant du modèle à ses sessions. Ces sessions utilisent l’effort de raisonnement par défaut du fournisseur. [Démarrage rapide](./start.md)
+Sélectionnez l’effort de raisonnement **High** (`high`) dans le sélecteur de modèles de DSH. Avec l’orchestrateur Prism `0.2.2`, une session reprend l’effort de DSH si le fournisseur et l’identifiant du modèle correspondent tous deux à la sélection par défaut de DSH. Les autres sessions utilisent l’effort par défaut de la route du modèle. Dans la version `0.2.1`, toutes les sessions utilisaient l’effort par défaut de leur route. [Démarrage rapide](./start.md)
 
 ### Description du modèle {#deepseek-description}
 
