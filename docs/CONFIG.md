@@ -12,6 +12,35 @@
 - Qwen 视频索引需要本机的 FFmpeg 和 FFprobe。可以从 PATH 启动，也可在记忆插件中用 `video.ffmpegPath` 和 `video.ffprobePath` 指定绝对路径。支持最长 180 秒的 MP4、MOV 和 WebM。每秒抽取一帧，按时间段索引，检索结果显示命中时间范围。原件继续保存在当前 Profile。
 - 可以请棱镜订阅定时提醒或编写 TypeScript 事件 Provider。内置 `cron` 的 `expression` 接受标准五段表达式，`timezone` 接受 IANA 时区名，缺省为 UTC，`payload` 可附带事件资料。通知回到创建订阅的 Web 或 IM 私聊。停机期间错过的时刻跳过，已写入待投递队列的事件恢复发送。
 
+### MSP 外部事件
+
+`dsh-triggers` 用一个 `msp-ts` 节点维护发现、连接和重连。缺省关闭。启用时，在当前 Profile 补丁中填写与 MSP 节点共用的发现目录和允许连接的节点。默认连接回环地址，可用 `allowedHosts` 显式允许其他设备的 IP。
+
+```yaml
+- id: dsh-triggers
+  config:
+    msp:
+      nodesDir: /absolute/path/to/msp-nodes
+      nodeId: prism_bridge
+      allowedNodes: [sensor_a]
+```
+
+L1 用已有的 `event_add` 和 `event_remove` 管理订阅。以下示例监听指定节点的温度路径，只在值变化时触发，入队后冷却 30 秒。
+
+```json
+{
+  "providerId": "msp",
+  "params": {
+    "nodeId": "sensor_a",
+    "path": "sensor.temperature.**",
+    "cooldownMs": 30000,
+    "changeOnly": true
+  }
+}
+```
+
+`path` 支持精确路径、`*` 和 `**`。冷却按订阅计算，变化判断按路径比较上次入队的 JSON 值。命中的信号以 `external.trigger` 进入 L1 Inbox，标记为 `untrusted`。L1 在独立上下文处理该信号，可以沿订阅原路由发通知。
+
 ## WebRTC 节点
 
 每台设备使用 Node 24、唯一 `nodeId` 和独立的 Ed25519 密钥。私钥用 PKCS#8 DER 的 base64url 文本放到 `webrtc.privateKeyEnv` 指向的环境变量。公钥用 SPKI DER 的 base64url 文本登记到信令服务及对端 `peers[].publicKey`。信令配置包含 `host`、`port`、`certFile`、`keyFile` 和 `nodes`（节点 ID 到公钥的映射）。运行 `dsh-prism-mesh-signaling --config signaling.json` 启动 TLS 信令。
