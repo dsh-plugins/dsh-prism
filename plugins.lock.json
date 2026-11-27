@@ -1,7 +1,7 @@
 {
   "dsh-workspace-registry": "41f8e2a9e79aa197dfc098b03ced59c2a722b6b1",
-  "dsh-orchestrator": "a9750e6503f7a1cf72fc8bf6739b522c6263dc2f",
+  "dsh-orchestrator": "68252425a9564bf6f893b47a3e97bf6e3ab48c82",
   "dsh-mesh-node": "78bc152b7a68745067628eb2904466407e1df7c2",
-  "dsh-concierge-ui": "47380d1758c0c830c47d09708b1c368b17135acd",
+  "dsh-concierge-ui": "9704650a2529e443818184efdb553b47fa1060ec",
   "dsh-im-gateway": "84d7c61f860fb0eb52168b3fdbeee46c240519d8"
 }
