@@ -3,8 +3,8 @@
   "layout": "home",
   "hero": {
     "name": "Prism",
-    "text": "Une conversation sur plusieurs appareils.",
-    "tagline": "Prism répartit la planification et l’exécution entre des sessions DeepSeek Harness. Confiez une tâche depuis le Web ou une messagerie et suivez son avancement.",
+    "text": "Une seule conversation pour tous vos projets et appareils.",
+    "tagline": "Dites simplement à Prism ce que vous voulez accomplir. Il coordonne les projets et les machines en arrière-plan et vous répond dès que tout est prêt.",
     "image": {
       "src": "/icon.svg",
       "alt": "DSH Prism"
@@ -17,25 +17,25 @@
       },
       {
         "theme": "alt",
-        "text": "Rôles et permissions",
+        "text": "Architecture & rôles",
         "link": "/fr/develop/layers"
       }
     ]
   },
   "features": [
     {
-      "title": "La conversation",
-      "details": "Choisissez un modèle, décrivez le résultat souhaité et consultez les tâches en arrière-plan.",
+      "title": "Conversation épurée",
+      "details": "Plus besoin de changer d’espace de travail : choisissez votre modèle à tout moment et consultez les détails uniquement si nécessaire.",
       "link": "/fr/guide/chat"
     },
     {
-      "title": "Messageries",
-      "details": "Connectez un bot, autorisez une conversation privée et recevez les résultats.",
+      "title": "Depuis votre messagerie",
+      "details": "Connectez Telegram, WeChat, Feishu/Lark, Discord et plus encore ; approuvez un contact en un clic et recevez les résultats.",
       "link": "/fr/guide/im"
     },
     {
-      "title": "Mesh et sessions",
-      "details": "Exécutez une étape sur un autre appareil. Le répertoire du projet et les sessions restent sur le nœud responsable.",
+      "title": "Conçu pour la fiabilité",
+      "details": "Isolation stricte des rôles, routage dynamique des modèles, exécution distante transparente et reprise sur conflit.",
       "link": "/fr/develop/mesh"
     }
   ]

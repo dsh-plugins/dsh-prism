@@ -1,14 +1,10 @@
 # Inicio rápido
 
-Puedes probar Prism con dos carpetas de proyecto en el mismo equipo. La guía ilustrada muestra el recorrido completo en DeepSeek Harness 0.2.3-alpha.2. [Guía en inglés](/guide/start) · [Guía en chino](/zh/guide/start)
+Con Prism no hace falta ir saltando de una carpeta a otra: pides lo que necesitas en un único chat y él consulta varios proyectos a la vez para entregarte el resumen. Puedes ver la guía ilustrada paso a paso en [inglés](/guide/start) o en [chino](/zh/guide/start) (DeepSeek Harness `0.2.3-alpha.2`).
 
-1. Abre el gestor de complementos de DSH. Introduce uno por uno los cinco paquetes npm de la tabla. Instala y activa cada uno antes de añadir el siguiente.
-2. En los ajustes de modelos añade un proveedor de API personalizado. Elige OpenAI Responses e introduce la URL del proveedor, tu clave y el ID de modelo `deepseek-v4.1-flash`.
-3. Abre las dos carpetas como espacios de trabajo de DSH. Elige el nuevo proveedor y su modelo en un chat de DSH.
-4. Abre **Prism** en la barra lateral de DSH. Pide una tarea para cada espacio de trabajo y que se consulte el README de cada uno para obtener la hora, el lugar y la persona responsable del evento.
-5. La tarjeta muestra la hora y el estado de la tarea. Vuelve a DSH con **DeepSeek Harness** y abre el historial de ejecución de solo lectura en el espacio de trabajo correspondiente. Compara la respuesta con ambos README.
+## 1. Instala los cinco plugins
 
-## Paquetes para el gestor de complementos
+En DSH, abre **Plugins → Add plugin** e instala uno por uno los paquetes de la tabla. Pulsa **Enable now** tras cada instalación antes de pasar al siguiente:
 
 | Orden | Paquete y versión |
 | --- | --- |
@@ -18,4 +14,19 @@ Puedes probar Prism con dos carpetas de proyecto en el mismo equipo. La guía il
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
 
-[La conversación](/es/guide/chat) · [Modelos y proyectos](/es/develop/models)
+> [!TIP]
+> Si **Prism** no aparece en la barra lateral justo después de activar los cinco plugins, recarga la pestaña del navegador.
+
+## 2. Conecta tu modelo y añade tus proyectos
+
+1. Ve a **Settings → Models → Add model provider → Custom model API**, elige **OpenAI Responses**, introduce tu endpoint, clave API y el modelo `deepseek-v4.1-flash`, y selecciónalo en el chat de DSH.
+2. En la barra lateral, pulsa **Add workspace** y abre las carpetas de tus proyectos (por ejemplo, `harbor-books` y `lantern-cafe`). Prism detecta automáticamente los espacios locales por su nombre.
+3. Si quieres ajustar qué modelos usa cada etapa (**L1 Conversación**, **L2 Planificación**, **L3 Ejecución**), ábrelo en **Settings → Prism/Configuration**.
+
+## 3. Lanza la consulta y revisa el resultado
+
+Abre **Prism** en la barra lateral y pídele que revise la hora, el lugar y la persona responsable en el `README.md` de ambos proyectos. Prism mostrará tarjetas de progreso en la conversación y responderá con el resumen final cuando termine.
+
+Si en algún momento quieres comprobar exactamente qué archivos leyó, pulsa **DeepSeek Harness** arriba y abre el historial de solo lectura dentro de cada proyecto.
+
+Siguiente: [La conversación](/es/guide/chat) · [Mensajería](/es/guide/im)

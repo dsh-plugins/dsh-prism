@@ -4,40 +4,45 @@
 
 # dsh-prism
 
-**Ask DeepSeek Harness to work across projects and devices from a single chat.**
+**Just say what you need—Prism handles the projects and devices behind the scenes.**
 
 English | [简体中文](README.zh_CN.md)
 
 </div>
 
-## Run a task across two projects
+## What Prism does
 
-Open DeepSeek Harness 0.2.3-alpha.2 in your browser. The walkthrough starts with a fresh profile, reads one README in a bookshop workspace and another in a café workspace, then opens both native execution histories to check the source text. You can follow it with your own projects or the two sample directories in this repository. [Illustrated guide in this repository](website/docs/guide/start.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/start) · [Sample projects](docs/examples)
+Normally, working across multiple projects or machines means switching workspaces, tracking directories, and piecing answers together yourself. Prism hides all of that setup behind a single conversation.
 
-1. In **Plugins → Add plugin**, enter each npm package and version from the table below. Choose **Install**, then **Enable now**, in the order listed.
-2. In **Settings → Models**, add a **Custom model API** provider using **OpenAI Responses**, your endpoint and API key, and the model ID `deepseek-v4.1-flash`. Select that provider and model in a DSH chat.
-3. Open each project folder as a DSH workspace. Prism uses the registered local workspaces as projects. In **Settings → Prism/Configuration**, you can allow models and edit descriptions and prompts independently for conversation, planning and execution.
-4. In **Settings → Prism/Configuration**, choose **Open Prism**. Ask it to delegate one task to each project and check the time, venue and coordinator in each project's README. Use **DeepSeek Harness** to return to DSH and open each layer's read-only history in the workspace sidebar.
+You talk to Prism in the web chat or a connected messaging app, and it delegates the work to the right projects, keeps track of progress with collapsible task cards, and replies once the results are ready. Whenever you want to double-check how an answer was found, you can still open the underlying DeepSeek Harness records in read-only mode.
 
-![Prism reports the verified time, venue and coordinator for each workspace](website/docs/guide/screens/0.1.2/en/16-results.png)
+![Prism summarizing results from two project workspaces in one conversation](website/docs/guide/screens/0.1.2/en/16-results.png)
+
+## Get started in four steps
+
+You can try Prism with your own project folders or with the two sample folders (`harbor-books` and `lantern-cafe`) in [docs/examples](docs/examples). For the full step-by-step screenshots, see the [Quick start guide](website/docs/guide/start.md) or the [documentation site](https://prism.dsh-plug.in/guide/start).
+
+1. **Install the five plugins**: In DeepSeek Harness (`0.2.3-alpha.2`), open **Plugins → Add plugin**, install each package from the table below in order, and choose **Enable now** after each one.
+2. **Connect a model**: In **Settings → Models**, add a **Custom model API** provider (using **OpenAI Responses**), enter your endpoint, API key, and model ID (such as `deepseek-v4.1-flash`), then select it in chat.
+3. **Add your project folders**: Open each project folder as a workspace in the DSH sidebar so Prism can find it by name. In **Settings → Prism/Configuration**, choose which models Prism can use for conversation, planning, and execution.
+4. **Start chatting**: Choose **Open Prism** (or **Prism** in the sidebar) and ask it to check both projects at once. To see the underlying steps at any time, switch back via **DeepSeek Harness** and open the read-only history in each workspace.
 
 ## The five plugins
 
-| Installation order | Package | What it adds |
+| Install order | Package | Role |
 | --- | --- | --- |
-| 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | Project metadata and the permissions granted to each identity. |
-| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | Task execution on the node that owns the project. |
-| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | Conversation, planning and execution sessions that use the selected model and permitted tools. |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | Integration with private chats on supported messaging services. |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | Prism settings, chat and task cards. |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | Keeps track of available projects and who is allowed to access them. |
+| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | Runs tasks on the device where each project lives. |
+| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | Coordinates conversation, planning, and execution across sessions. |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | Connects Prism to private chats on supported messaging apps. |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | Provides the Prism chat view, task cards, and settings pages. |
 
-In **Settings → Prism/IM**, choose **Add IM** and select Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot or Discord. The walkthrough shows all seven forms, a saved disabled account, Feishu QR authorization and the approvals panel. [Illustrated messaging setup](website/docs/guide/im.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/im)
+Want to message Prism from Telegram, WeChat, Feishu/Lark, WeCom, QQ, OneBot, or Discord? See the [Messaging apps guide](website/docs/guide/im.md) ([online](https://prism.dsh-plug.in/guide/im)).
 
-Source contributors can use the [pinned checkout and technical reference](docs/TECH.md).
+## For developers and contributors
 
-## Run the documentation locally
-
-The public documentation is built with VitePress. From the public `dsh-prism` repository root, start the preview below or run `npm run docs:build --prefix website` to build the static site.
+- Architecture, design principles, and source checkout instructions: [Technical reference](docs/TECH.md)
+- Run the VitePress documentation site locally from the `dsh-prism` root:
 
 ```sh
 npm ci --prefix website

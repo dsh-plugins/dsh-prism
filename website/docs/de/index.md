@@ -3,8 +3,8 @@
   "layout": "home",
   "hero": {
     "name": "Prism",
-    "text": "Ein Gespräch für mehrere Geräte.",
-    "tagline": "Prism verteilt Planung und Ausführung auf Sitzungen von DeepSeek Harness. Stellen Sie eine Aufgabe im Web oder im Messenger und verfolgen Sie dort den Fortschritt.",
+    "text": "Ein Gespräch für alle Ihre Projekte und Geräte.",
+    "tagline": "Sagen Sie Prism einfach, was erledigt werden soll. Es koordiniert im Hintergrund die passenden Projekte und Geräte und meldet sich, sobald die Ergebnisse vorliegen.",
     "image": {
       "src": "/icon.svg",
       "alt": "DSH Prism"
@@ -17,25 +17,25 @@
       },
       {
         "theme": "alt",
-        "text": "Rollen und Rechte",
+        "text": "Architektur & Rollen",
         "link": "/de/develop/layers"
       }
     ]
   },
   "features": [
     {
-      "title": "Unterhaltung",
-      "details": "Wählen Sie ein Gesprächsmodell und öffnen Sie bei Bedarf den Verlauf einer Aufgabe.",
+      "title": "Einfache Unterhaltung",
+      "details": "Kein Wechseln zwischen Arbeitsbereichen: Modell jederzeit wählen und Details nur bei Bedarf aufklappen.",
       "link": "/de/guide/chat"
     },
     {
-      "title": "Messenger einrichten",
-      "details": "Verbinden Sie einen Bot, autorisieren Sie den privaten Chat und empfangen Sie Ergebnisse.",
+      "title": "Messenger anbinden",
+      "details": "Verbinden Sie Telegram, WeChat, Feishu/Lark, Discord und mehr – Nutzer per Klick freigeben und Ergebnisse direkt erhalten.",
       "link": "/de/guide/im"
     },
     {
-      "title": "Mesh und Sitzungen",
-      "details": "Lassen Sie Aufgaben auf einem anderen Gerät laufen. Verzeichnisse und Sitzungen bleiben beim zuständigen Knoten.",
+      "title": "Zuverlässige Technik",
+      "details": "Klare Rechtegrenzen, dynamische Modellwahl, transparente Fernausführung und automatische Konfliktlösung.",
       "link": "/de/develop/mesh"
     }
   ]

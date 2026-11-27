@@ -1,89 +1,98 @@
-# Set up a messaging account in DSH
+# Set up a messaging account
 
-As the DSH owner, open **Settings → Prism/IM**. **Add IM** lists account types you can configure. A saved account appears as a card. Open the card to edit the account or change its connection status. **Pending approvals** lists people asking to use a connected bot.
+You can connect Prism to your everyday messaging apps so you can send requests and receive results right from a private chat.
+
+As the DSH owner, open **Settings → Prism/IM**. Click **Add IM** to pick a platform. Saved accounts appear as cards—click any card to update its settings or turn the connection on and off. **Pending approvals** lists people who have messaged your bot for the first time and are waiting for access.
 
 ![Add IM and the pending approvals panel](./screens/0.1.2/en/12-im-overview.png)
 
 ![The expanded Add IM menu with seven available account types](./screens/0.1.2/en/12-im-chooser.png)
 
-For channels other than Feishu/Lark, enter a **Username** so you can recognize the saved card. **Save settings** records the configuration. **Enable channel** starts the connection when credentials or registration are ready. Reopening a credential field shows its saved status. Use a blank secret field to keep its existing value.
+For every platform except Feishu/Lark, enter a **Username** so you can easily tell saved cards apart. Click **Save settings** to store your configuration, and **Enable channel** once your credentials or QR sign-in are ready. When you reopen a saved card, secret fields stay hidden—leave a secret field blank if you want to keep its current value.
 
-The walkthrough opens all seven forms and keeps their connections disabled. It also reopens a saved Telegram account with no bot token.
+## Supported platforms
 
-## Telegram
+### Telegram
 
-Choose **Add IM → Telegram**. Enter the account name and the **Bot token** from BotFather. Save the settings, then enable the channel when you want the bot to receive private messages. Telegram uses long polling. If the bot already has a webhook, clear that webhook in Telegram first.
+1. Choose **Add IM → Telegram**.
+2. Enter a **Username** and paste the **Bot token** you received from `@BotFather`.
+3. Click **Save settings**, then **Enable channel** when you're ready to receive private messages.
+
+> [!TIP]
+> If this bot previously used a webhook, clear the webhook in Telegram first so Prism can receive messages cleanly.
 
 ![Telegram account settings](./screens/0.1.2/en/12-im-telegram.png)
 
-To test saving independently of a connection, enter **Prism demo** for the username, leave the token blank, and choose **Save settings**. Reload the channels, then open the saved card. The username is retained and the status stays **Disabled**.
+### WeChat
 
-![A disabled Telegram account card saved with a demo username](./screens/0.1.2/en/12-im-save-disabled.png)
-
-![The same Telegram username after reloading and reopening the card](./screens/0.1.2/en/12-im-saved-reopened.png)
-
-## WeChat
-
-Choose **WeChat**. Under **Account registration**, choose **Generate QR code**. When the host can reach the official iLink service, use WeChat to scan the code and complete any verification requested by the platform. Save the settings and enable the channel when ready.
+1. Choose **Add IM → WeChat**.
+2. Under **Account registration**, click **Generate QR code**.
+3. Scan the QR code with WeChat and complete any on-screen verification.
+4. Click **Save settings**, then **Enable channel** when ready.
 
 ![WeChat account settings](./screens/0.1.2/en/12-im-wechat.png)
 
-![WeChat sign-in service unavailable with the retry control](./screens/0.1.2/en/12-im-wechat-unavailable.png)
+### Feishu / Lark
 
-In this run the request to iLink failed. The page displayed **Sign-in failed** and offered **Generate a new QR code**.
+You can connect Feishu or Lark in two ways:
+- **QR binding (recommended)**: Switch to **QR binding**, click **Generate QR code**, and scan it with Feishu or Lark to select an existing bot or create a new one on the authorization page.
+- **Manual binding**: Choose your **Service** (Feishu or Lark) and enter an existing app's **App ID** and **App secret**. Make sure private-message event subscriptions and bot reply permissions are enabled in your developer console.
 
-## Feishu / Lark
-
-Choose **Feishu / Lark**. The **Manual binding** tab accepts the **Service**, **App ID** and **App secret** of an existing bot application. In the corresponding developer console, enable private-message event subscriptions and bot reply permissions.
-
-Open **QR binding** to register through the official authorization page. Choose **Generate QR code**. A person connecting a real account can scan with Feishu or Lark, then select an existing bot or create one. Binding and enabling the channel are separate actions.
+After binding or saving, click **Enable channel** to start receiving private messages.
 
 ![Feishu / Lark account settings](./screens/0.1.2/en/12-im-feishu.png)
 
 ![Manual binding for an existing Feishu or Lark app](./screens/0.1.2/en/12-im-feishu-manual.png)
 
-![Feishu / Lark official sign-in awaiting a scan, with the code covered](./screens/0.1.2/en/12-im-feishu-qr.png)
+### WeCom
 
-![Feishu / Lark sign-in cancelled before account authorization](./screens/0.1.2/en/12-im-feishu-cancelled.png)
-
-The gateway obtained an official code. The operator cancelled the sign-in before mobile authorization. The code is covered in the screenshots.
-
-## WeCom
-
-Choose **WeCom**. Enter a username and the **Bot ID** and **Bot secret** for a WeCom intelligent bot that supports a persistent connection. Save the settings before enabling the connection.
+1. Choose **Add IM → WeCom**.
+2. Enter a **Username**, along with the **Bot ID** and **Bot secret** of a WeCom intelligent bot that supports persistent connections.
+3. Click **Save settings**, then **Enable channel**.
 
 ![WeCom account settings](./screens/0.1.2/en/12-im-wecom.png)
 
-## QQ Bot
+### QQ Bot
 
-Choose **QQ Bot**, enter a username, **App ID** and **App secret**. Set the signed callback in the QQ developer console to the externally reachable HTTPS address of this DSH host ending in `/prism/im/qq`. The form shows the callback for the current host. Save and enable the channel when ready.
+1. Choose **Add IM → QQ Bot**.
+2. Enter a **Username**, **App ID**, and **App secret**.
+3. Copy the `/prism/im/qq` callback URL shown in the form and set it as the signed callback in your QQ developer console (using your externally reachable HTTPS address).
+4. Click **Save settings**, then **Enable channel**.
 
 ![QQ Bot account settings](./screens/0.1.2/en/12-im-qq.png)
 
-## OneBot
+### OneBot
 
-Choose **OneBot**. Enter a username, **OneBot account ID**, **OneBot HTTP API URL**, **Access token** and **Event-signing secret** for your OneBot v11 service. In OneBot, set the event callback to the DSH host’s `/prism/im/onebot` address and use the matching signing secret. Save the settings before enabling the connection.
+1. Choose **Add IM → OneBot**.
+2. Enter a **Username**, **OneBot account ID**, **OneBot HTTP API URL**, **Access token**, and **Event-signing secret** for your OneBot v11 service.
+3. In your OneBot settings, point the event callback to your DSH host's `/prism/im/onebot` address with the same signing secret.
+4. Click **Save settings**, then **Enable channel**.
 
 ![OneBot account settings](./screens/0.1.2/en/12-im-onebot.png)
 
-![Additional fields and controls for OneBot](./screens/0.1.2/en/12-im-onebot-details.png)
+### Discord
 
-## Discord
-
-Choose **Discord**, enter a username and paste the application’s **Bot token** from the Discord Developer Portal. Save the settings. Enable the connection when you want the bot to receive direct messages.
+1. Choose **Add IM → Discord**.
+2. Enter a **Username** and paste your application's **Bot token** from the Discord Developer Portal.
+3. Click **Save settings**, then **Enable channel**.
 
 ![Discord account settings](./screens/0.1.2/en/12-im-discord.png)
 
-## Approve a person’s first message
+## Approve first-time users
 
-When someone sends a first private message to a running channel, open **Pending approvals**. Review the channel, username and platform user ID. Choose **Approve** to authorize the private conversation and process the held first message, or **Reject** to decline it. Each approved private conversation has its own history. With native workspace discovery enabled, approved users can query the local DSH workspaces. [Workspace access](../develop/models.md)
+When someone sends a private message to a connected bot for the first time, their message is held until you approve them. Open **Pending approvals**, check the platform, username, and user ID, and choose:
+- **Approve**: Authorizes that private chat and immediately processes their first message.
+- **Reject**: Declines the request.
 
-The walkthrough used no connected IM account. This run verified the empty approvals list.
+Each approved private chat keeps its own conversation history and can access the local workspaces you've added in DSH.
 
-![Pending approvals after viewing the seven channel forms](./screens/0.1.2/en/12-im-save-disabled.png)
+## Chat commands
 
-## Commands in an approved chat
+Once approved, you can use these quick commands in your private chat:
+- `/models` — List available conversation models.
+- `/model ID` — Switch to a specific model for upcoming messages.
+- `/tasks` — View tasks started in this chat.
+- `/inspect TASK_ID` — Open a read-only record of a task.
+- `/language en` — Switch the bot's reply language (for example, `en` or `zh`).
 
-Use `/models` to list conversation models and `/model ID` to select one. `/tasks` lists this conversation’s tasks, and `/inspect TASK_ID` opens a task’s read-only record. `/language en` changes the chat language to English.
-
-[Use the web conversation](./chat.md) · [Install the plugins and run a two-workspace task](./start.md)
+Next: [Using the conversation](./chat.md) · [Quick start](./start.md)

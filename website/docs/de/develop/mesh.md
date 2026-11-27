@@ -1,10 +1,14 @@
 # Mesh und Sitzungen
 
-Der Koordinator beauftragt `prism-<nodeId>` über dieselbe Providerschnittstelle für lokale und entfernte Arbeit.
+Prism verbindet **ortstransparente Verteilung** (`dsh-mesh-node`) mit **Copy-on-Conflict-Sitzungswiederherstellung**, sodass die Orchestrierung lokal wie entfernt identisch arbeitet und nie an Schreibsperren hängenbleibt.
+
+## Ortstransparenz über Subagent Provider
+
+Jeder Knoten registriert einen `prism-<nodeId>` Subagent Provider. Der Koordinator vergibt ein einmaliges Dispatch-Ticket und erhält die ID einer regulären DSH-Sitzung auf dem Zielknoten. Da **L1 den Arbeitsbereich für L2 wählt** und **L3 diesen zwingend erbt**, bleiben alle Dateioperationen lokal auf dem Zielgerät – über das Netz gehen nur schlanke Steuersignale und Zusammenfassungen.
 
 ## Zwei Knoten verbinden
 
-Tragen Sie den ersten `mesh`-Abschnitt beim Koordinator, den zweiten beim Worker ein. Setzen Sie `PRISM_WORKER_TOKEN` auf beiden Seiten auf dasselbe zufällige Geheimnis. Registrieren Sie `atlas` beidseits mit Knoten-ID `worker`; der Worker bestimmt den tatsächlichen Pfad.
+Legen Sie das erste `mesh`-Fragment auf dem Koordinator (`hub`) und das zweite auf dem Worker (`worker`) ab. Beide teilen sich denselben Zufallsschlüssel in `PRISM_WORKER_TOKEN` und registrieren `atlas` mit `nodeId: "worker"` (nur der Worker löst den lokalen Pfad auf):
 
 ```json
 {
@@ -20,14 +24,14 @@ Tragen Sie den ersten `mesh`-Abschnitt beim Koordinator, den zweiten beim Worker
 }
 ```
 
-Verwenden Sie geräteübergreifend HTTPS und erlauben Sie den Worker-Hostnamen in DSH. Auf Loopback ist HTTP möglich. Jeder Knoten hat ein eigenes `DSH_HOME`. Die Verbindung und der Empfang von Werkzeugaufrufen gehen vom Koordinator aus.
+Verwenden Sie zwischen Geräten HTTPS (Loopback-HTTP nur für lokale Tests). Jeder Knoten behält sein eigenes `DSH_HOME`.
 
-## Aktivierung und Schreibsperren
+## Virtual Facade & Copy-on-Conflict
 
-Der Worker prüft Absender, Projekt, Modell und Werkzeugbudget erneut. Bei einer DSH-Schreibsperre erzeugt er einen Fork aus dem beobachtbaren Verlauf, ersetzt die logische Bindung atomar und merkt die Ursprungssitzung zur Archivierung vor. Konkurrierende Prozesse prüfen die tatsächlich veröffentlichte Bindung erneut.
+Nach außen wirkt jede Ebene wie ein leichter Subagent, läuft intern aber in einer **formalen DSH-Sitzung** mit Persistenz und Verlauf. Trifft die Aktivierung auf einen DSH-Schreibsperren-Konflikt, blockiert der Runner nicht, sondern **forkt** die sichtbare Historie sofort in eine neue Sitzung, aktualisiert die logische Bindung atomar und merkt die alte Sitzung zur Archivierung vor.
 
-## Entfernten Verlauf lesen
+## Persistenz und Ferninspektion
 
-Eine autorisierte Abfrage liest die Sitzung über dieselbe Verbindung ohne Schreibsperre. Erhalten Sie die Zustandsverzeichnisse beider Seiten bei Neustarts. Prüfen Sie nach einem Verbindungsabbruch den Aufgabenstatus, bevor Sie einen Vorgang mit Nebenwirkungen wiederholen.
+Nachrichten, Modellwahl, Aufgabenstatus und Warteschlangen liegen in `conversations.sqlite`, die vollständigen Protokolle in den DSH-Sitzungen. Autorisierte Lesezugriffe (Trace) laufen sperrfrei über dieselbe Mesh-Verbindung. Nach einem Verbindungsabbruch sollte vor einer Wiederholung zuerst der Aufgabenstatus geprüft werden.
 
-[Entwicklerschnittstellen](/de/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)
+Weiter: [Entwicklerschnittstellen](/de/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)

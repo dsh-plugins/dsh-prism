@@ -1,19 +1,22 @@
 # La conversación
 
-Describe en la web el resultado que necesitas. Por ejemplo, pide que revisen una lista de publicación móvil y señalen las pruebas pendientes. El sistema localiza el proyecto mediante el registro.
+Haz clic en **Prism** en la barra lateral de DSH para abrir el chat. No necesitas elegir ningún espacio de trabajo ni recordar rutas: escribe lo que quieres lograr y menciona el nombre del proyecto cuando haga falta.
 
-## Elegir el modelo
+## Cambia de modelo cuando quieras
 
-El selector está dentro del cuadro de escritura, a la izquierda de Enviar. Muestra las capacidades de cada modelo L1. La selección afecta a los turnos siguientes y conserva el borrador. Intro envía y Mayús+Intro añade una línea.
+El selector junto a **Send** muestra los modelos disponibles y para qué destaca cada uno. El cambio se aplica a partir del siguiente mensaje sin borrar tu borrador. Pulsa **Enter** para enviar o **Shift+Enter** para añadir una línea.
 
-## Seguir una tarea
+## Sigue el avance sin distracciones
 
-La tarjeta de la tarea delegada muestra el título, la hora y el estado. Cuando tenga los resultados, Prism podrá responder en la conversación.
+Cada tarea delegada aparece como una tarjeta plegable con su título, estado y hora. Mientras se ejecuta en segundo plano puedes seguir conversando; Prism te responderá en cuanto tenga los resultados.
 
-## Leer la sesión
+## Consulta los registros si lo necesitas
 
-Vuelve a DSH con **DeepSeek Harness**. En la barra lateral de cada espacio de trabajo encontrarás el historial de solo lectura. Busca `棱镜` para la conversación, `棱镜 L2` para la planificación y `棱镜 L3` para la ejecución. En el historial L3 puedes consultar las herramientas y los archivos que se leyeron.
+Para verificar qué archivos se consultaron, pulsa **DeepSeek Harness** arriba y despliega el proyecto en **Workspaces**:
+- **棱镜**: Conversación principal
+- **棱镜 L2**: Planificación del proyecto
+- **棱镜 L3**: Ejecución y lectura de archivos
 
-[Guía ilustrada en inglés](/guide/chat) · [Guía ilustrada en chino](/zh/guide/chat)
+Todo el historial es de solo lectura. Pulsa **Prism** en la barra lateral cuando quieras volver al chat. [Guía ilustrada en inglés](/guide/chat) · [En chino](/zh/guide/chat)
 
-[Mensajería](/es/guide/im) · [Roles y permisos](/es/develop/layers)
+Siguiente: [Mensajería](/es/guide/im) · [Roles y permisos](/es/develop/layers)

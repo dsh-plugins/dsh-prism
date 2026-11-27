@@ -1,33 +1,34 @@
 # Modelle und Projekte
 
-Öffnen Sie Ihre Projektordner als DSH-Arbeitsbereiche. Prism erkennt sie automatisch. Für die Modellwahl öffnen Sie **Prism/Konfiguration** in den DSH-Einstellungen. Wählen Sie die zulässigen Anbietermodelle für L1, L2 und L3. Eine Ebene mit leerer Auswahl verwendet das Standardmodell von DSH. Über das Stiftsymbol neben dem Modell können Sie die Modellbeschreibung und den Prompt für diese Ebene ändern. Die folgenden JSON-Beispiele beziehen sich auf den Start aus dem Quellcode. [Schnellstart](/de/guide/start)
+Prism trennt **Modellwahl** und **Pfadauflösung** strikt voneinander: Übergeordnete Agenten wählen Modelle dynamisch anhand ihrer Beschreibung, während Dateipfade ausschließlich im vertrauenswürdigen Host-Code aufgelöst werden.
 
-Das Register bestimmt zugängliche Projekte. Der Orchestrator konfiguriert Modelle und native Werkzeuge der Rollen separat.
+## Selbstbeschreibende Modellpools
 
-## Modelle je Rolle
+Unter **Settings → Prism/Configuration** (oder `orchestrator.models` in `prism.config.json`) erhält jede Ebene (**L1**, **L2**, **L3**) eine eigene Modellliste. Bleibt eine Ebene leer, greift das DSH-Standardmodell.
 
-Dieser Ausschnitt gehört in `orchestrator` in `prism.config.json`. Modell-IDs müssen vom Anbieter unterstützt werden und innerhalb einer Ebene eindeutig sein.
+- `id` & optional `provider`: Modellkennung und DSH-Anbieter (ohne `provider` gilt der Host-Standard).
+- `description`: Fähigkeitsprofil für `list_models`, damit L1/L2 zur Laufzeit das passende Modell auswählen können.
+- `prompt` & `promptMode`: `"append"` (Standard) ergänzt den Rollen-Prompt; `"replace"` ersetzt ihn vollständig. Werkzeugrechte werden dadurch nie erweitert.
+
+Während Nutzer das **L1**-Modell frei wechseln, wählen übergeordnete Agenten **L2** und **L3** dynamisch aus.
 
 ```json
 {
   "defaultProjectId": "prism",
   "defaultL1Model": "deepseek-flash",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "Anfragen im Dialog klären" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "Planung und Prüfung" }],
-    "L3": [{ "id": "deepseek-flash", "description": "Gezielte Codeprüfung", "promptMode": "append", "prompt": "Nenne die geprüften Dateien." }]
+    "L1": [{ "id": "deepseek-flash", "description": "Anfragen klären und verteilen" }],
+    "L2": [{ "id": "deepseek-v4-pro", "description": "Planung und Gegenprüfung" }],
+    "L3": [{ "id": "deepseek-flash", "description": "Gezielte Code-Prüfung", "promptMode": "append", "prompt": "Geprüfte Dateien angeben." }]
   }
 }
 ```
 
-## Beschreibung und Systemanweisung
+## Arbeitsbereich-Erkennung und Registry
 
-`description` erklärt, wann der übergeordnete Agent dieses Modell wählen soll. `provider` wählt einen DSH-Anbieter. Ohne diesen Eintrag gilt der Standardanbieter des Hosts.
+1. **Automatische DSH-Erkennung**: Jeder in der DSH-Seitenleiste geöffnete Ordner wird automatisch mit seiner nativen UUID als Projekt-ID und seinem Anzeigenamen erfasst (Standardrechte: `read`, `glob`, `grep` für DSH-Eigentümer und freigegebene Messenger-Nutzer).
+2. **Explizite Registry-Einträge**: Einträge in `registry` (`id`, `description`, `stack`, `nodeId`, `workspace`, `principals`, `permissions`, optional `gitRemote`) überschreiben Standardwerte für denselben Knoten und Pfad.
 
-`promptMode: "append"` ergänzt die Rollen- und Modellanweisung; `"replace"` verwendet `prompt` als vollständige benutzerdefinierte Systemanweisung. Werkzeugrechte werden weiterhin vom Host geprüft.
+`query_projects` liefert an L1 ausschließlich autorisierte Metadaten; physische Pfade werden erst bei der Ausführung im Host-Code aufgelöst.
 
-## Projektzugriff
-
-Ein Eintrag enthält `id`, `description`, `stack`, `nodeId`, `workspace`, `principals` und `permissions`; `gitRemote` ist optional. L1 bekommt freigegebene Metadaten. Nur vertrauenswürdiger Hostcode löst das Verzeichnis auf. Für L3 gilt die Schnittmenge aus Werkzeugliste, Projektfreigabe und delegierten Rechten.
-
-[Rollen und Rechte](/de/develop/layers) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)
+Weiter: [Rollen und Rechte](/de/develop/layers) · [Mesh und Sitzungen](/de/develop/mesh) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)

@@ -1,67 +1,31 @@
 # メッセージアプリ
 
-認証された個別チャットは永続的な L1 の主体に対応します。各チャネルは Web と独立して明示的な返信と状態更新を受け取ります。
+普段使っているメッセージアプリを Prism に接続すると、プライベートチャットから直接依頼を送り、完了結果を受け取れます。
 
-## DSH の画面から設定する
+DSH のオーナーとして **Settings → Prism/IM** を開き、**Add IM** からプラットフォームを選びます。保存したアカウントはカードとして表示され、設定の編集や接続のオン／オフを切り替えられます。初めてボットにメッセージを送った人は **Pending approvals** に表示されます。（[英語の画像ガイド](/guide/im) · [中国語の画像ガイド](/zh/guide/im)）
 
-DSH の設定で **Prism/IM → Add IM** を開き、Telegram、WeChat、飛書/Lark、WeCom、QQ Bot、OneBot、Discord から選びます。新しいアカウントには **Username** と認証情報を入力します。飛書では連携時にボット名が取得されます。**Save settings** で保存し、アカウントのカードをもう一度開いて **Enable channel** を押すと接続が始まります。
+Feishu/Lark 以外は、カードを区別しやすいよう **Username** を入力してください。**Save settings** で保存し、認証情報や QR ログインの準備ができたら **Enable channel** で接続を開始します。
 
-飛書では、アプリの認証情報を入力する **Manual binding** か、**QR binding → Generate QR code** を選びます。QR コードを飛書または Lark で読み取り、公式の認可画面で既存のボットを選ぶか、新規作成します。利用者が初めてボットにダイレクトメッセージを送ると、DSH の所有者は **Pending approvals** で **Approve** または **Reject** を選べます。 [英語の画面付きガイド](/guide/im) · [中国語の画面付きガイド](/zh/guide/im)
+## 対応プラットフォーム
 
-## ソース版ランチャーでのログインとペアリング
+- **Telegram**：`@BotFather` の **Bot token** を入力して保存し、有効化します。既存の Webhook がある場合は先に Telegram 側で解除してください。
+- **WeChat**：**Account registration** の **Generate QR code** を押し、WeChat でスキャンして保存・有効化します。
+- **Feishu / Lark**：**QR binding → Generate QR code** でボットを連携／作成するか、**Manual binding** で **Service**・**App ID**・**App secret** を入力します（開発者コンソールでダイレクトメッセージイベントを有効化）。その後 **Enable channel** を押します。
+- **WeCom**：永続接続に対応した WeCom ボットの **Username**・**Bot ID**・**Bot secret** を入力して保存・有効化します。
+- **QQ Bot**：**Username**・**App ID**・**App secret** を入力し、フォームに表示される `/prism/im/qq` のコールバック URL（外部到達可能な HTTPS）を QQ コンソールに設定します。
+- **OneBot**：**Username**・**OneBot account ID**・**OneBot HTTP API URL**・**Access token**・**Event-signing secret** を入力し、イベント送信先を `/prism/im/onebot` に向けます。
+- **Discord**：**Username** と Discord Developer Portal の **Bot token** を入力して保存・有効化します。
 
-`prism.config.json` の `im` でアダプターを有効にします。QR ログインは制御ホストで実行し、該当アプリでコードを読み取ります。別のユーザーを追加する場合はホストでコードを発行し、そのユーザーがボットとの個別チャットで `/pair CODE` を送信します。
+## 初回ユーザーの承認
 
-以下は接続方法ごとの例です。`runtime/` で必要なコマンドだけを実行します。`setup` はアダプターを有効化して必要な環境変数を表示し、QR を使わないチャネルでは最初のコードも発行します。ユーザーの追加には `pair` を使います。
-
-```sh
-npm run im -- login wechat --config prism.config.json
-npm run im -- login feishu --config prism.config.json
-npm run im -- setup telegram --config prism.config.json
-npm run im -- pair telegram --config prism.config.json
-```
-
-QR ログインは認証情報をローカルに保存し、確認されたスキャン元を認可します。ペアリングコードの有効期間は 10 分で、1 回だけ使えます。状態パスを変えた場合は CLI に `--config prism.config.json` を渡し、同じ設定で起動します。
-
-### 対応する接続
-
-| プラットフォーム | 接続方法 |
-| --- | --- |
-| Telegram | Bot API のロングポーリング。`im.telegram.tokenEnv` でトークンを渡し、ユーザーを認可またはペアリングします。既存 webhook は解除します。 |
-| WeChat | iLink による個人向け WeChat。ホストで `login wechat` を実行し、スキャンしたアカウントの個別チャットを使います。 |
-| Feishu / Lark | `login feishu` で飛書アプリを認証します。プラットフォーム側の権限とメッセージ設定を済ませます。 |
-| WeCom | `im.wecom` に企業向けボットの認証情報を設定し、個別チャットでペアリングします。 |
-| OneBot | OneBot の個別メッセージを接続し、署名付きイベントを `/prism/im/onebot` に送ります。 |
-| QQ | QQ ボットの公式コールバックを `/prism/im/qq` に設定します。ゲートウェイが署名を検証します。 |
-| Discord | Discord ボットのダイレクトメッセージを有効にし、DM でペアリングします。 |
-
-### ソース版ランチャーの設定キー
-
-使うチャネルだけを有効化し、秘密情報はコーディネーターの環境変数に設定します。`allowedUserIds` で既知のユーザー ID を事前に許可できます。再起動時は QR 認証情報とペアリングを保存する SQLite ファイルを維持してください。
-
-| プラットフォーム | JSON | ENV |
-| --- | --- | --- |
-| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
-| WeChat | `im.wechat` | — |
-| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
-| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
-| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
-| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
-| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
-
-イベントが届かない場合はコールバック URL または外向きの接続を確認します。QQ C2C には返信可能な時間や能動送信の制限があります。以前のカードを編集できないチャネルは新しいメッセージで状態を伝えます。
+新しいユーザーから初めてダイレクトメッセージが届くと **Pending approvals** に保留されます。プラットフォーム・ユーザー名・ID を確認し、**Approve**（承認して最初のメッセージを処理）または **Reject** を選択します。
 
 ## チャットコマンド
 
-| インターフェース | 動作 |
-| --- | --- |
-| `/models` | L1 モデルと能力を一覧表示。 |
-| `/model …` | 表示番号か ID でモデルを選択。 |
-| `/tasks` | この会話のタスクを一覧表示。 |
-| `/inspect …` | ID でタスクを閲覧。 |
-| `/language …` | `ja` などの言語コードを設定。 |
-| `/pair …` | ワンタイムコードでペアリング。 |
+- `/models` — 利用可能な会話モデル一覧
+- `/model ID` — 使用モデルの切り替え
+- `/tasks` — このチャットのタスク一覧
+- `/inspect TASK_ID` — タスクの読み取り専用履歴を表示
+- `/language ja` — 返信言語の切り替え
 
-`im.locale` が既定言語です。ユーザーはボットで言語を変更できます。SQLite が配信状態を保存します。配信後、受領記録を書く前に停止した場合は重複して届くことがあります。
-
-[開発者向け API](/ja/develop/api) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)
+次へ：[会話の使い方](/ja/guide/chat) · [開発者向け API](/ja/develop/api)

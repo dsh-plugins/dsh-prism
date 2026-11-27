@@ -3,8 +3,8 @@
   "layout": "home",
   "hero": {
     "name": "Prism",
-    "text": "Uma conversa entre seus dispositivos.",
-    "tagline": "O Prism distribui planejamento e execução entre sessões do DeepSeek Harness. Peça um resultado e acompanhe o andamento na Web ou no seu aplicativo de mensagens.",
+    "text": "Uma única conversa para todos os seus projetos e dispositivos.",
+    "tagline": "Diga ao Prism o que você precisa em linguagem natural. Ele coordena projetos e máquinas em segundo plano e responde assim que os resultados ficam prontos.",
     "image": {
       "src": "/icon.svg",
       "alt": "DSH Prism"
@@ -17,25 +17,25 @@
       },
       {
         "theme": "alt",
-        "text": "Funções e permissões",
+        "text": "Arquitetura e funções",
         "link": "/pt/develop/layers"
       }
     ]
   },
   "features": [
     {
-      "title": "A conversa",
-      "details": "Escolha o modelo de conversa e consulte uma tarefa em segundo plano quando precisar.",
+      "title": "Conversa direta",
+      "details": "Sem trocar de espaço de trabalho: escolha seu modelo quando quiser e abra os detalhes só quando precisar.",
       "link": "/pt/guide/chat"
     },
     {
-      "title": "Aplicativos de mensagens",
-      "details": "Conecte um bot, autorize uma conversa privada e receba os resultados.",
+      "title": "No seu app de mensagens",
+      "details": "Conecte Telegram, WeChat, Feishu/Lark, Discord e mais; aprove usuários com um clique e receba avisos ao concluir.",
       "link": "/pt/guide/im"
     },
     {
-      "title": "Mesh e sessões",
-      "details": "Execute uma etapa em outro dispositivo mantendo os arquivos e o histórico no nó responsável.",
+      "title": "Feito para ser confiável",
+      "details": "Isolamento rigoroso de permissões, roteamento dinâmico de modelos, execução remota transparente e recuperação automática.",
       "link": "/pt/develop/mesh"
     }
   ]

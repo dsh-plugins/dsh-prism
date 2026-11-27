@@ -1,10 +1,14 @@
 # Mesh e sessões
 
-O coordenador delega sessões por `prism-<nodeId>`. O contrato de provedor atende tanto a execução local quanto a remota.
+O Prism combina **despacho transparente à localização** (`dsh-mesh-node`) com **recuperação Copy-on-Conflict**, mantendo a orquestração idêntica local ou remotamente e livre de travamentos por bloqueio de escrita.
+
+## Transparência de localização
+
+Cada nó registra um Subagent Provider `prism-<nodeId>`. O coordenador emite um ticket de uso único e recebe o ID de uma sessão formal do DSH no nó de destino. Como **L1 escolhe o espaço de L2** e **L3 herda o espaço de L2**, todas as operações de arquivo permanecem locais no nó proprietário.
 
 ## Conectar dois nós
 
-Coloque o primeiro bloco `mesh` no coordenador e o segundo no executor. Atribua o mesmo segredo aleatório à variável `PRISM_WORKER_TOKEN` nas duas máquinas. Registre `atlas` com o nó `worker` nos dois lados. O executor resolve o diretório real.
+Coloque o primeiro bloco `mesh` no coordenador (`hub`) e o segundo no executor (`worker`), usando o mesmo segredo em `PRISM_WORKER_TOKEN` e registrando `atlas` com `nodeId: "worker"` dos dois lados:
 
 ```json
 {
@@ -20,14 +24,14 @@ Coloque o primeiro bloco `mesh` no coordenador e o segundo no executor. Atribua 
 }
 ```
 
-Use HTTPS entre dispositivos e autorize o nome do executor no DSH. HTTP em loopback serve para testes locais. Cada nó mantém seu `DSH_HOME`. O coordenador inicia a conexão e recebe por ela as chamadas de ferramentas.
+Use HTTPS entre máquinas (HTTP loopback apenas para testes locais). Cada nó mantém seu próprio `DSH_HOME`.
 
-## Ativação e bloqueios
+## Virtual Facade & Copy-on-Conflict
 
-O executor verifica novamente a identidade, o projeto, o modelo e as permissões. Em um conflito de bloqueio de escrita, cria um fork do histórico observável, publica o novo vínculo de forma atômica e registra o arquivamento da sessão original. Processos concorrentes consultam o vínculo vencedor.
+Por fora são Subagents leves; por dentro são **sessões formais do DSH**. Se a ativação encontrar um conflito de bloqueio de escrita, o executor faz imediatamente um **Fork** do histórico observável para uma nova sessão, atualiza o vínculo atomicamente e marca a antiga para arquivamento.
 
-## Consultar uma tarefa remota
+## Persistência e inspeção remota
 
-A consulta autorizada lê a sessão pelo mesmo enlace sem bloqueio de escrita. Mantenha os diretórios de estado ao reiniciar. Após uma falha de conexão, consulte o estado antes de repetir uma operação com efeitos externos.
+`conversations.sqlite` guarda mensagens, modelos, estados e filas; o DSH guarda as transcrições completas. Consultas `trace` seguem pelo mesmo link Mesh sem adquirir bloqueio de escrita.
 
-[Interfaces de desenvolvimento](/pt/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)
+Próximo: [Interfaces de desenvolvimento](/pt/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)

@@ -1,33 +1,34 @@
 # Modèles et projets
 
-Ouvrez les dossiers comme espaces de travail DSH pour que Prism les détecte. Dans les paramètres de DSH, ouvrez **Prism/Configuration**, puis cochez les modèles autorisés pour L1, L2 et L3. Un niveau dont la sélection est vide utilise le modèle par défaut de DSH. Avec le bouton en forme de crayon à côté du modèle, vous pouvez modifier la description et les instructions du modèle pour ce niveau. Les exemples JSON ci-dessous concernent le lanceur compilé depuis les sources. [Démarrage rapide](/fr/guide/start)
+Prism sépare **qui choisit le modèle** de **qui résout le chemin physique**, alliant routage dynamique à l’exécution et contrôle d’accès dans le code hôte de confiance.
 
-Le registre décrit les projets accessibles. L’orchestrateur définit séparément les modèles et les outils natifs de chaque rôle.
+## Catalogues de modèles par niveau
 
-## Configurer chaque niveau
+Sous **Settings → Prism/Configuration** (ou `orchestrator.models` dans `prism.config.json`), **L1**, **L2** et **L3** définissent chacun leurs modèles autorisés. Un niveau vide suit le modèle DSH par défaut.
 
-Placez cet extrait sous `orchestrator` dans `prism.config.json`. Les identifiants doivent être pris en charge par le fournisseur actif et uniques au sein du niveau.
+- `id` et `provider` optionnel : identifient le modèle et le fournisseur DSH.
+- `description` : résumé des capacités lu par le niveau supérieur via `list_models`.
+- `prompt` et `promptMode` : `"append"` (défaut) complète le prompt du rôle ; `"replace"` le remplace entièrement sans jamais élargir les outils autorisés.
+
+L’utilisateur choisit librement le modèle **L1** ; les agents parents sélectionnent **L2** et **L3** dynamiquement.
 
 ```json
 {
   "defaultProjectId": "prism",
   "defaultL1Model": "deepseek-flash",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "Recueil des demandes" }],
+    "L1": [{ "id": "deepseek-flash", "description": "Accueil et coordination" }],
     "L2": [{ "id": "deepseek-v4-pro", "description": "Planification et vérification" }],
-    "L3": [{ "id": "deepseek-flash", "description": "Revue de code ciblée", "promptMode": "append", "prompt": "Indique les fichiers effectivement examinés." }]
+    "L3": [{ "id": "deepseek-flash", "description": "Revue ciblée de code", "promptMode": "append", "prompt": "Citez les fichiers vérifiés." }]
   }
 }
 ```
 
-## Description et consigne système
+## Découverte et registre des espaces
 
-`description` indique au parent dans quels cas choisir le modèle. `provider` sélectionne le fournisseur DSH ; en son absence, l’hôte utilise son fournisseur par défaut.
+1. **Découverte automatique DSH** : chaque dossier ouvert dans la barre latérale est indexé avec son UUID natif et son nom affiché (`read`, `glob`, `grep` par défaut pour le propriétaire et les utilisateurs IM approuvés).
+2. **Entrées explicites (`registry`)** : définissent `id`, `description`, `stack`, `nodeId`, `workspace`, `principals`, `permissions` et `gitRemote` optionnel, et priment sur les valeurs découvertes.
 
-`promptMode: "append"` ajoute les consignes du rôle et du modèle. `"replace"` utilise `prompt` comme consigne système personnalisée complète. Les droits d’outils restent contrôlés par l’hôte.
+`query_projects` ne renvoie que les métadonnées autorisées à L1 ; les chemins physiques sont résolus uniquement côté hôte de confiance.
 
-## Accès au projet
-
-Une entrée contient `id`, `description`, `stack`, `nodeId`, `workspace`, `principals` et `permissions` ; `gitRemote` est facultatif. L1 reçoit les métadonnées autorisées. Seul le code de confiance résout le répertoire. Les outils de L3 sont à l’intersection de la liste d’exécution, de la politique du projet et de la délégation du parent.
-
-[Rôles et permissions](/fr/develop/layers) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)
+Suite : [Rôles et permissions](/fr/develop/layers) · [Mesh et sessions](/fr/develop/mesh) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)

@@ -1,35 +1,52 @@
 # 開発者向け API
 
-ブラウザーには認証付きの限定 HTTP ルートが公開されます。ホスト内からは同じ所有権検査を行う Cordis サービスを使います。
+外部クライアントは認証付きの限定的な HTTP API から、ホスト内プラグインは同じ所有権チェックを備えた Cordis サービスから Prism を利用します。
 
-## Web HTTP
+## Web HTTP API
 
-DSH のログイン Cookie を使います。書き込みリクエストは JSON と `X-Prism-Request: 1` を送ります。所有者はサーバーが認証済みの主体から決めます。
+DSH ログイン Cookie を使用し、書き込みリクエストには JSON と `X-Prism-Request: 1` ヘッダーを付与します。
 
 | インターフェース | 動作 |
 | --- | --- |
-| `GET /prism/api/view` | 公開会話と利用可能な L1 モデル。 |
-| `GET /prism/api/events` | メッセージとタスクカードの SSE スナップショット。 |
+| `GET /prism/api/view` | 現在の会話スナップショットと許可された L1 モデルを取得。 |
+| `GET /prism/api/events` | メッセージとタスクカードの SSE 更新を購読。 |
 | `POST /prism/api/message` | `text` と安定した `requestId` を送信。 |
-| `POST /prism/api/model` | 許可された L1 `modelId` を選択。 |
-| `GET /prism/api/trace?task=…` | 所有するタスクのセッションを取得。 |
+| `POST /prism/api/model` | 次ターン以降の L1 `modelId` を選択。 |
+| `GET /prism/api/trace?task=…` | 所有タスクの読み取り専用ログを取得。 |
 
-送信ごとに安定した `requestId` を生成し、応答が不明な場合の再試行では同じ値を使います。SSE 再接続時には最新スナップショットが戻ります。タスクの履歴はユーザーが開いた時に取得します。
-
-## Cordis サービス
+## Cordis サービス（`ctx.prism`）
 
 | インターフェース | 動作 |
 | --- | --- |
-| `ctx.prism.view(owner)` | 公開状態を取得する。 |
-| `ctx.prism.message(owner, text, requestId?)` | 認証済みのユーザーメッセージをキューに入れる。 |
-| `ctx.prism.selectModel(owner, modelId)` | 次に使う対話モデルを変更する。 |
-| `ctx.prism.trace(owner, taskId)` | 自分のタスク履歴を読む。 |
-| `ctx.prism.subscribe(owner, listener)` | 変更を購読し、返された関数で解除する。 |
+| `ctx.prism.view(owner)` | 公開スナップショットを取得。 |
+| `ctx.prism.message(owner, text, requestId?)` | 認証済みメッセージをキューに追加。 |
+| `ctx.prism.selectModel(owner, modelId)` | 次回以降の L1 モデルを変更。 |
+| `ctx.prism.trace(owner, taskId)` | 所有タスクのログを読み取り。 |
+| `ctx.prism.subscribe(owner, listener)` | 更新を購読（戻り値の関数で解除）。 |
 
-`owner` は認証済みチャネルから導きます。レジストリは公開可能なメタデータを返し、ホスト内の `ctx.prismRegistry.resolve` がパスを解決します。
+物理パスは信頼されたホストコード内の `ctx.prismRegistry.resolve` でのみ解決されます。
 
-## メッセージングアダプター
+## ソースランチャーでの IM 設定
 
-`ImTransport` に永続的なチャネルとボットの識別子、送信先の認可、`send` と `edit` を実装します。`ImGateway.receive` の成功後にプラットフォームへ確認を返します。再試行ではイベント ID を維持します。配信と受領記録は別トランザクションになり得ます。
+パッケージ導入の場合は **Settings → Prism/IM → Add IM** をご利用ください（[利用ガイド](/ja/guide/im)）。ソースランチャー（`runtime/`）では `prism.config.json` の `im` 配下でアダプターを有効化します。
 
-[メッセージアプリ](/ja/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)
+```sh
+npm run im -- login wechat --config prism.config.json
+npm run im -- login feishu --config prism.config.json
+npm run im -- setup telegram --config prism.config.json
+npm run im -- pair telegram --config prism.config.json
+```
+
+QR 認証情報やペアリング状態を維持するため、再起動時もゲートウェイの SQLite ファイルを保持してください。
+
+| プラットフォーム | JSON | ENV |
+| --- | --- | --- |
+| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
+| WeChat | `im.wechat` | — |
+| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
+| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
+| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
+| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
+| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
+
+次へ：[メッセージアプリ](/ja/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)

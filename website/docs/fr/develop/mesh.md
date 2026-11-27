@@ -1,10 +1,14 @@
 # Mesh et sessions
 
-Le coordinateur confie les sessions à `prism-<nodeId>`. Le contrat du fournisseur est identique pour une exécution locale ou distante.
+Prism associe **distribution transparente à la localisation** (`dsh-mesh-node`) et **reprise Copy-on-Conflict** afin que l’orchestration reste identique en local comme à distance sans jamais bloquer sur un verrou d’écriture.
 
-## Relier deux nœuds
+## Transparence de localisation
 
-Placez le premier bloc `mesh` sur le coordinateur et le second sur le nœud d’exécution. Définissez le même secret aléatoire dans `PRISM_WORKER_TOKEN` des deux côtés. Enregistrez `atlas` avec l’identifiant de nœud `worker` dans les deux registres. Le nœud d’exécution résout le répertoire réel.
+Chaque nœud enregistre un Subagent Provider `prism-<nodeId>`. Le coordinateur émet un ticket à usage unique et reçoit l’ID d’une session DSH formelle sur le nœud cible. Comme **L1 choisit l’espace de L2** et **L3 hérite de celui de L2**, les accès fichiers restent locaux au nœud propriétaire.
+
+## Connecter deux nœuds
+
+Placez le premier bloc `mesh` sur le coordinateur (`hub`) et le second sur l’exécutant (`worker`), avec le même secret dans `PRISM_WORKER_TOKEN` et le projet `atlas` déclaré des deux côtés avec `nodeId: "worker"` :
 
 ```json
 {
@@ -20,14 +24,14 @@ Placez le premier bloc `mesh` sur le coordinateur et le second sur le nœud d’
 }
 ```
 
-Employez HTTPS entre les machines et autorisez le nom d’hôte du nœud dans DSH. HTTP sur la boucle locale convient aux essais. Chaque machine garde son `DSH_HOME`. Le coordinateur ouvre la connexion et y reçoit les appels d’outils.
+Utilisez HTTPS entre machines (HTTP loopback uniquement pour les tests locaux). Chaque nœud conserve son propre `DSH_HOME`.
 
-## Activation et conflits de verrou
+## Virtual Facade & Copy-on-Conflict
 
-Le nœud vérifie à nouveau l’appelant, le projet, le modèle et les droits. En cas de conflit sur le verrou d’écriture, il crée un fork de l’historique observable, publie atomiquement la nouvelle association et inscrit la session d’origine à archiver. Les éditeurs concurrents vérifient l’association retenue.
+En surface ce sont des Subagents légers ; en interne ce sont des **sessions DSH formelles**. Si l’activation rencontre un conflit de verrou d’écriture, le moteur effectue immédiatement un **Fork** de l’historique observable vers une nouvelle session, met à jour la liaison atomiquement et marque l’ancienne pour archivage.
 
-## Consulter une tâche distante
+## Persistance et inspection à distance
 
-Une requête autorisée lit la session par le même lien sans verrou d’écriture. Conservez les répertoires d’état lors d’un redémarrage. Après une coupure, contrôlez le statut avant de répéter une opération susceptible de modifier des données.
+`conversations.sqlite` stocke messages, modèles, états et files, tandis que DSH conserve les journaux complets. Les lectures `trace` passent par le même lien Mesh sans acquérir de verrou d’écriture.
 
-[Interfaces de développement](/fr/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)
+Suite : [Interfaces de développement](/fr/develop/api) · [dsh-mesh-node](https://github.com/dsh-plugins/dsh-mesh-node)

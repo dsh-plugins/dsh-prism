@@ -1,16 +1,23 @@
 # Models and workspaces
 
-## Choose models for each layer in DSH
+Prism separates **who picks the model** from **who resolves the workspace path**, keeping routing flexible at runtime while enforcing access boundaries in trusted host code.
 
-Add a provider under **Settings → Models** and choose the default model in a native DSH chat. Open **Settings → Prism/Configuration** to select models separately for conversation (L1), planning (L2) and execution (L3). A layer with no model selected follows the DSH default. The edit button beside each model saves its description and prompt for that layer. [Step-by-step model configuration](../guide/start.md)
+## Self-describing model pools
 
-## Discover local workspaces
+Under **Settings → Prism/Configuration** (or `orchestrator.models` in `prism.config.json`), you can configure independent model lists for **L1** (conversation), **L2** (planning), and **L3** (execution). Any tier left unconfigured falls back to the DSH default model.
 
-Add project folders in the DSH workspace sidebar. Prism uses each native workspace UUID as its internal project ID and the workspace display name to identify it in a request. A discovered workspace provides `read`, `glob` and `grep`. The DSH web owner and private conversations authorized by the messaging gateway can query these workspaces. An explicitly configured project on the same node and path keeps its own permissions. [Messaging account approval](../guide/im.md)
+Each model entry supports:
+- `id` & optional `provider`: Identifies the model and DSH provider (omitting `provider` uses the host default). Model IDs must be unique within a tier.
+- `description`: A capability summary read by the parent tier via `list_models` when choosing which model to dispatch—for example, whether a model excels at fast triage, deep planning, or careful code review.
+- `prompt` & `promptMode`: Customizes how the model enters its role. `"append"` (default) adds your instructions after the role prompt; `"replace"` substitutes the configured `prompt` as the full system prompt. Prompt overrides never expand host-enforced tool permissions.
 
-## Configure a model per role in the source launcher
+**Runtime selection**:
+- **L1** is chosen freely by the user in the web composer or via `/model` in IM.
+- **L2 and L3** are chosen dynamically by their parent agent (`L1` picks `L2`, `L2` picks `L3`) based on each candidate's `description`.
 
-For deployments built with the source launcher, this fragment belongs inside `orchestrator` in `prism.config.json`. Supply model IDs supported by the active DSH provider. A model ID must be unique within its tier.
+### Source launcher configuration example
+
+In `prism.config.json`, place the model pools inside `orchestrator`:
 
 ```json
 {
@@ -19,19 +26,25 @@ For deployments built with the source launcher, this fragment belongs inside `or
   "models": {
     "L1": [{ "id": "deepseek-flash", "description": "Conversational intake" }],
     "L2": [{ "id": "deepseek-v4-pro", "description": "Planning and verification" }],
-    "L3": [{ "id": "deepseek-flash", "description": "Focused code review", "promptMode": "append", "prompt": "Cite the files you reviewed." }]
+    "L3": [
+      {
+        "id": "deepseek-flash",
+        "description": "Focused code review",
+        "promptMode": "append",
+        "prompt": "Cite the files you reviewed."
+      }
+    ]
   }
 }
 ```
 
-## Description and system prompt
+## Workspace discovery and registry governance
 
-`description` is the capability summary used for routing. Include the situations in which a parent should choose that model. `provider` selects a provider explicitly; an omitted value uses the host’s current default model provider.
+Prism supports two complementary ways to expose projects to L1 without leaking filesystem paths into the conversation:
 
-`promptMode: "append"` adds the role and model instructions to the system prompt. `"replace"` uses the configured `prompt` as the complete custom system prompt. Changing the prompt does not expand the host-enforced tools.
+1. **Automatic DSH workspace discovery**: Any folder opened in the DSH **Workspaces** sidebar is automatically discovered by `dsh-workspace-registry`. Prism uses the native workspace UUID as the internal project ID and its display name for matching user requests. Discovered workspaces default to read-only inspection tools (`read`, `glob`, `grep`) and are accessible to the DSH web owner and approved IM users.
+2. **Explicit registry entries**: For fine-grained multi-user or multi-node control, entries in `registry` define `id`, `description`, `stack`, `nodeId`, `workspace`, `principals`, `permissions`, and an optional `gitRemote`. Explicit entries on the same node and path take precedence over auto-discovered defaults.
 
-## Access for explicitly configured projects
+**Security boundary**: `query_projects` only returns authorized metadata (`id`, `description`, `stack`, `nodeId`) to L1. Physical directory paths are resolved exclusively inside trusted host code during dispatch, and L3's actual tool set is bounded by the intersection of the L3 ceiling, the project's `permissions`, and any narrower budget passed by L2.
 
-Each registry entry has an `id`, `description`, `stack`, `nodeId`, `workspace`, `principals` and `permissions`; `gitRemote` is optional. The L1 query returns authorized metadata. Only trusted host code resolves the directory. The L3 ceiling intersects execution tools, project policy and the budget passed down during dispatch.
-
-[Roles and permissions](/develop/layers) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)
+Next: [Architecture and role isolation](/develop/layers) · [Mesh and sessions](/develop/mesh) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)

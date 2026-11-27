@@ -1,44 +1,42 @@
 # Developer interfaces
 
-The browser uses a narrow authenticated HTTP surface. Integrations running inside the host use the Cordis service and the same ownership checks.
+External clients interact with Prism through a narrow, authenticated surface, while host-side plugins integrate over Cordis services using the same ownership checks.
 
-## Web HTTP
+## Web HTTP API
 
-Use the DSH login cookie. Pass JSON and `X-Prism-Request: 1` on write requests. The server derives the owner from the authenticated principal.
+Browser requests authenticate with the DSH login cookie. Write requests require JSON and the `X-Prism-Request: 1` header; the server always derives `owner` from the authenticated principal.
 
-| Interface | Behavior |
+| Endpoint | Purpose |
 | --- | --- |
-| `GET /prism/api/view` | Current public conversation and available L1 models. |
-| `GET /prism/api/events` | Server-sent snapshots of messages and task cards. |
-| `POST /prism/api/message` | Submit `text` and a stable `requestId`. |
-| `POST /prism/api/model` | Select a permitted L1 `modelId`. |
-| `GET /prism/api/trace?task=…` | Read the current owner’s task transcript. |
+| `GET /prism/api/view` | Fetch the current conversation snapshot and permitted L1 models. |
+| `GET /prism/api/events` | Subscribe to Server-Sent Events (SSE) for message and task-card updates. |
+| `POST /prism/api/message` | Submit `text` with a client-generated `requestId`. |
+| `POST /prism/api/model` | Switch the active L1 `modelId` for upcoming turns. |
+| `GET /prism/api/trace?task=…` | Read the read-only transcript of a task owned by the caller. |
 
-Generate a stable `requestId` per submitted user message and reuse it when retrying an uncertain acknowledgement. An SSE reconnect receives a fresh snapshot. Fetch the trace only after the user opens a task.
+Generate a stable `requestId` per user message and reuse it on retries so duplicate submissions are deduplicated. An SSE reconnect automatically receives a fresh snapshot; fetch `/prism/api/trace` lazily only when the user opens a task.
 
-## Cordis service
+## Cordis service (`ctx.prism`)
 
-| Interface | Behavior |
+| Method | Purpose |
 | --- | --- |
-| `ctx.prism.view(owner)` | Read a public snapshot. |
+| `ctx.prism.view(owner)` | Read the public conversation snapshot. |
 | `ctx.prism.message(owner, text, requestId?)` | Enqueue an authenticated user message. |
-| `ctx.prism.selectModel(owner, modelId)` | Change the next interaction model. |
+| `ctx.prism.selectModel(owner, modelId)` | Change the L1 model for subsequent turns. |
 | `ctx.prism.trace(owner, taskId)` | Read the transcript of an owned task. |
-| `ctx.prism.subscribe(owner, listener)` | Observe updates; call the returned function to unsubscribe. |
+| `ctx.prism.subscribe(owner, listener)` | Subscribe to updates; invoke the returned function to unsubscribe. |
 
-Integrations must derive `owner` from an authenticated channel. Registry queries return public metadata; physical paths resolve through `ctx.prismRegistry.resolve` in trusted host code.
+Integrations must derive `owner` from an authenticated channel. Project queries return public metadata only; physical paths are resolved exclusively by trusted host code via `ctx.prismRegistry.resolve`.
 
-## Transport adapters
+## Custom IM transport adapters
 
-Implement `ImTransport` with a stable channel/bot namespace, destination authorization, `send` and `edit`. An adapter acknowledges an inbound event after `ImGateway.receive` succeeds. Keep the platform event ID stable across retries. Message delivery and the platform acknowledgement can occur in separate transactions.
+To add a messaging platform, implement `ImTransport` with a stable channel/bot namespace, destination authorization, `send`, and `edit`. Acknowledge inbound platform events only after `ImGateway.receive` succeeds, and keep platform event IDs stable across retries.
 
-## Messaging from the source launcher
+## Source launcher IM setup
 
-For a packaged DSH installation, use the controls in **Settings → Prism/IM → Add IM**. The following commands and keys apply to developers running the source launcher. [Configure messaging in the browser](/guide/im)
+If you installed Prism via the DSH Plugin Manager, configure channels in **Settings → Prism/IM → Add IM** ([user guide](/guide/im)). The CLI and `prism.config.json` keys below are for developers running from the source launcher (`runtime/`).
 
-Enable the adapter under `im` in `prism.config.json`. For QR login, run the command on the coordinating host and scan the displayed QR in the matching app. For an additional user, issue a pairing code on that host and send `/pair CODE` in a private chat with the bot.
-
-The commands below are alternatives. Run the appropriate one from `runtime/`. `setup` enables an adapter and lists the environment variables it needs. For non-QR channels it also issues the first pairing code; use `pair` for another user.
+Enable the adapter under `im` in `prism.config.json`, then run the matching command from `runtime/`. `setup` enables an adapter, prints required environment variables, and (for non-QR channels) issues the initial pairing code; use `pair` to authorize additional users (`/pair CODE` in private chat, single-use, expires in 10 minutes).
 
 ```sh
 npm run im -- login wechat --config prism.config.json
@@ -47,11 +45,11 @@ npm run im -- setup telegram --config prism.config.json
 npm run im -- pair telegram --config prism.config.json
 ```
 
-The QR login stores credentials locally and authorizes the verified scanner. A pairing code works once and expires after ten minutes. Use `--config prism.config.json` with the CLI when selecting a nondefault state path. Then start the coordinator with that same configuration.
+Pass `--config prism.config.json` when using a custom state path, and start the coordinator with the same file. Keep the gateway SQLite file across restarts to preserve QR credentials and pairings.
 
 ### Source configuration keys
 
-Select the channels you actually use. Set secrets in the environment of the coordinator. `allowedUserIds` optionally grants access to known platform user IDs. QR credentials and pairings belong to the gateway state, so keep its SQLite file across restarts.
+Enable only the channels you use and supply secrets via coordinator environment variables (`allowedUserIds` optionally pre-authorizes known platform user IDs):
 
 | Platform | JSON | ENV |
 | --- | --- | --- |
@@ -63,8 +61,6 @@ Select the channels you actually use. Set secrets in the environment of the coor
 | QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
 | Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
 
-If an event does not arrive, check the platform callback URL or outbound connection for that adapter. QQ C2C messages are subject to the platform’s reply and proactive-message limits. Some transports deliver a new status message when editing an earlier card is unavailable.
+Set `im.locale` for the default bot language (users can override it per chat with `/language`). Platforms that do not support in-place message editing fall back to posting a follow-up status message.
 
-Configure `im.locale` for the default language. Each user can change their language in the bot. The gateway stores delivery state in SQLite so it can resume after a restart. If delivery succeeded just before the local receipt was saved, the platform can show a duplicate.
-
-[Messaging apps](/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)
+Next: [Messaging apps](/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)

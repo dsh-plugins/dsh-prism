@@ -1,19 +1,22 @@
 # Unterhaltung
 
-Beschreiben Sie im Web das gewünschte Ergebnis, etwa eine Prüfung der Checkliste für eine mobile Veröffentlichung. Prism sucht passende Projekte über das Register.
+Öffnen Sie **Prism** in der DSH-Seitenleiste, um direkt loszuschreiben. Sie müssen keinen Arbeitsbereich auswählen und keine Pfade kennen – nennen Sie einfach Ihr Ziel und bei Bedarf den Projektnamen.
 
-## Gesprächsmodell wählen
+## Modell jederzeit wechseln
 
-Der Modellwähler steht im Eingabefeld links neben der Sendeschaltfläche. Er zeigt die Fähigkeiten der L1-Modelle. Eine Auswahl gilt für folgende Runden und erhält den Entwurf. Enter sendet; Umschalt+Enter fügt einen Zeilenumbruch ein.
+Über das Modellmenü neben **Send** sehen Sie die freigegebenen Gesprächsmodelle samt Kurzbeschreibung. Ein Wechsel gilt ab der nächsten Nachricht, Ihr aktueller Entwurf bleibt erhalten. Mit **Enter** senden Sie, mit **Shift+Enter** fügen Sie einen Zeilenumbruch ein.
 
-## Fortschritt verfolgen
+## Fortschritt ohne Ablenkung verfolgen
 
-Eine Aufgabenkarte zeigt Titel, Zeit und Status des delegierten Auftrags. Sobald die Ergebnisse vorliegen, antwortet Prism im Gespräch.
+Jede delegierte Teilaufgabe erscheint im Chat-Verlauf als kompakte Karte mit Titel, Status und Zeitstempel. Während die Aufgaben im Hintergrund laufen, können Sie einfach weiterarbeiten – Prism meldet sich, sobald die Ergebnisse fertig sind.
 
-## Sitzung lesen
+## Bei Bedarf in die Details schauen
 
-Kehren Sie über **DeepSeek Harness** zu DSH zurück. Öffnen Sie in der Seitenleiste des jeweiligen Arbeitsbereichs den schreibgeschützten Verlauf. Die Einträge heißen `棱镜` für das Gespräch, `棱镜 L2` für die Planung und `棱镜 L3` für die Ausführung. Im L3-Verlauf sehen Sie die Werkzeugaufrufe und die gelesenen Dateien.
+Möchten Sie genau prüfen, welche Dateien gelesen wurden? Klicken Sie oben auf **DeepSeek Harness** und klappen Sie in der Seitenleiste unter **Workspaces** das gewünschte Projekt auf:
+- **棱镜**: Hauptgespräch
+- **棱镜 L2**: Planung für dieses Projekt
+- **棱镜 L3**: Konkrete Ausführung und Dateizugriffe
 
-[Bebilderte Anleitung auf Englisch](/guide/chat) · [Bebilderte Anleitung auf Chinesisch](/zh/guide/chat)
+Alle Einträge sind schreibgeschützt. Über **Prism** in der Seitenleiste kehren Sie jederzeit zum Chat zurück. [Bebilderte Anleitung auf Englisch](/guide/chat) · [Chinesisch](/zh/guide/chat)
 
-[Messenger einrichten](/de/guide/im) · [Rollen und Rechte](/de/develop/layers)
+Weiter: [Messenger einrichten](/de/guide/im) · [Architektur & Rollen](/de/develop/layers)

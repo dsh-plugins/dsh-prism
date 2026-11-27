@@ -1,67 +1,31 @@
 # Mensajería
 
-Un chat privado autenticado se vincula a una identidad L1 persistente. Cada canal recibe mensajes explícitos y actualizaciones independientemente de la web.
+Conecta Prism a tus aplicaciones de mensajería para enviar peticiones y recibir resultados directamente en un chat privado.
 
-## Configuración desde la interfaz de DSH
+Como propietario de DSH, abre **Settings → Prism/IM** y pulsa **Add IM**. Cada cuenta guardada aparece como una tarjeta para editar sus datos o activar y pausar la conexión. En **Pending approvals** verás a quienes escriban al bot por primera vez. ([Guía ilustrada en inglés](/guide/im) · [En chino](/zh/guide/im))
 
-En los ajustes de DSH abre **Prism/IM → Add IM** y elige Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot o Discord. Para una cuenta nueva introduce su **Username** y las credenciales. Feishu obtiene el nombre del bot durante la vinculación. Pulsa **Save settings**, vuelve a abrir la tarjeta de la cuenta y pulsa **Enable channel** para iniciar la conexión.
+Salvo en Feishu/Lark, introduce un **Username** para identificar cada tarjeta. Pulsa **Save settings** y luego **Enable channel** cuando las credenciales o el código QR estén listos.
 
-Para Feishu elige **Manual binding** si tienes las credenciales de la aplicación o **QR binding → Generate QR code** para vincularla mediante un código. Escanéalo con Feishu o Lark y selecciona o crea un bot en la página oficial de autorización. Cuando una persona escriba al bot por privado por primera vez, el propietario de DSH podrá aceptar o rechazar la solicitud en **Pending approvals** con **Approve** o **Reject**. [Guía ilustrada en inglés](/guide/im) · [Guía ilustrada en chino](/zh/guide/im)
+## Plataformas compatibles
 
-## Conexión y emparejamiento con el lanzador de código fuente
+- **Telegram**: Introduce el **Bot token** de `@BotFather`, guarda y activa el canal. Si el bot tenía un webhook previo, elimínalo antes en Telegram.
+- **WeChat**: En **Account registration**, pulsa **Generate QR code**, escanéalo con WeChat, guarda y activa.
+- **Feishu / Lark**: Usa **QR binding → Generate QR code** para vincular o crear un bot desde la página oficial, o **Manual binding** con **Service**, **App ID** y **App secret** (activando los eventos de mensaje privado en la consola). Después pulsa **Enable channel**.
+- **WeCom**: Introduce **Username**, **Bot ID** y **Bot secret** de un bot inteligente de WeCom con conexión persistente, guarda y activa.
+- **QQ Bot**: Introduce **Username**, **App ID** y **App secret**, y configura la URL `/prism/im/qq` (HTTPS accesible desde Internet) como callback firmado en la consola de QQ.
+- **OneBot**: Introduce **Username**, **OneBot account ID**, **OneBot HTTP API URL**, **Access token** y **Event-signing secret**, y apunta el callback de eventos a `/prism/im/onebot`.
+- **Discord**: Introduce **Username** y el **Bot token** del Discord Developer Portal, guarda y activa.
 
-Activa el adaptador en `im` de `prism.config.json`. Ejecuta el acceso por QR en el coordinador y escanea el código en la aplicación correspondiente. Para otro usuario, emite un código en el servidor y pídele que envíe `/pair CODE` al bot en privado.
+## Aprobar a nuevos usuarios
 
-Estos comandos son alternativas. Ejecuta el que corresponda desde `runtime/`. `setup` activa el adaptador y muestra las variables de entorno necesarias. En canales sin QR genera el primer código; usa `pair` para añadir otra persona.
+Cuando alguien envíe su primer mensaje privado al bot, abre **Pending approvals**, revisa la plataforma, el nombre y el ID, y elige **Approve** (autoriza el chat y procesa ese primer mensaje) o **Reject**.
 
-```sh
-npm run im -- login wechat --config prism.config.json
-npm run im -- login feishu --config prism.config.json
-npm run im -- setup telegram --config prism.config.json
-npm run im -- pair telegram --config prism.config.json
-```
+## Comandos en el chat
 
-El acceso QR guarda credenciales locales y autoriza a quien escaneó el código. Los códigos de emparejamiento son de un uso y duran diez minutos. Si usas otra ruta de estado, pasa `--config prism.config.json` a la CLI y arranca el coordinador con el mismo archivo.
+- `/models` — Listar modelos disponibles
+- `/model ID` — Cambiar de modelo
+- `/tasks` — Ver tareas de este chat
+- `/inspect TASK_ID` — Abrir el registro de solo lectura de una tarea
+- `/language es` — Cambiar el idioma de las respuestas
 
-### Canales disponibles
-
-| Plataforma | Conexión |
-| --- | --- |
-| Telegram | Long polling de la Bot API. Define el token mediante `im.telegram.tokenEnv`, autoriza o empareja al usuario y elimina cualquier webhook existente. |
-| WeChat | WeChat personal con iLink. Ejecuta `login wechat` y abre el chat privado de la cuenta verificada. |
-| Feishu / Lark | Autoriza la app con `login feishu`. Completa los permisos y configura los mensajes en la plataforma antes del chat privado. |
-| WeCom | Configura el bot y sus credenciales en `im.wecom` y empareja al usuario en privado. |
-| OneBot | Conecta OneBot para mensajes privados y dirige los eventos firmados a `/prism/im/onebot`. |
-| QQ | Registra el callback oficial en `/prism/im/qq`. La pasarela comprueba la firma de QQ. |
-| Discord | Habilita los mensajes directos del bot y empareja al usuario en un DM de Discord. |
-
-### Claves de configuración del lanzador de código fuente
-
-Habilita solo los canales que utilices y guarda sus secretos en el entorno del coordinador. `allowedUserIds` autoriza identificadores conocidos de la plataforma. Conserva SQLite tras reiniciar para mantener credenciales QR y emparejamientos.
-
-| Plataforma | JSON | ENV |
-| --- | --- | --- |
-| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
-| WeChat | `im.wechat` | — |
-| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
-| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
-| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
-| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
-| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
-
-Si no llegan eventos, revisa el callback o la conexión saliente del canal. QQ C2C limita las ventanas de respuesta y los mensajes proactivos. Algunos canales publican un nuevo estado cuando no pueden editar la tarjeta original.
-
-## Comandos de chat
-
-| Interfaz | Función |
-| --- | --- |
-| `/models` | Listar modelos L1 y capacidades. |
-| `/model …` | Seleccionar por número o identificador. |
-| `/tasks` | Listar las tareas de este chat. |
-| `/inspect …` | Leer una tarea por ID. |
-| `/language …` | Elegir un código de idioma, como `es`. |
-| `/pair …` | Canjear el código de emparejamiento. |
-
-`im.locale` establece el idioma inicial. Cada usuario puede cambiarlo en el bot. SQLite conserva el estado de entrega al reiniciar. Una interrupción entre la entrega y el recibo puede producir un duplicado.
-
-[Interfaces de desarrollo](/es/develop/api) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)
+Siguiente: [La conversación](/es/guide/chat) · [Interfaces de desarrollo](/es/develop/api)

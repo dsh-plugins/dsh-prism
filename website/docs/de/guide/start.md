@@ -1,16 +1,12 @@
 # Schnellstart
 
-Mit zwei Projektordnern auf demselben Rechner können Sie Prism eine Aufgabe pro Projekt geben. Die bebilderte Anleitung zeigt den gesamten Ablauf mit DeepSeek Harness 0.2.3-alpha.2. [Anleitung auf Englisch](/guide/start) · [Anleitung auf Chinesisch](/zh/guide/start)
+Mit Prism müssen Sie nicht mehr zwischen Projektordnern hin- und herspringen. Sie stellen eine Anfrage in einem einzigen Chat, und Prism prüft mehrere Projekte gleichzeitig und fasst die Ergebnisse zusammen. Die bebilderte Schritt-für-Schritt-Anleitung finden Sie auf [Englisch](/guide/start) und [Chinesisch](/zh/guide/start) (DeepSeek Harness `0.2.3-alpha.2`).
 
-1. Öffnen Sie die Plugin-Verwaltung in DSH. Geben Sie die fünf unten aufgeführten npm-Pakete nacheinander ein. Installieren und aktivieren Sie jedes Paket, bevor Sie das nächste hinzufügen.
-2. Fügen Sie in den Modelleinstellungen einen eigenen API-Anbieter hinzu. Wählen Sie OpenAI Responses und tragen Sie die URL des Anbieters, Ihren API-Schlüssel und die Modell-ID `deepseek-v4.1-flash` ein.
-3. Öffnen Sie beide Projektordner als DSH-Arbeitsbereiche. Wählen Sie den neuen Anbieter und das Modell in einem DSH-Chat aus.
-4. Öffnen Sie **Prism** in der DSH-Seitenleiste. Bitten Sie Prism, für jeden Arbeitsbereich eine Aufgabe zu delegieren und die Veranstaltungszeit, den Ort und die Ansprechperson aus der jeweiligen README zu nennen.
-5. Die Aufgabenkarte zeigt Zeit und Status. Kehren Sie über **DeepSeek Harness** zu DSH zurück. Öffnen Sie im jeweiligen Arbeitsbereich den schreibgeschützten Verlauf der Ausführung und vergleichen Sie die Antwort mit beiden README-Dateien.
+## 1. Plugins installieren
 
-## Pakete für den Plugin-Manager
+Öffnen Sie in DSH **Plugins → Add plugin** und installieren Sie die fünf Pakete aus der Tabelle nacheinander. Klicken Sie nach jedem Paket auf **Enable now**, bevor Sie das nächste installieren:
 
-| Reihenfolge | Paket mit Version |
+| Reihenfolge | Paket und Version |
 | --- | --- |
 | 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
 | 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
@@ -18,4 +14,19 @@ Mit zwei Projektordnern auf demselben Rechner können Sie Prism eine Aufgabe pro
 | 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
 | 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` |
 
-[Unterhaltung](/de/guide/chat) · [Modelle und Projekte](/de/develop/models)
+> [!TIP]
+> Falls **Prism** nach dem Aktivieren aller fünf Plugins noch nicht in der Seitenleiste erscheint, laden Sie den Browser-Tab einmal neu.
+
+## 2. Modell und Projektordner einrichten
+
+1. Öffnen Sie **Settings → Models → Add model provider → Custom model API**, wählen Sie **OpenAI Responses**, tragen Sie Ihre Zugangsdaten sowie die Modell-ID `deepseek-v4.1-flash` ein und wählen Sie das Modell im DSH-Chat aus.
+2. Fügen Sie über **Add workspace** Ihre Projektordner hinzu (z. B. `harbor-books` und `lantern-cafe`). Prism erkennt lokale DSH-Arbeitsbereiche automatisch anhand ihres Namens.
+3. Optional können Sie unter **Settings → Prism/Configuration** für jede Stufe (**L1 Gespräch**, **L2 Planung**, **L3 Ausführung**) eigene Modelle, Beschreibungen und Hinweise festlegen.
+
+## 3. Aufgabe starten und prüfen
+
+Öffnen Sie **Prism** in der Seitenleiste und bitten Sie darum, in beiden Projekten jeweils Startzeit, Ort und Ansprechperson aus der `README.md` zu prüfen. Prism zeigt kompakte Aufgabenkarten im Verlauf an und antwortet mit der fertigen Zusammenfassung.
+
+Wenn Sie später nachsehen möchten, welche Dateien genau gelesen wurden, wechseln Sie oben über **DeepSeek Harness** zurück und öffnen den schreibgeschützten Verlauf im jeweiligen Arbeitsbereich.
+
+Weiter: [Unterhaltung](/de/guide/chat) · [Messenger einrichten](/de/guide/im)

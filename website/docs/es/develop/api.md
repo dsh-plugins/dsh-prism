@@ -1,35 +1,52 @@
 # Interfaces de desarrollo
 
-La web dispone de rutas HTTP limitadas y autenticadas. Las integraciones del servidor usan el servicio Cordis con las mismas comprobaciones de titularidad.
+Los clientes externos interactúan mediante una API HTTP autenticada, mientras los plugins del host usan el servicio Cordis con las mismas comprobaciones de pertenencia.
 
-## HTTP de la web
+## API HTTP Web
 
-Usa la cookie de inicio de sesión de DSH. Las escrituras requieren JSON y `X-Prism-Request: 1`. El servidor obtiene el propietario de la identidad autenticada.
-
-| Interfaz | Función |
-| --- | --- |
-| `GET /prism/api/view` | Conversación pública y modelos L1 disponibles. |
-| `GET /prism/api/events` | Instantáneas SSE de mensajes y tarjetas. |
-| `POST /prism/api/message` | Enviar `text` y una `requestId` estable. |
-| `POST /prism/api/model` | Elegir una `modelId` L1 permitida. |
-| `GET /prism/api/trace?task=…` | Leer una tarea perteneciente al usuario actual. |
-
-Genera una `requestId` por mensaje y reutilízala si reintentas un envío cuya confirmación no llegó. Al reconectar, SSE envía una instantánea actual. Carga el historial cuando el usuario abra la tarea.
-
-## Servicio Cordis
+Usa la cookie de sesión de DSH. Las peticiones de escritura requieren JSON y la cabecera `X-Prism-Request: 1`.
 
 | Interfaz | Función |
 | --- | --- |
-| `ctx.prism.view(owner)` | Leer el estado público. |
+| `GET /prism/api/view` | Conversación actual y modelos L1 permitidos. |
+| `GET /prism/api/events` | Flujo SSE de mensajes y tarjetas de tareas. |
+| `POST /prism/api/message` | Enviar `text` con un `requestId` estable. |
+| `POST /prism/api/model` | Elegir el `modelId` L1 para los siguientes turnos. |
+| `GET /prism/api/trace?task=…` | Leer el registro de solo lectura de una tarea propia. |
+
+## Servicio Cordis (`ctx.prism`)
+
+| Interfaz | Función |
+| --- | --- |
+| `ctx.prism.view(owner)` | Leer la instantánea pública. |
 | `ctx.prism.message(owner, text, requestId?)` | Encolar un mensaje autenticado. |
-| `ctx.prism.selectModel(owner, modelId)` | Cambiar el modelo del siguiente turno. |
-| `ctx.prism.trace(owner, taskId)` | Leer una sesión propia. |
-| `ctx.prism.subscribe(owner, listener)` | Suscribirse a cambios; la función devuelta cancela la suscripción. |
+| `ctx.prism.selectModel(owner, modelId)` | Cambiar el modelo L1 siguiente. |
+| `ctx.prism.trace(owner, taskId)` | Leer la transcripción de una tarea propia. |
+| `ctx.prism.subscribe(owner, listener)` | Suscribirse a cambios; devuelve función para cancelar. |
 
-Obtén `owner` a partir del canal autenticado. El registro devuelve metadatos públicos; el código de confianza resuelve rutas mediante `ctx.prismRegistry.resolve`.
+Las integraciones deben derivar `owner` de un canal autenticado; las rutas físicas solo se resuelven mediante `ctx.prismRegistry.resolve`.
 
-## Adaptadores de mensajería
+## Mensajería en el lanzador de código fuente
 
-Implementa `ImTransport` con una identidad estable de canal y bot, autorización de destino, `send` y `edit`. Confirma el evento en la plataforma cuando `ImGateway.receive` termine correctamente. Conserva su ID al reintentar. La entrega y el recibo local se escriben por separado.
+Para instalaciones con paquetes, usa **Settings → Prism/IM → Add IM** ([guía](/es/guide/im)). En el lanzador de código fuente (`runtime/`), activa el adaptador bajo `im` en `prism.config.json`:
 
-[Mensajería](/es/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)
+```sh
+npm run im -- login wechat --config prism.config.json
+npm run im -- login feishu --config prism.config.json
+npm run im -- setup telegram --config prism.config.json
+npm run im -- pair telegram --config prism.config.json
+```
+
+Conserva el archivo SQLite de la pasarela entre reinicios para mantener credenciales QR y emparejamientos.
+
+| Plataforma | JSON | ENV |
+| --- | --- | --- |
+| Telegram | `im.telegram.tokenEnv` | `TELEGRAM_BOT_TOKEN` |
+| WeChat | `im.wechat` | — |
+| Feishu / Lark | `im.feishu.domain`, `appId`, `appSecretEnv` | `FEISHU_APP_SECRET` |
+| WeCom | `im.wecom.botId`, `secretEnv` | `WECOM_BOT_SECRET` |
+| OneBot | `im.onebot.selfId`, `apiBase`, `accessTokenEnv`, `eventSecretEnv` | `ONEBOT_ACCESS_TOKEN`, `ONEBOT_EVENT_SECRET` |
+| QQ | `im.qq.appId`, `appSecretEnv` | `QQ_BOT_SECRET` |
+| Discord | `im.discord.tokenEnv` | `DISCORD_BOT_TOKEN` |
+
+Siguiente: [Mensajería](/es/guide/im) · [dsh-concierge-ui](https://github.com/dsh-plugins/dsh-concierge-ui) · [dsh-im-gateway](https://github.com/dsh-plugins/dsh-im-gateway)

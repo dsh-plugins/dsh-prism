@@ -1,33 +1,34 @@
 # モデルとプロジェクト
 
-プロジェクトのフォルダーを DSH のワークスペースとして開くと、Prism が自動的に認識します。DSH の設定で **Prism/設定** を開き、L1、L2、L3 の各層で利用できるモデルを選びます。何も選択していない層では DSH の既定のモデルが使われます。モデル名の横にある鉛筆ボタンで、その層のモデルの説明とプロンプトを編集できます。以下の JSON はソースから起動する場合の設定例です。 [クイックスタート](/ja/guide/start)
+Prism は**モデルの選択権**と**実体パスの解決権**を分離し、実行時の柔軟なルーティングとホスト側での厳格なアクセス制御を両立しています。
 
-レジストリはアクセスできるプロジェクトを記述します。オーケストレーターは各ロールのモデルとネイティブツールを別に設定します。
+## 階層別モデルプール
 
-## 階層ごとに設定する
+**Settings → Prism/Configuration**（または `prism.config.json` の `orchestrator.models`）で、**L1**・**L2**・**L3** ごとに利用可能なモデルを設定できます。未設定の層は DSH のデフォルトモデルに従います。
 
-次の設定は `prism.config.json` の `orchestrator` の中に置きます。利用中のプロバイダーで使えるモデル ID を指定し、同じ階層では重複させません。
+- `id` と任意の `provider`：モデル ID と DSH プロバイダーを指定します。
+- `description`：上位層が `list_models` で読み取る能力サマリーです。
+- `prompt` と `promptMode`：`"append"`（既定）はロール指示に追記し、`"replace"` はシステムプロンプト全体を置き換えます（ツール権限は拡大しません）。
+
+**L1** モデルはユーザーが自由に選び、**L2** と **L3** は上位エージェントが動的に選択します。
 
 ```json
 {
   "defaultProjectId": "prism",
   "defaultL1Model": "deepseek-flash",
   "models": {
-    "L1": [{ "id": "deepseek-flash", "description": "対話による要件整理" }],
-    "L2": [{ "id": "deepseek-v4-pro", "description": "計画と検証" }],
-    "L3": [{ "id": "deepseek-flash", "description": "対象を絞ったコードレビュー", "promptMode": "append", "prompt": "確認したファイルを明示してください。" }]
+    "L1": [{ "id": "deepseek-flash", "description": "要望の整理と振り分け" }],
+    "L2": [{ "id": "deepseek-v4-pro", "description": "計画立案と検証" }],
+    "L3": [{ "id": "deepseek-flash", "description": "ピンポイントのコード確認", "promptMode": "append", "prompt": "確認したファイル名を明記すること。" }]
   }
 }
 ```
 
-## モデル紹介とシステム指示
+## ワークスペース検出とレジストリ
 
-`description` には親がそのモデルを選ぶべき場面を書きます。`provider` は DSH プロバイダーの指定です。省略するとホストの既定値を使います。
+1. **DSH 自動検出**：サイドバーで開いたローカルフォルダーをネイティブ UUID と表示名で自動登録します（既定権限は `read`・`glob`・`grep`、オーナーおよび承認済み IM ユーザーが利用可能）。
+2. **明示的レジストリ（`registry`）**：`id`・`description`・`stack`・`nodeId`・`workspace`・`principals`・`permissions`（任意の `gitRemote`）を定義し、同一ノード・パスの自動検出設定に優先します。
 
-`promptMode: "append"` はロールとモデルの指示を追加します。`"replace"` は `prompt` を完全なカスタムシステム指示として使います。ツール権限は引き続きホストが検査します。
+`query_projects` は認可済みメタデータのみを L1 に返し、物理パスは信頼されたホストコード内でのみ解決されます。
 
-## プロジェクトの認可
-
-各項目には `id`、`description`、`stack`、`nodeId`、`workspace`、`principals`、`permissions` を設定し、必要なら `gitRemote` を追加します。L1 に返るのは許可されたメタデータだけです。物理パスは信頼されたホストコードが解決します。L3 が使えるのは実行ツール、プロジェクト方針、親の委譲範囲に共通するものです。
-
-[ロールと権限](/ja/develop/layers) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)
+次へ：[ロールと権限](/ja/develop/layers) · [Mesh とセッション](/ja/develop/mesh) · [dsh-workspace-registry](https://github.com/dsh-plugins/dsh-workspace-registry)

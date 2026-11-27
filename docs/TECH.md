@@ -1,95 +1,98 @@
-# 棱镜技术参考
+# 棱镜（dsh-prism）技术路线与架构参考
 
-## 启动与目录
+## 一句话设计理念
 
-网页安装使用 DSH 的插件管理器。棱镜采用本机已登记的 DSH 工作区，模型供应商在 DSH 模型设置中配置，各层的模型规则在「棱镜/配置」中管理。[当前网页安装指南](https://prism.dsh-plug.in/zh/guide/start)
+**对用户隐藏一切基础设施复杂度，在底层用严格的边界换取高自治与高可用。**
 
-### 开发者从锁定的源码启动
+基于五个插件（`dsh-concierge-ui`、`dsh-workspace-registry`、`dsh-orchestrator`、`dsh-mesh-node`、`dsh-im-gateway`），棱镜在 DeepSeek Harness（DSH）之上构建了一套多层分布式协作架构：对 Web 与 IM 用户屏蔽底层工作区与多机拓扑，仅呈现极简对话流、折叠任务状态卡与只读检视入口；而在底层通过严格隔离、显式发信、动态点将、位置透明与遇锁自愈保证系统的安全与鲁棒。
 
-`dsh-prism` 公开保存官网、使用文档、版本锁与检出入口，阅读网站及构建官网无需私有仓库授权。运行以下源码检出流程需要能读取全部五个私有插件仓库的 Git 身份。请在公开仓库根目录执行 `node scripts/checkout.mjs`，脚本将锁定版本的五个插件和归档的工作区配置、启动器及测试检出到本机忽略跟踪的 `runtime/` 中。随后 `cd runtime`。该目录使用 npm workspaces 和 TypeScript 项目引用。`npm ci` 安装锁定依赖。`npm run build` 编译全部插件并打包 Web 客户端。`npm test` 构建并执行测试，集成测试会在隔离的临时目录中启动真实 DSH 进程。运行环境需要 Node.js 24.9 或更高版本、npm、Git，以及读取相应 Git 仓库的权限。宿主版本为 DeepSeek Harness `0.2.3-alpha.2`。
+## 六个核心原则与技术路线
 
-`npm start` 读取项目示例配置并启动 DSH Web。自定义部署时复制 `prism.example.json` 为 `prism.config.json`，再指定监听地址及端口。
+1. **交互极简与渐进式披露（Zero-Workspace UX）**
+   用户关心的是「做成一件事」，而非「代码在哪台机器的哪个目录」。系统通过单一对话流（`dsh-concierge-ui`）与 IM 入口（`dsh-im-gateway`）屏蔽工作区、路径与多机拓扑，将一句自然语言折射为后台多层协作；同时保留只读旁路检视能力，做到「平时零打扰，排查全透明」。
 
-```sh
-npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
-```
+2. **严格权限天花板与上下文洁癖（Strict Isolation）**
+   越靠近用户的层级，权限越克制、上下文越干净。系统采用「L1 交互 → L2 规划 → L3 执行」三层隔离：L1 绑定配置中的默认工作区，被彻底剥离文件读写与终端执行能力，只保留项目元数据检索（`query_projects`）与任务派发权——既守住 IM/Web 入口的越权与注入底线，也隔绝底层海量代码与日志对路由层注意力的污染。
 
-启动器将配置转换为 Cordis patch，创建三个角色预设并装载五个插件。配置中属于本机的相对目录以配置文件目录为基准，远程项目填写其执行设备的绝对目录。示例使用 `deepseek-official`。真实模型调用需要配置 DSH 凭据或 `DEEPSEEK_API_KEY`。集成测试使用可控模型提供方。
+3. **默认静默，显式发信（Silent-by-Default Actor）**
+   打破传统大模型「有问必答、吐字即输出」的同步对话范式。L1 的自然语言生成仅作为内部思考，向用户输出可见内容必须显式调用 `send_user`。L1 与 L2、L2 与 L3 之间通过 `send_child` / `send_parent` 经持久队列双向主动发信，配合 `report_progress` / `get_progress` 与子任务终态的 `task_settled` 事件，使智能体具备异步事件处理、主动保持沉默与多任务并行协调的能力。
 
-## 当前集成快照与 npm 版本
+4. **能力自描述与动态点将（Self-Describing Routing）**
+   拒绝把模型和任务写死。通过「分层模型池 + 独立能力介绍（`description`）+ 专属提示词覆写（`promptMode: "append" | "replace"`）」，把模型选择权下放给运行时：用户按偏好自由切换前端 L1 模型，而 L1/L2 则通过 `list_models` 读取下一层模型的「能力简历」在派发时动态择优，兼顾效果、延迟与成本。
 
-`plugins.lock.json` 固定维护者检出的五个源码修订。通过 DSH 前端安装时，网页界面使用 0.1.3，工作区注册表、编排器和 IM 网关使用 0.1.2，Mesh 节点使用 0.1.1。[当前 npm 安装顺序](../README.zh_CN.md#五个插件)
+5. **位置透明的分布式抽象（Location Transparency）**
+   不让上层编排逻辑感知网络拓扑。`dsh-mesh-node` 将远程设备上的 DSH 实例封装为标准的 `prism-<nodeId>` Subagent Provider，使跨机派发与本地拉起子任务共用同一套接口；配合「L1 指定 L2 工作区、L3 强制继承 L2 工作区」的规则，将高频文件操作收敛在目标机本地，跨网只传轻量级控制信令与摘要。
 
-网页界面 0.1.2 版验收的独立源码测试通过 63 项，按当时的集成快照检出的完整 DSH 工作区宿主测试通过 68 项，两套测试存在重叠。工作区构建的五个压缩包逐个与对应单仓构建比对，内容相同。实际发布的五个 npm 包另行核对了其包名、版本、SHA-512 与 DSH 组合包声明。
+6. **外轻内重，遇锁自愈（Virtual Facade & Copy-on-Conflict）**
+   在接口层保持 Subagent 的轻量与简洁，在存储与运行层则全部落为正式的 DSH 会话，天然获得持久化、断点续跑与原生检视能力。同时将「逻辑智能体身份」与「物理会话实例」解耦——启用会话时若检测到 DSH 写锁冲突，不阻塞也不强抢，而是立即从可观测历史 Fork 新会话、原子更新逻辑绑定并记录原会话归档义务，以写时复制（Copy-on-Conflict）换取系统的永不卡死与可审计性。
 
-维护者需要构建这些源码的压缩包时，在检出生成的 `runtime/` 中执行以下命令。
-
-```sh
-npm ci
-npm test
-mkdir -p ../tarballs
-npm pack --workspaces --pack-destination ../tarballs
-```
-
-## 网页实测记录
-
-网页界面 0.1.2 版的操作记录涵盖从公共 npm 安装精确版本、通过 OpenAI Responses 接入 `deepseek-v4.1-flash`、分层设置模型、查看七种 IM 账号配置及双工作区任务。完整录像完成后，分别从全新的中、英文 DSH 环境重复相同步骤，为图解取证。两个环境均使用自己的安装和模型设置。[双工作区操作](https://prism.dsh-plug.in/zh/guide/start) · [七种 IM 配置](https://prism.dsh-plug.in/zh/guide/im)
-
-| 所见现象 | 操作与结果 |
-| --- | --- |
-| 安装 IM 网关时出现依赖脚本确认。 | 核对列表中的依赖，点“允许这些脚本并重试”，插件成功安装并启用。 |
-| Mesh 节点的安装成功卡显示一段 README 首行 HTML。 | 已发布的 Mesh 0.1.1 带有这段包说明，版本与启用按钮可正常使用。该库的源码主分支已提供正确说明。 |
-| 五个插件已经启用，打开设置却找不到“棱镜/配置”和“棱镜/IM”，侧栏也没有入口。 | 在已打开的 DSH 标签页刷新一次。之后可从侧栏进入棱镜，并能打开这两个设置项，继续完成全流程。 |
-| 在目录选择器输入绝对路径后，曾出现仍停留在原目录的情况。 | 重新点“编辑路径”输入目标目录，核对面包屑的末尾目录名，再点“打开”。两个正式重置环境都顺利打开了两个项目。 |
-| 独立中文试跑中，飞书表单曾自行返回账号列表。 | 从“添加 IM”重新进入飞书即可继续。本次完整录像和两种语言的独立截图流程均取得飞书官方码，随后从界面取消登录。 |
-| 微信扫码显示“登录失败”。 | 本次环境连接微信官方 iLink 服务失败。界面提供“重新生成二维码”，只有取得官方码后才能继续扫码。飞书在同一环境取得了官方码并从界面取消登录。 |
-| 打开旧版 DSH 插件时提示“这个包没有声明组合包”。 | 该历史问题曾用注册表 0.1.0 重现。本轮按安装表填写带版本的 npm 包名，五包均通过 DSH 插件管理器安装。 |
-
-
-此前 0.1.1 版本的项目手工授权页、任务详情弹窗及相关回归记录保存在对应版本文档中。[0.1.1 前端操作实拍](https://github.com/dsh-plugins/dsh-prism/blob/131ed6734c1cae8a6dc6c039d412645de75b376d/website/docs/zh/guide/start.md) · [0.1.1 验收记录](https://github.com/dsh-plugins/dsh-prism/blob/131ed6734c1cae8a6dc6c039d412645de75b376d/docs/TECH.md)
-
-## 从一句请求到执行结果
+## 整体协作链路
 
 ```mermaid
 flowchart TD
-    W[Web 用户] --> UI[对话页]
-    I[私聊用户] --> IM[IM 网关]
-    UI --> L1[L1 交互会话]
+    W[Web 用户] --> UI[dsh-concierge-ui]
+    I[IM 用户] --> IM[dsh-im-gateway]
+    UI --> L1[L1 交互会话 · 默认工作区]
     IM --> L1
-    L1 -->|查询获准项目| R[项目元数据注册表]
-    L1 -->|指定项目与模型| L2[L2 规划会话]
-    L2 -->|继承项目并收窄权限| L3[L3 执行会话]
-    L3 -->|主动汇报和完成事件| L2
-    L2 -->|主动汇报和完成事件| L1
+    L1 -->|query_projects| R[dsh-workspace-registry]
+    L1 -->|dispatch_planner · 指定项目与 L2 模型| L2[L2 规划会话 · 目标工作区]
+    L2 -->|dispatch_executor · 继承工作区并收窄权限| L3[L3 执行会话 · 同节点同工作区]
+    L3 -->|send_parent / report_progress / task_settled| L2
+    L2 -->|send_parent / report_progress / task_settled| L1
     L1 -->|send_user| D[公开消息投递]
     D --> UI
     D --> IM
 ```
 
-L1 模型由用户从 `orchestrator.models.L1` 选择。各层模型分别配置 `id`、`provider`、`description`、`prompt` 和 `promptMode`。上级通过 `list_models` 获取下一层模型介绍并选择模型。默认的 `append` 模式附加角色指令与模型提示词，`replace` 将模型提示词作为最终系统提示词。原生工具的放行由宿主独立检查，同一用户的消息在入队时记录选定的模型 ID。
+- **工作区治理**：网页安装场景下自动发现 DSH 侧栏已登记的本地工作区（以原生 UUID 为内部项目 ID，默认只读检索）；显式配置场景由 `registry` 管理 `id`、`nodeId`、`workspace`、`principals` 与 `permissions`。`query_projects` 仅返回授权元数据，物理路径只在受信宿主代码中解析。
+- **权限交集**：L3 执行工具集合严格取「L3 角色白名单 ∩ 项目策略 ∩ L2 派发预算」的交集，提示词覆写不会扩大宿主强制执行的安全边界。
+- **双层持久化**：用户消息、模型选择、任务状态与待投递 Actor 消息保存在 `conversations.sqlite`；完整执行轨迹由各自节点上的正式 DSH 会话日志保存。只读 Trace 查询通过同一条 Mesh 链路无锁读取，不占用写锁。
 
-独立源码配置以 `defaultProjectId` 指定默认项目。网页安装采用 DSH 登记的工作区，查询调用返回项目元数据，底层路径仅用于受信任的宿主派发。L1 可把跨项目请求分别交给不同项目的 L2。L2 继承 L1 为其选择的项目，按步骤派发 L3。L3 项目和节点来自它的直接上级，执行工具集合受该节点配置、项目策略和逐级收窄的权限约束。
+## 源码检出、构建与部署
 
-代理通过 `send_child`、`send_parent` 主动收发消息。`report_progress` 和 `get_progress` 分别记录和查询进展。子任务完成时调度器将 `task_settled` 投递给直接上级，可以唤醒已空闲的会话。只有 `send_user` 会将 L1 的助手消息写入用户对话。任务卡单独接收进度状态，读取底层轨迹时校验当前用户和任务归属。
+`dsh-prism` 公开保存官网、使用文档、版本锁（`plugins.lock.json`）与检出脚本；阅读或构建文档无需私有仓库权限。若需从源码启动完整运行时（需要能读取五个私有插件仓库的 Git 权限，宿主版本为 DeepSeek Harness `0.2.3-alpha.2`，Node.js >= 24.9）：
 
-## 节点与会话
+```sh
+# 1. 在公开仓库根目录检出锁定版本的五个插件到 runtime/
+node scripts/checkout.mjs
+cd runtime
 
-本地和跨机派发共用注册的 `prism-<nodeId>` Subagent Provider。协调器签发一次性派发凭据，Provider 返回执行节点上正式 DSH 会话的 ID。使用多个设备时，各自运行 DSH 并维护独立的 `DSH_HOME`。控制端和执行端按节点 ID、项目 ID 及独立 Mesh 令牌建立连接，远端根据自己的注册表、模型配置和权限上限重建执行参数。跨机调用使用 HTTPS，回环测试允许 HTTP。两端不需要共享 SQLite 或项目目录。
+# 2. 安装依赖、编译并运行测试（集成测试会在隔离临时目录启动真实 DSH 进程）
+npm ci
+npm run build
+npm test
 
-用户消息、模型选择、任务状态和待交付的代理消息存入 `conversations.sqlite`。每个逻辑会话串行执行，多个独立任务可并发。未开始的已提交轮次在重启后继续。已执行到中途的任务若失去运行者，由恢复逻辑记为失败，使操作者可以核对已产生的副作用。正式会话日志由 DSH 保存。启用已有会话发现所有权写锁冲突时，节点从旧日志 Fork，以事务更新逻辑会话绑定并记录旧会话的归档义务。只读查看使用 DSH 的查询接口。
+# 3. 复制示例配置并启动（默认使用 prism.example.json）
+cp prism.example.json prism.config.json
+npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
+```
 
-## 插件技术索引
+打包发布压缩包时，在 `runtime/` 下执行：
 
-下表源码链接需要对相应私有仓库的读取权限。公开文档可直接在[棱镜官网](https://prism.dsh-plug.in/)阅读。
+```sh
+npm pack --workspaces --pack-destination ../tarballs
+```
 
-| 插件 | 配置段 | 技术文档 |
-| --- | --- | --- |
-| Web 对话界面 | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
-| 项目注册表 | `registry` | [项目记录与主体授权](https://github.com/dsh-plugins/dsh-workspace-registry/blob/main/docs/TECH.md) |
-| 编排器 | `orchestrator` | [工具、模型和持久化](https://github.com/dsh-plugins/dsh-orchestrator/blob/main/docs/TECH.md) |
-| 跨设备 Mesh | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
-| IM 网关 | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
+## 当前 npm 发布版本与五插件索引
 
-## 官网和本地文档
+通过 DSH 插件管理器安装时，请按依赖顺序安装以下版本（[安装图解](https://prism.dsh-plug.in/zh/guide/start)）：
 
-官网的 VitePress 工程位于 `website`。在公开仓库根目录（`runtime/` 的上一级）运行 `npm ci --prefix website` 后，使用 `npm run docs:dev --prefix website` 查看本地文档，或用 `npm run docs:build --prefix website` 生成可部署的文件。[棱镜官网](https://prism.dsh-plug.in/)
+| 安装顺序 | 插件包名与版本 | 配置段 | 技术文档（需仓库权限） |
+| --- | --- | --- | --- |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | `registry` | [项目记录与主体授权](https://github.com/dsh-plugins/dsh-workspace-registry/blob/main/docs/TECH.md) |
+| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | `mesh` | [两端配置和远程执行](https://github.com/dsh-plugins/dsh-mesh-node/blob/main/docs/TECH.md) |
+| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | `orchestrator` | [工具、模型和持久化](https://github.com/dsh-plugins/dsh-orchestrator/blob/main/docs/TECH.md) |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | `im` | [通道认证、命令和投递](https://github.com/dsh-plugins/dsh-im-gateway/blob/main/docs/TECH.md) |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.3` | 由启动器挂载 | [路由、前端组件与只读会话](https://github.com/dsh-plugins/dsh-concierge-ui/blob/main/docs/TECH.md) |
+
+## 本地预览官网文档
+
+官网基于 VitePress 构建，在公开仓库根目录执行：
+
+```sh
+npm ci --prefix website
+npm run docs:dev --prefix website    # 本地预览
+npm run docs:build --prefix website  # 构建静态站点
+```
+
+[棱镜官网](https://prism.dsh-plug.in/zh/)

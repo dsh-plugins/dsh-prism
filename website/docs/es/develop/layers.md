@@ -1,16 +1,29 @@
 # Roles y permisos
 
-Cada rol se ejecuta en una sesión formal de DSH detrás de un Subagent Provider. El servidor controla las herramientas tanto al enumerarlas como al invocarlas.
+La arquitectura de Prism parte de una idea clara: **ocultar toda la complejidad de infraestructura al usuario y, por debajo, cambiar límites estrictos por alta autonomía y fiabilidad.**
 
-| Rol | Responsabilidad y límites |
-| --- | --- |
-| **L1** | Atiende al usuario en el proyecto predeterminado. Consulta metadatos autorizados, elige proyecto y modelo L2. Carece de herramientas de archivos y terminal. |
-| **L2** | Planifica en el proyecto elegido por L1. Selecciona modelos L3, reparte pasos y puede restringir sus herramientas. Se comunica con su superior y sus subordinados directos. |
-| **L3** | Ejecuta cada paso en el nodo y espacio de trabajo de su superior. El rol, la política del proyecto y la delegación delimitan las herramientas nativas. |
+Cinco plugins (`dsh-concierge-ui`, `dsh-workspace-registry`, `dsh-orchestrator`, `dsh-mesh-node`, `dsh-im-gateway`) colaboran a través de tres niveles estrictamente aislados.
 
-## Mensajes y finalización
+## Seis principios de diseño
 
-L1 usa `send_user` para publicar una respuesta. El texto ordinario del modelo permanece en la sesión. `send_parent` y `send_child` activan al destinatario mediante su cola. `get_progress` consulta el progreso. Al finalizar la tarea, el superior recibe `task_settled`.
+1. **Zero-Workspace UX**: El usuario quiere resolver una tarea, no saber en qué máquina o carpeta está el código. Web e IM muestran solo una conversación limpia, tarjetas de tareas plegables y un enlace de solo lectura para inspeccionar detalles.
+2. **Strict Isolation**: Cuanto más cerca del usuario, menores son los permisos. **L1** carece por completo de herramientas de archivos o terminal, evitando escaladas por inyección desde el chat y manteniendo el contexto libre de ruido.
+3. **Silent-by-Default Actor**: El texto normal de L1 queda como pensamiento interno. Toda salida visible al usuario pasa por `send_user`, y la comunicación entre niveles usa colas persistentes asíncronas.
+4. **Self-Describing Routing**: Cada nivel tiene su propio catálogo de modelos con descripción de capacidades (`description`) y ajuste opcional de prompt. L1 y L2 eligen el modelo óptimo en tiempo de ejecución mediante `list_models`.
+5. **Location Transparency**: `dsh-mesh-node` envuelve nodos remotos como un Subagent Provider estándar `prism-<nodeId>`. Como L3 hereda siempre el espacio de trabajo de L2, las operaciones intensivas de archivos permanecen locales en el nodo propietario.
+6. **Virtual Facade & Copy-on-Conflict**: Por fuera parecen Subagents ligeros; por dentro son sesiones formales de DSH con persistencia y reanudación. Si al activar una sesión hay conflicto de bloqueo de escritura, se hace un Fork inmediato, se reasigna el enlace de forma atómica y se archiva la sesión anterior.
+
+## Tres niveles de aislamiento
+
+| Rol | Espacio de trabajo | Responsabilidad y límites |
+| --- | --- | --- |
+| **L1** | Proyecto por defecto | Atiende al usuario, consulta metadatos autorizados en `dsh-workspace-registry`, elige proyecto destino y modelo L2. **Sin acceso a archivos ni terminal.** |
+| **L2** | Proyecto elegido por L1 | Planifica dentro del proyecto, elige modelos L3, delega pasos y puede restringir aún más sus herramientas. |
+| **L3** | **Hereda obligatoriamente** nodo y espacio de L2 | Ejecuta pasos localmente dentro de la intersección entre rol L3, política del proyecto y presupuesto de L2. |
+
+## Mensajes y eventos de cierre
+
+`send_user` publica la respuesta visible; `send_parent` y `send_child` despiertan al destinatario por su cola; `report_progress` / `get_progress` y `task_settled` coordinan avances y finalizaciones asíncronas.
 
 | Rol | Herramientas de coordinación |
 | --- | --- |
@@ -18,6 +31,4 @@ L1 usa `send_user` para publicar una respuesta. El texto ordinario del modelo pe
 | L2 | `list_models`, `dispatch_executor`, `send_parent`, `send_child`, `get_progress`, `report_progress` |
 | L3 | `send_parent`, `report_progress` |
 
-Las tarjetas pueden actualizarse sin generar una respuesta. Tras el evento, L1 decide si avisa al usuario. `list_models` devuelve las capacidades de los modelos del nivel siguiente.
-
-[Modelos y proyectos](/es/develop/models) · [Mesh y sesiones](/es/develop/mesh) · [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator)
+Siguiente: [Modelos y proyectos](/es/develop/models) · [Mesh y sesiones](/es/develop/mesh) · [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator)

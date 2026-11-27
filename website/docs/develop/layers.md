@@ -1,23 +1,57 @@
-# Roles and permissions
+# Architecture and role isolation
 
-Every role runs in a formal DSH session and is exposed through a Subagent Provider. The host enforces the boundary on tool discovery and invocation.
+Prism's architecture is built around a single idea: **hide all infrastructure complexity from the user, and trade strict internal boundaries for high autonomy and reliability.**
 
-| Role | Responsibility and boundary |
-| --- | --- |
-| **L1** | Talks to the user in the configured default project. It sees the project metadata granted to that identity and selects the target project and L2 model. It cannot read files, write files or run shell commands. |
-| **L2** | Plans in the project selected by L1. It selects L3 models, assigns individual steps and can reduce their tool budgets. It communicates with its own parent and children. |
-| **L3** | Executes a step in its parent’s project, on the same node and in the same workspace. Native tools are limited by the role, project and parent’s grant. |
+Instead of exposing workspaces, directory paths, or multi-machine topology in the chat UI, Prism fans out a single natural-language request across five cooperating plugins (`dsh-concierge-ui`, `dsh-workspace-registry`, `dsh-orchestrator`, `dsh-mesh-node`, and `dsh-im-gateway`) and three strictly isolated agent tiers.
 
-## Messages and completion
+```mermaid
+flowchart TD
+    W[Web User] --> UI[dsh-concierge-ui]
+    I[IM User] --> IM[dsh-im-gateway]
+    UI --> L1[L1 Conversation · Default Workspace]
+    IM --> L1
+    L1 -->|query_projects| R[dsh-workspace-registry]
+    L1 -->|dispatch_planner + target workspace & L2 model| L2[L2 Planner · Target Workspace]
+    L2 -->|dispatch_executor + inherited workspace & narrowed budget| L3[L3 Executor · Same Node & Workspace]
+    L3 -->|send_parent / report_progress / task_settled| L2
+    L2 -->|send_parent / report_progress / task_settled| L1
+    L1 -->|send_user| D[Visible Reply Delivery]
+    D --> UI
+    D --> IM
+```
 
-L1 publishes a visible reply with `send_user`. Ordinary model text remains in the DSH session. `send_parent` and `send_child` wake the receiving agent through its queue. A parent can inspect `get_progress` between updates. A terminal task enqueues a `task_settled` event for its parent.
+## Six design principles
 
-| Role | Orchestration tools |
+1. **Zero-Workspace UX**: Users care about getting something done, not which directory on which machine holds the code. Web and IM surfaces show only a clean conversation stream, collapsible task cards, and a read-only trace link when someone wants to inspect the details.
+2. **Strict Isolation**: The closer an agent is to the user, the tighter its permissions and the cleaner its context. L1 has zero file or shell tools—preventing prompt-injection escalation from IM/web inputs and keeping raw code or logs out of the routing context.
+3. **Silent-by-Default Actor**: Unlike synchronous chat models where every generated token is immediately streamed to the user, L1's normal text output stays internal as scratchpad reasoning. Any visible reply or cross-tier signal must be triggered explicitly via tools, enabling asynchronous event handling, deliberate silence, and parallel task coordination.
+4. **Self-Describing Routing**: Models and tasks are never hard-coded together. Each tier defines its own model pool with a capability description and optional prompt override, allowing L1 and L2 to pick the best model at runtime via `list_models`.
+5. **Location Transparency**: Orchestration logic does not care whether a project lives locally or on a remote host. `dsh-mesh-node` wraps each node as a standard `prism-<nodeId>` Subagent Provider. Because L3 always inherits L2's workspace, heavy file I/O stays local to the owning node while only lightweight control signals and summaries cross the network.
+6. **Virtual Facade & Copy-on-Conflict**: Every tier looks like a lightweight Subagent at the interface boundary, yet runs inside a formal DSH session with full persistence, resume support, and native read-only inspection. Logical agent identities are decoupled from physical session IDs—if activating a session hits a write-lock conflict, the runtime immediately forks a new session, rebinds atomically, and marks the old one for archival.
+
+## Three-tier permission boundaries
+
+Every role runs inside a formal DSH session behind a Subagent Provider, and the host enforces tool boundaries at both discovery and invocation time.
+
+| Tier | Workspace & Context | Responsibility & Ceiling |
+| --- | --- | --- |
+| **L1 (Conversation)** | Bound to the configured default project | Greets the user, queries authorized project metadata from `dsh-workspace-registry`, chooses the target project and L2 model, and delegates. **No file read/write or shell execution tools.** |
+| **L2 (Planning)** | Runs in the target project selected by L1 | Breaks down the task, dynamically chooses L3 models, dispatches execution steps, and can narrow L3 tool budgets. Communicates only with its direct parent (L1) and children (L3). |
+| **L3 (Execution)** | **Must inherit** its parent L2's node and workspace | Executes concrete steps locally. Available native tools are the intersection of the L3 role ceiling, project policy, and the budget granted by L2. |
+
+## Silent-by-default messaging and events
+
+Prism replaces synchronous turn-by-turn streaming with explicit, queue-backed actor communication:
+
+- **Explicit user output**: L1 only publishes visible messages to the web UI or IM user when it calls `send_user`. Unwrapped model text remains inside the underlying DSH session.
+- **Bidirectional tier messaging**: `send_parent` and `send_child` wake the target agent through its persistent message queue.
+- **Progress and completion**: Agents report intermediate state with `report_progress`, parents poll on demand with `get_progress`, and when a child task reaches a terminal state, the runtime enqueues a `task_settled` event to wake its parent. L1 then decides whether to message the user or wait for other parallel tasks.
+- **Independent UI updates**: Task cards and delivery status update independently of assistant replies.
+
+| Tier | Orchestration tools |
 | --- | --- |
 | L1 | `query_projects`, `list_models`, `dispatch_planner`, `send_child`, `get_progress`, `send_user` |
 | L2 | `list_models`, `dispatch_executor`, `send_parent`, `send_child`, `get_progress`, `report_progress` |
 | L3 | `send_parent`, `report_progress` |
 
-A delivery status or card update can appear independently of an assistant reply. After receiving a completion event, L1 decides whether to send the user a message. Use `list_models` to inspect the descriptions of models available to the next tier.
-
-[Models and projects](/develop/models) · [Mesh and sessions](/develop/mesh) · [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator)
+Next: [Models and workspaces](/develop/models) · [Mesh and sessions](/develop/mesh) · [dsh-orchestrator](https://github.com/dsh-plugins/dsh-orchestrator)
