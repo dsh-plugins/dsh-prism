@@ -1,6 +1,6 @@
 # The conversation
 
-Ask for an outcome in the web client. Register the folders this chat may use under **Settings → Prism**. The conversation agent can look up those projects by ID. [Set up two projects](/guide/start) A useful first request is “Review the mobile release checklist and summarize the missing checks.”
+Open the project folders as DSH workspaces and refer to them by name in Prism. For example, ask Prism to review the mobile release checklist and summarize the missing checks. [Set up two projects](/guide/start)
 
 ## Choose a conversation model
 
@@ -14,7 +14,7 @@ A collapsed card appears for delegated work. Expand it to see its status and exe
 
 ## Read the underlying session
 
-Open the task’s read-only session to inspect the recorded dialogue and tool names. Refresh for newer records. The viewer checks ownership and reads without taking a writer lock. Web windows signed into the same DSH owner share a conversation; messaging identities have their own histories.
+Choose **DeepSeek Harness** to return to DSH. In the workspace sidebar, open the read-only history for the conversation, planning or execution layer. The screenshot below shows the session viewer from Prism 0.1.1.
 
 ![The bookshop executor’s read tool and the README lines it returned](./screens/en/17-harbor-books-read-only-session.png)
 

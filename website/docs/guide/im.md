@@ -1,6 +1,10 @@
 # Configure messaging channels
 
-Open **Settings → Prism** as the DSH owner, then find **Messaging channels**. Select a channel to see its settings. Each private conversation has its own messaging identity and history. The [web walkthrough](./start.md) uses the same Prism installation.
+In Prism 0.1.2, open **Settings → Prism/IM**, choose **Add IM**, and select a channel. The walkthrough below documents Prism 0.1.1 and its settings screens. [Current installation guide](./start.md)
+
+## Prism 0.1.1 walkthrough
+
+Open **Settings → Prism** as the DSH owner, then find **Messaging channels**. Select a channel to see its settings. Each private conversation has its own messaging identity and history.
 
 ![The messaging channel selector in Prism settings](./screens/en/12-im-overview.png)
 

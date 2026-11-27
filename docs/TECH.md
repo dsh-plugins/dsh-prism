@@ -2,7 +2,7 @@
 
 ## 启动与目录
 
-网页安装使用 DSH 的插件管理器，模型和项目分别在 DSH 模型设置及棱镜设置中管理。[完整前端操作图解](https://prism.dsh-plug.in/zh/guide/start)
+网页安装使用 DSH 的插件管理器。棱镜采用本机已登记的 DSH 工作区，模型供应商在 DSH 模型设置中配置，各层的模型规则在「棱镜/配置」中管理。[当前网页安装指南](https://prism.dsh-plug.in/zh/guide/start)
 
 ### 开发者从锁定的源码启动
 
@@ -16,7 +16,7 @@ npm start -- prism.config.json --host 127.0.0.1 --port 3080 --no-open
 
 启动器将配置转换为 Cordis patch，创建三个角色预设并装载五个插件。配置中属于本机的相对目录以配置文件目录为基准，远程项目填写其执行设备的绝对目录。示例使用 `deepseek-official`。真实模型调用需要配置 DSH 凭据或 `DEEPSEEK_API_KEY`。集成测试使用可控模型提供方。
 
-## 为前端安装准备发布压缩包
+## 0.1.1 版压缩包验证记录
 
 五个 `@dsh-prism` 包的 0.1.1 版均已发布到公共 npm，并通过各自 GitHub Actions 的可信发布工作流交付。本次从 npm 下载五个包，分别核对其 SHA-512 与已测试的候选构建一致。日常安装可以在 DSH 插件管理器直接输入带版本的包名。[前端安装顺序及包名](../README.zh_CN.md#五个插件)
 
@@ -31,7 +31,7 @@ npm pack --workspaces --pack-destination ../tarballs
 
 在本次测试的源码组合上，完整宿主测试 69 项全部通过，单包测试 64 项全部通过。两套测试存在重叠。命令产出的五个 `.tgz` 与分别构建插件后用于前端安装的压缩包逐个 SHA-512 相同。将这五个文件交给用户后，用户在 DSH 的 **插件 → 添加插件** 页面依次输入各压缩包在宿主上的路径，安装并启用即可。[网页安装步骤](https://prism.dsh-plug.in/zh/guide/start)
 
-## 前端工作流验收记录
+## 0.1.1 版前端工作流验收记录
 
 使用新 DSH 配置档，在插件管理器中分别输入五个带 `@0.1.1` 版本的 npm 包名，通过原生设置接入 OpenAI Responses 和 `deepseek-v4.1-flash`，再给两个本地目录分别授权读取。单独检查每个执行步骤的只读会话，可以看到 `read` 返回的是各自项目的 README。[中文步骤与原始截图](https://prism.dsh-plug.in/zh/guide/start) · [English walkthrough](https://prism.dsh-plug.in/guide/start)
 

@@ -16,22 +16,22 @@
 
 1. 在 **插件 → 添加插件** 中依次填入下表的 npm 包名和版本。每安装一个包，点 **立即启用** 后再安装下一个。
 2. 在 **设置 → 模型** 中添加 **自定义模型 API**，选择 **OpenAI Responses**，填入服务地址、API 密钥和模型 ID `deepseek-v4.1-flash`，然后在 DSH 对话中选用该提供商和模型。
-3. 把两个项目目录分别作为 DSH 工作区打开，再到 **设置 → 棱镜** 添加两个项目的 ID、绝对目录和允许使用的工具。示例只需 `read`、`glob`、`grep`。
-4. 点 **打开棱镜**，要求为两个项目各派发一个任务，读取各自 README 中的时间、地点和负责人。展开任务卡并打开只读会话，可以检查对应任务的处理记录。
+3. 把两个项目目录分别作为 DSH 工作区打开，棱镜会自动采用已登记的本机工作区。需要分别设置各层模型时，打开 **设置 → 棱镜/配置**。
+4. 在 **设置 → 棱镜/配置** 中点 **打开棱镜**，要求为两个项目各派发一个任务，读取各自 README 中的时间、地点和负责人。点 **DeepSeek Harness** 返回 DSH，在工作区侧栏查看各层的只读历史。
 
-![棱镜分别核对 Harbor Books 与 Lantern Cafe 的活动资料并汇总结果](website/docs/guide/screens/zh/16-results.png)
+![棱镜 0.1.1 演示中 Harbor Books 与 Lantern Cafe 的核对结果](website/docs/guide/screens/zh/16-results.png)
 
 ## 五个插件
 
 | 安装顺序 | 包名 | 用途 |
 | --- | --- | --- |
-| 1 | `@dsh-prism/dsh-workspace-registry@0.1.1` | 保存项目元数据及各身份获准使用的项目。 |
-| 2 | `@dsh-prism/dsh-orchestrator@0.1.1` | 按所选模型和允许的工具运行对话、规划和执行会话。 |
-| 3 | `@dsh-prism/dsh-mesh-node@0.1.1` | 在持有项目目录的节点上执行任务。 |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.1` | 接入支持的即时通讯私聊通道。 |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.1` | 提供棱镜设置、对话、任务卡和只读会话查看器。 |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | 保存项目元数据及各身份获准使用的项目。 |
+| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | 在持有项目目录的节点上执行任务。 |
+| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | 按所选模型和允许的工具运行对话、规划和执行会话。 |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | 接入支持的即时通讯私聊通道。 |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` | 提供棱镜设置、对话和任务卡。 |
 
-在 **设置 → 棱镜 → 消息渠道** 中可以选择 Telegram、微信、飞书/Lark、企业微信、QQ 机器人、OneBot 或 Discord。指南逐一展示每个表单，还记录了停用时保存 Telegram 配置和飞书获得官方码后取消登录的操作。[仓库中的消息渠道图解](website/docs/zh/guide/im.md) · [在官网阅读](https://prism.dsh-plug.in/zh/guide/im)
+在 **设置 → 棱镜/IM** 点 **添加 IM**，可选择 Telegram、微信、飞书/Lark、企业微信、QQ 机器人、OneBot 或 Discord。0.1.1 版图解保留了各渠道凭据字段的截图。[旧版消息渠道图解](website/docs/zh/guide/im.md) · [在官网阅读](https://prism.dsh-plug.in/zh/guide/im)
 
 源码开发者可查阅[锁定版本的检出步骤及技术参考](docs/TECH.md)。
 

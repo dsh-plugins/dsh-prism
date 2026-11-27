@@ -16,22 +16,22 @@ Open DeepSeek Harness 0.2.3-alpha.2 in your browser. The illustrated walkthrough
 
 1. In **Plugins → Add plugin**, enter each npm package and version from the table below. Choose **Install**, then **Enable now**, in the order listed.
 2. In **Settings → Models**, add a **Custom model API** provider using **OpenAI Responses**, your endpoint and API key, and the model ID `deepseek-v4.1-flash`. Select that provider and model in a DSH chat.
-3. Open each project folder as a DSH workspace. In **Settings → Prism**, add its project ID, absolute folder and allowed tools. The sample only needs `read`, `glob` and `grep`.
-4. Choose **Open Prism**. Ask it to delegate one task to each project and check the time, venue and coordinator in each project's README. Expand a task card and open its read-only session to inspect the work.
+3. Open each project folder as a DSH workspace. Prism uses the registered local workspaces as projects. To choose models independently for each layer, open **Settings → Prism/Configuration**.
+4. In **Settings → Prism/Configuration**, choose **Open Prism**. Ask it to delegate one task to each project and check the time, venue and coordinator in each project's README. Use **DeepSeek Harness** to return to DSH and open each layer's read-only history in the workspace sidebar.
 
-![Prism reports the independently verified event details for Harbor Books and Lantern Cafe](website/docs/guide/screens/en/16-results.png)
+![Example results for Harbor Books and Lantern Cafe from the Prism 0.1.1 walkthrough](website/docs/guide/screens/en/16-results.png)
 
 ## The five plugins
 
 | Installation order | Package | What it adds |
 | --- | --- | --- |
-| 1 | `@dsh-prism/dsh-workspace-registry@0.1.1` | Project metadata and the permissions granted to each identity. |
-| 2 | `@dsh-prism/dsh-orchestrator@0.1.1` | Conversation, planning and execution sessions that use the selected model and permitted tools. |
-| 3 | `@dsh-prism/dsh-mesh-node@0.1.1` | Task execution on the node that owns the project. |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.1` | Integration with private chats on supported messaging services. |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.1` | Prism settings, the chat, task cards and a read-only session viewer. |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` | Project metadata and the permissions granted to each identity. |
+| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` | Task execution on the node that owns the project. |
+| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` | Conversation, planning and execution sessions that use the selected model and permitted tools. |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` | Integration with private chats on supported messaging services. |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` | Prism settings, chat and task cards. |
 
-In **Settings → Prism → Messaging channels**, choose Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot or Discord. The guide shows each form, a Telegram draft saved while disabled, and a Feishu QR sign-in cancelled before account authorization. [Illustrated messaging guide](website/docs/guide/im.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/im)
+In **Settings → Prism/IM**, choose **Add IM** and select Telegram, WeChat, Feishu/Lark, WeCom, QQ Bot, OneBot or Discord. The 0.1.1 screenshots show the channel credential fields. [Earlier messaging walkthrough](website/docs/guide/im.md) · [View on the documentation site](https://prism.dsh-plug.in/guide/im)
 
 Source contributors can use the [pinned checkout and technical reference](docs/TECH.md).
 

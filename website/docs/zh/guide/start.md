@@ -1,6 +1,6 @@
 # 在一次对话中使用两个项目
 
-本指南从新的 DeepSeek Harness 0.2.3-alpha.2 会话开始，在网页里安装五个 0.1.1 版棱镜插件，接入 OpenAI Responses 模型，再让棱镜分别读取两个项目各自的 README。
+在 DeepSeek Harness 0.2.3-alpha.2 的网页中安装下表列出的五个插件并接入 OpenAI Responses 模型后，可以让棱镜分别读取两个工作区的 README。截图来自 0.1.1 版演示，展示的是当时的插件版本和设置界面。
 
 请准备支持 OpenAI Responses 协议及 `deepseek-v4.1-flash` 模型的服务地址和 API 密钥，以及 DSH 宿主可以读取的两个目录。要复现实例，可使用本仓库 `docs/examples` 下的 `harbor-books` 和 `lantern-cafe`。每个目录都有自己的 README，记录一场活动的信息。[GitHub 示例项目](https://github.com/dsh-plugins/dsh-prism/tree/main/docs/examples)
 
@@ -14,7 +14,7 @@
 
 ## 安装并启用五个插件
 
-打开 **插件 → 添加插件**。在 **包名或地址** 中填写含版本的 npm 包名，例如 `@dsh-prism/dsh-workspace-registry@0.1.1`。同一输入框也可填写压缩包在 DSH 宿主上的路径。点 **安装**，等安装完成并确认版本后点 **立即启用**。回到 **添加插件** 安装下一个包。按下表的顺序操作，先启用后续插件要用到的依赖。
+打开 **插件 → 添加插件**。在 **包名或地址** 中填写下表指定版本的 npm 包名，例如 `@dsh-prism/dsh-workspace-registry@0.1.2`。也可填写对应压缩包在 DSH 宿主上的路径。点 **安装**，确认安装的版本后点 **立即启用**，按下表顺序安装各插件。
 
 ![插件页右上角的添加入口](../../guide/screens/zh/03-plugins.png)
 
@@ -22,11 +22,11 @@
 
 | 顺序 | 包名 |
 | --- | --- |
-| 1 | `@dsh-prism/dsh-workspace-registry@0.1.1` |
-| 2 | `@dsh-prism/dsh-orchestrator@0.1.1` |
-| 3 | `@dsh-prism/dsh-mesh-node@0.1.1` |
-| 4 | `@dsh-prism/dsh-im-gateway@0.1.1` |
-| 5 | `@dsh-prism/dsh-concierge-ui@0.1.1` |
+| 1 | `@dsh-prism/dsh-workspace-registry@0.1.2` |
+| 2 | `@dsh-prism/dsh-mesh-node@0.1.1` |
+| 3 | `@dsh-prism/dsh-orchestrator@0.1.2` |
+| 4 | `@dsh-prism/dsh-im-gateway@0.1.2` |
+| 5 | `@dsh-prism/dsh-concierge-ui@0.1.2` |
 
 安装消息网关时，DSH 可能要求确认依赖的安装脚本。本次列出的依赖为 `protobufjs@7.6.6`。核对脚本后点 **允许这些脚本并重试**，继续安装。该许可会保存在当前 DSH 配置档中。
 
@@ -88,19 +88,22 @@
 
 ![两个目录已出现在 DSH 工作区列表](../../guide/screens/zh/08-2-workspace.png)
 
-在 DSH 原生对话的输入区打开模型选择器，在 **Prism Responses** 下选 **deepseek-v4.1-flash**。插件安装模式下，棱镜的对话、规划和执行三个角色跟随 DSH 选定的模型。
+在 DSH 对话的输入区打开模型选择器，在 **Prism Responses** 下选 **deepseek-v4.1-flash**。未单独配置模型的层使用 DSH 默认模型。需要分别设置对话、规划和执行各层可用的模型时，打开 **设置 → 棱镜/配置**。
 
 ![DSH 的模型菜单列出 Prism Responses 及其模型](../../guide/screens/zh/model-picker.png)
 
 ![DSH 原生对话已选定供应商和模型](../../guide/screens/zh/09-default-model.png)
 
-## 向棱镜授权两个项目
+## 在棱镜中使用已登记的工作区
 
-在 **设置 → 棱镜** 点 **添加项目**。填入唯一的 **项目 ID** 和 DSH 宿主上的 **项目目录** 绝对路径，可补充简短 **说明** 帮助对话代理区分项目。DSH 工作区用于打开目录。棱镜根据这里保存的项目和工具授权来派发任务。
+棱镜会自动发现 DSH 已登记的本机工作区。发送请求时可以直接使用工作区名称。本例让棱镜分别读取并核对两个工作区的 README。
+
+<details>
+<summary>0.1.1 版的项目登记及 IM 身份截图</summary>
+
+旧版演示填写了两个项目的 ID 和绝对目录，并授予读取、列文件及搜索权限。操作者还保存并移除了用于演示的 IM 身份，以核对重新打开编辑器后记录是否完整。
 
 ![尚未添加项目的棱镜设置页](../../guide/screens/zh/10-prism-settings.png)
-
-先保存 `harbor-books`，再添加并保存 `lantern-cafe`。在 **项目目录** 中分别粘贴对应工作区的绝对路径。本例使用本地节点和 `web:owner` 身份，保留 **read**、**glob** 和 **grep** 三项读取、列文件与搜索权限。核对 **已授权项目** 中的两个项目 ID。
 
 ![书店项目的目录与读取权限](../../guide/screens/zh/11-1-project-form.png)
 
@@ -108,29 +111,25 @@
 
 ![两个项目均已保存到棱镜](../../guide/screens/zh/12-two-projects.png)
 
-### 给一个项目单独授权 IM 身份
-
-在 **已授权项目** 中点 Harbor Books 的 **编辑**，展开 **高级设置**。在 **授权身份** 中每行填写一个身份。本例第一行为 `web:owner`，第二行为 `im:["telegram/demo-bot","demo-chat","demo-user"]`。其中三项占位字符串分别表示渠道、会话和用户。实际授权时请使用目标私聊的真实身份，并在该渠道通过允许列表或配对码授权私聊用户。
-
 ![书店项目的网页所有者和一条单独的演示 IM 身份](../../guide/screens/zh/12-project-im-identity.png)
-
-点 **保存**，重新打开编辑器，确认完整 IM 身份仍在同一行。本次演示随后移除示例身份、保存，再次核对书店项目保留了网页所有者授权。
 
 ![保存并重开项目后，完整 IM 身份仍占一行](../../guide/screens/zh/12-project-im-identity-reopened.png)
 
 ![清除演示 IM 身份后，项目保留网页所有者授权](../../guide/screens/zh/12-project-im-identity-cleared.png)
 
+</details>
+
 ### 查看消息渠道
 
-同一设置页还有 **消息渠道**，可在停用连接时检查表单或保存草稿。消息配置指南展示全部七个渠道、Telegram 草稿重开验证及飞书扫码入口。继续下面的网页对话时，各渠道可保持停用。[消息渠道配置图解](./im.md)
+打开 **设置 → 棱镜/IM**，点 **添加 IM** 后选择账号类型。执行下面的网页对话示例时，各渠道可保持停用。[旧版消息渠道图解](./im.md)
 
 ## 向每个项目派发一个任务
 
-查看消息渠道后，先切回 **已授权项目**，点 **打开棱镜**，确认输入区显示 `deepseek-v4.1-flash`，再发送下面的请求。
+首次进入时，点 DSH 侧栏中的 **棱镜**，或在 **设置 → 棱镜/配置** 点 **打开棱镜**。成功打开后，在同一浏览器再次访问 DSH 首页地址会直接进入棱镜。确认输入区显示 `deepseek-v4.1-flash`，再发送下面的请求。
 
 ![棱镜对话页已选定模型](../../guide/screens/zh/13-prism-chat.png)
 
-> 请分别为 harbor-books 和 lantern-cafe 派发任务，以项目 ID 作为任务标题。让每个执行代理读取自己项目的 README.md，核对活动开始时间、场地和现场负责人。两个项目都核实后，在这里用两行汇总各自的结果。
+> 请分别为 harbor-books 和 lantern-cafe 派发任务，以工作区名称作为任务标题。让每个执行代理读取自己工作区的 README.md，核对活动开始时间、场地和现场负责人。两个工作区都核实后，在这里用两行汇总各自的结果。
 
 ![输入框中的跨项目请求](../../guide/screens/zh/14-request.png)
 
@@ -147,7 +146,10 @@
 
 ![棱镜汇总两个项目各自的活动信息](../../guide/screens/zh/16-results.png)
 
-展开某个项目的任务卡，再展开执行步骤，打开该步骤的只读会话。`read` 工具记录会显示实际读取的 README 路径和内容。对另一个项目重复操作，核对两个工作目录各不相同。关闭查看器可回到原对话。
+点 **DeepSeek Harness** 返回 DSH。在 **工作区** 侧栏打开对话（**棱镜**）、规划（**棱镜 L2**）和执行（**棱镜 L3**）的只读历史。对照两个项目的执行记录，核对 `read` 工具读取的 README 路径与返回内容。
+
+<details>
+<summary>0.1.1 版的执行记录截图</summary>
 
 ![书店执行器读取了本项目 README，负责人为 Mira](../../guide/screens/zh/17-harbor-books-read-only-session.png)
 
@@ -155,9 +157,11 @@
 
 ![关闭会话查看器后的完成状态](../../guide/screens/zh/18-finish.png)
 
+</details>
+
 ## 安装时提示“这个包没有声明组合包”
 
-在 DSH 中安装 `@dsh-prism/dsh-workspace-registry@0.1.0` 可复现此错误。该压缩包缺少插件管理器所需的 DSH 组合包声明。返回 **编辑**，选择 0.1.1 版安装，待安装完成后点 **立即启用**。
+在 DSH 中安装 `@dsh-prism/dsh-workspace-registry@0.1.0` 曾出现此错误。该压缩包缺少插件管理器所需的 DSH 组合包声明。返回 **编辑**，填写本指南安装清单中的版本，安装后点 **立即启用**。
 
 ![DSH 拒绝安装缺少组合包声明的 0.1.0 版插件](../../guide/screens/issues/install-0.1.0.png)
 
