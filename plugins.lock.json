@@ -1,7 +1,7 @@
 {
-  "dsh-workspace-registry": "62848726faa3d3ea5c2b5f6044153dfa78ca2a12",
-  "dsh-orchestrator": "59e9915c84f321d0f98807b17a5e419786253fe9",
-  "dsh-mesh-node": "0157f1dff41713f33ab96642d2e061ca7e88de73",
-  "dsh-concierge-ui": "dd6819c52944a5662345a903124295f6ed8fef0d",
-  "dsh-im-gateway": "767983d052bc28b7b13a066293b78baf9a7b1d54"
+  "dsh-workspace-registry": "41f8e2a9e79aa197dfc098b03ced59c2a722b6b1",
+  "dsh-orchestrator": "8247dcf62b76ca36fe8e3f5efe39b5424039dab9",
+  "dsh-mesh-node": "78bc152b7a68745067628eb2904466407e1df7c2",
+  "dsh-concierge-ui": "0709068c82193ec242d586faeaeb77e33539eeb4",
+  "dsh-im-gateway": "84d7c61f860fb0eb52168b3fdbeee46c240519d8"
 }
