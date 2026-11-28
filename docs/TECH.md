@@ -45,7 +45,7 @@ flowchart TD
     D --> IM
 ```
 
-- **工作区治理**：网页安装场景下自动发现 DSH 侧栏已登记的本地工作区（以原生 UUID 为内部项目 ID，默认只读检索）；显式配置场景由 `registry` 管理 `id`、`nodeId`、`workspace`、`principals` 与 `permissions`。`query_projects` 仅返回授权元数据，物理路径只在受信宿主代码中解析。
+- **工作区治理**：网页安装场景下自动发现 DSH 侧栏已登记的本地工作区（以原生 UUID 为内部项目 ID，默认向 L2/L3 授予完整原生执行工具）；显式配置场景由 `registry` 管理 `id`、`nodeId`、`workspace`、`principals` 与 `permissions`。`query_projects` 仅返回授权元数据，物理路径只在受信宿主代码中解析。
 - **权限交集**：L3 执行工具集合严格取「L3 角色白名单 ∩ 项目策略 ∩ L2 派发预算」的交集，提示词覆写不会扩大宿主强制执行的安全边界。
 - 用户消息、模型选择、任务状态与待投递的代理消息保存在 `conversations.sqlite`。各节点的 DSH 原生会话保存完整记录。远程任务的完整记录可在执行设备的 DSH 工作区查看。
 
